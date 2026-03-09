@@ -434,6 +434,7 @@ a:hover { color: var(--oak-green-light); }
 .cta-section::before {
   content: ''; position: absolute; inset: 0;
   background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
 }
 .cta-section h2 { color: white; position: relative; }
 .cta-section p { color: rgba(255,255,255,0.75); margin: 1rem auto; position: relative; }
@@ -580,8 +581,12 @@ a:hover { color: var(--oak-green-light); }
 }
 .footer .container {
   text-align: center;
-  max-width: 800px;
+  max-width: 600px;   /* match CTA form box so edges align */
   margin: 0 auto;
+  padding: 0 2.5rem;  /* match form box padding */
+}
+.footer .container p {
+  max-width: none;    /* override global 68ch so footer fills container */
 }
 .footer a { color: rgba(255,255,255,0.7); }
 
@@ -743,7 +748,7 @@ a:hover { color: var(--oak-green-light); }
 <section class="hero">
   <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-badge">Active Campaign — February 2026</div>
+      <div class="hero-badge">Active Campaign — Spring 2026</div>
       <h1>Our streets were built for <em>neighbors</em>, not commuter shortcuts <a href="https://its.berkeley.edu/news/your-navigation-app-making-traffic-unmanageable" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; font-weight: normal; color: rgba(255,255,255,0.6); text-decoration: underline; vertical-align: baseline; margin-left: 0.5rem;">(see study)</a></h1>
       <p class="hero-sub">
         Over 10,000<button class="fn-trigger" data-fn="fn-10k" aria-label="Footnote 1">(1)</button> cars a day travel through the Lower Rockridge Trapezoid.<button class="fn-trigger" data-fn="fn-trapezoid" aria-label="Footnote 2">(2)</button> After 15+ years of residents lobbying the City, years of studies, 2 petitions<button class="fn-trigger" data-fn="fn-petition1" aria-label="Footnote 3">(3)</button><button class="fn-trigger" data-fn="fn-petition2" aria-label="Footnote 4">(4)</button> with hundreds of signatures requesting traffic volume reduction, 2 years of meetings, it's time for action.
@@ -781,7 +786,7 @@ a:hover { color: var(--oak-green-light); }
 <!-- Big Number -->
 <div class="big-number-banner">
   <div class="container">
-    <div class="big-number">1,000,000</div>
+    <div class="big-number">999,999</div>
     <div class="big-number-label">cut-through cars per year we aim to eliminate from our streets in the Lower Rockridge trapezoid</div>
   </div>
 </div>
@@ -999,20 +1004,32 @@ a:hover { color: var(--oak-green-light); }
       OakDOT Director Josh Rowan designed a diverter-based pilot project — the standard traffic engineering tool used worldwide for exactly this problem.
     </p>
 
-    <div class="model-comparison fade-in">
-      <div class="model-box before">
-        <div class="model-box-label red">Current Traffic (Peak Hour)</div>
-        <div class="model-box-number" style="color: var(--danger);">268</div>
-        <div class="model-box-unit">vehicles/hour on Colby &amp; Hillegass</div>
+    <div class="fade-in" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+      <div class="model-comparison">
+        <div class="model-box before">
+          <div class="model-box-label red">Colby Current Traffic (Peak Hour)</div>
+          <div class="model-box-number" style="color: var(--danger);">433</div>
+          <div class="model-box-unit">vehicles/hour</div>
+        </div>
+        <div class="model-arrow"><span>−60%</span> →</div>
+        <div class="model-box after">
+          <div class="model-box-label green">With Diverter Pilot</div>
+          <div class="model-box-number" style="color: var(--oak-green);">173</div>
+          <div class="model-box-unit">vehicles/hour — within safe limits</div>
+        </div>
       </div>
-      <div class="model-arrow">
-        <span>−60%</span>
-        →
-      </div>
-      <div class="model-box after">
-        <div class="model-box-label green">With Diverter Pilot</div>
-        <div class="model-box-number" style="color: var(--oak-green);">109</div>
-        <div class="model-box-unit">vehicles/hour — within safe limits</div>
+      <div class="model-comparison">
+        <div class="model-box before">
+          <div class="model-box-label red">Hillegass Current Traffic (Peak Hour)</div>
+          <div class="model-box-number" style="color: var(--danger);">334</div>
+          <div class="model-box-unit">vehicles/hour</div>
+        </div>
+        <div class="model-arrow"><span>−60%</span> →</div>
+        <div class="model-box after">
+          <div class="model-box-label green">With Diverter Pilot</div>
+          <div class="model-box-number" style="color: var(--oak-green);">134</div>
+          <div class="model-box-unit">vehicles/hour — within safe limits</div>
+        </div>
       </div>
     </div>
 
@@ -1020,7 +1037,7 @@ a:hover { color: var(--oak-green-light); }
       <div class="problem-card">
         <div class="problem-icon icon-green">🔧</div>
         <h3>Tactical &amp; Reversible</h3>
-        <p>12-month pilot<button class="fn-trigger" data-fn="fn-pilot" aria-label="Footnote 6">(6)</button> using posts, paint, and planters. Nothing permanent. No concrete. Can be adjusted or removed based on measured results.</p>
+        <p>3-month pilot<button class="fn-trigger" data-fn="fn-pilot" aria-label="Footnote 6">(6)</button> using posts, paint, and planters. Nothing permanent. No concrete. Can be adjusted or removed based on measured results.</p>
       </div>
       <div class="problem-card">
         <div class="problem-icon icon-green">💰</div>
@@ -1071,13 +1088,23 @@ a:hover { color: var(--oak-green-light); }
             </td>
           </tr>
           <tr>
-            <td><strong>One-way conversions</strong><br><span class="comp-desc">Convert two-way to one-way to disrupt shortcutting</span></td>
+            <td><strong>Cul-de-sacs / Dead-end Street Networks</strong><br><span class="comp-desc">Terminates street connectivity for cars while keeping pedestrian/cyclist access</span></td>
             <td>
-              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 54%; background: #5B8C5A;">35%</div></div>
+              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 69%; background: #5B8C5A;">45%</div></div>
             </td>
             <td><div class="affordability-dots">★★★☆☆</div></td>
             <td>
-              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-good" style="width: 35%;">105%</div><div class="eff-threshold"></div></div>
+              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-good" style="width: 35%;">135%</div><div class="eff-threshold"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Turn Restrictions / Vehicle Access Controls</strong><br><span class="comp-desc">Regulatory limits (e.g., no left-turns into, residents-only access windows)</span></td>
+            <td>
+              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 62%; background: #5B8C5A;">40%</div></div>
+            </td>
+            <td><div class="affordability-dots">★★★★★</div></td>
+            <td>
+              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-best" style="width: 55%;">200%</div><div class="eff-threshold"></div></div>
             </td>
           </tr>
           <tr>
@@ -1292,6 +1319,12 @@ a:hover { color: var(--oak-green-light); }
         <div class="timeline-desc">Councilmember Unger and Director Rowan attended a meeting hosted by a former Councilmember — no pilot supporters were invited.</div>
       </div>
       <div class="timeline-item">
+        <div class="timeline-dot green"></div>
+        <div class="timeline-date">November 2025</div>
+        <div class="timeline-title">Pilot supporters meet with City leadership</div>
+        <div class="timeline-desc">Pilot supporters met with City Administrator, Councilmember Unger, and Director Rowan to present the case to take action and implement a pilot, including signage supporting the pilot on targeted streets — Colby, Hillegass, and 62nd as well as the Wormhole.</div>
+      </div>
+      <div class="timeline-item">
         <div class="timeline-dot red"></div>
         <div class="timeline-date">Aug 2025 – Jan 2026</div>
         <div class="timeline-title">Six months of silence</div>
@@ -1305,7 +1338,7 @@ a:hover { color: var(--oak-green-light); }
       </div>
       <div class="timeline-item">
         <div class="timeline-dot green"></div>
-        <div class="timeline-date">February 2026</div>
+        <div class="timeline-date">Spring 2026</div>
         <div class="timeline-title">Now — time for action</div>
         <div class="timeline-desc">Community meeting expected. We need the City to implement the diverter pilot that OakDOT designed and Director Rowan supported — not a watered-down alternative.</div>
       </div>
@@ -1353,8 +1386,25 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           Diverters deliver <strong>65% traffic volume reduction</strong> — the highest of any treatment — and score <strong>260% on combined effectiveness</strong> (impact × affordability), far above the 100% threshold. By comparison, signage alone achieves just 3% reduction. Data compiled from FHWA, NACTO, and peer-reviewed transportation research.
         </p>
-        <a href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
-          View source data →
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <a href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+            View source data →
+          </a>
+          <a href="https://www.sciencedirect.com/science/article/pii/S2214140523000944" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+            Evaluating the impact of low traffic neighbourhoods (ScienceDirect) →
+          </a>
+        </div>
+      </div>
+
+      <!-- (D) City of Alexandria Cut-Through Research -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);"><span style="color: var(--amber); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; vertical-align: middle;">(D)</span> City of Alexandria Cut-Through Traffic Mitigation Research</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          Gorove Slade's 2020 report reviews cut-through mitigation programs across nine U.S. municipalities. Key findings: turn restrictions achieved 70–90% traffic reduction in some cases; Waze and navigation apps have exacerbated cut-through issues; jurisdictions often pivot from street-specific to jurisdiction-wide traffic calming when localized mitigations push problems to other neighborhoods.
+        </p>
+        <a href="https://media.alexandriava.gov/docs-archives/tes/info/city-of-alexandria-cut-through-research---report-5.7.2020%3Dfinal.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          Read the report (PDF) →
         </a>
       </div>
 
@@ -1432,51 +1482,48 @@ a:hover { color: var(--oak-green-light); }
     <p>Every email matters. City officials have said the silence was being interpreted as fading interest. Let them know that's wrong.</p>
 
     <!-- Support petition box -->
-    <div class="support-box fade-in" style="max-width: 600px; margin: 2.5rem auto 2.5rem; background: rgba(232, 168, 48, 0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 2.5rem; text-align: left;">
+    <div id="supportFormBox" class="support-box fade-in" style="max-width: 600px; margin: 2.5rem auto 2.5rem; background: rgba(232, 168, 48, 0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 2.5rem; text-align: left;">
       <h3 style="color: var(--amber); font-size: 1.15rem; margin-bottom: 0.5rem; line-height: 1.4;">Support the immediate kick-off of the diverter-based pilot OakDOT proposed 18 months ago</h3>
       <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Add your name to show city officials this community demands action now.</p>
-      <form id="supportForm" onsubmit="return handleSupportSubmit(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+      <form id="supportForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)" style="display: flex; flex-direction: column; gap: 1rem;">
         <div>
           <label for="supportName" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;">Name *</label>
           <input type="text" id="supportName" name="name" required placeholder="Your full name" style="width: 100%; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;">
+        </div>
+        <div>
+          <label for="supportAddress" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;">Street address *</label>
+          <input type="text" id="supportAddress" name="address" required placeholder="Full street address" style="width: 100%; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;">
         </div>
         <div>
           <label for="supportEmail" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;">Email address *</label>
           <input type="email" id="supportEmail" name="email" required placeholder="you@example.com" style="width: 100%; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;">
         </div>
         <div>
-          <label for="supportStreet" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;">Street you live on *</label>
-          <input type="text" id="supportStreet" name="street" required placeholder="e.g. Colby Street" style="width: 100%; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;">
+          <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
+            <input type="checkbox" id="supportCheckbox" name="support_statement" value="yes" style="margin-top: 0.3rem;">
+            <span>I support reducing traffic through the Rockridge trapezoid holistically and believe that the diverter pilot is the right way to start the solution.</span>
+          </label>
         </div>
-        <button type="submit" id="supportBtn" style="margin-top: 0.5rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s;">Submit</button>
+        <button type="submit" id="supportBtn" style="margin-top: 0.5rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s;">Add my support</button>
         <div id="supportMsg" style="display: none; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; margin-top: 0.25rem;"></div>
       </form>
     </div>
 
-    <div class="cta-cards">
-      <div class="cta-card">
-        <h3>✉️ Email City Officials</h3>
-        <p>Send a personal email describing how cut-through traffic affects you. Personal stories carry weight. Send one this week and another next week.</p>
-        <div class="email-block">
-          <div class="email-label">Send to all of these:</div>
-          <code>zunger@oaklandca.gov, jrowan@oaklandca.gov, jdjohnson@oaklandca.gov, officeofthemayor@oaklandca.gov</code>
-        </div>
+    <!-- Post-submit screen (Step 2) — template viewer with arrows -->
+    <div id="postSubmitBox" style="display: none; max-width: 600px; margin: 2.5rem auto 2.5rem; background: rgba(232, 168, 48, 0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 2.5rem; text-align: left;">
+      <h3 style="font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--amber); margin-bottom: 1rem; line-height: 1.2;">Thank you.</h3>
+      <p style="color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 1rem; line-height: 1.6;">Can you help with one more thing? Choose an email below, then open it in your mail client.</p>
+      <div id="templateCard" style="background: rgba(0,0,0,0.2); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;">
+        <div id="templateSubject" style="font-weight: 700; font-size: 1rem; color: var(--amber); margin-bottom: 0.75rem;"></div>
+        <div id="templateBody" style="font-size: 0.9rem; color: rgba(255,255,255,0.9); line-height: 1.6; white-space: pre-wrap;"></div>
       </div>
-      <div class="cta-card">
-        <h3>👥 Recruit 5 Neighbors</h3>
-        <p>Ask five people you trust in the neighborhood to also send emails. Volume of constituent voices matters — it's how elected officials gauge priority.</p>
-        <a href="mailto:?subject=Help%20with%20Rockridge%20traffic&body=Hi%20-%20I%27m%20writing%20to%20ask%20if%20you%20could%20send%20a%20quick%20email%20to%20our%20city%20officials%20about%20the%20dangerous%20cut-through%20traffic%20in%20our%20neighborhood.">Share by email →</a>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.25rem;">
+        <button type="button" id="arrowLeft" aria-label="Previous email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">◀</button>
+        <button type="button" id="arrowRight" aria-label="Next email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">▶</button>
       </div>
-      <div class="cta-card">
-        <h3>📅 Attend the Community Meeting</h3>
-        <p>A meeting is expected in February 2026. Show up. Bring neighbors. Ask officials for specific commitments and timelines, not more "discussions."</p>
-        <a href="#timeline">See latest updates →</a>
-      </div>
-      <div class="cta-card">
-        <h3>📋 Key Asks for Your Email</h3>
-        <p>What specific traffic calming measures do you support and why? Who is the decision-maker? When will implementation begin? Demand a public written commitment.</p>
-      </div>
+      <a id="reviewSendBtn" href="#" style="display: inline-block; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border-radius: 8px; text-decoration: none; font-family: inherit; transition: all 0.2s; cursor: pointer;">Open in your email client</a>
     </div>
+
   </div>
 </section>
 
@@ -1632,6 +1679,79 @@ document.addEventListener('click', (e) => {
   document.querySelectorAll('.fn-popup').forEach(p => p.classList.remove('visible'));
 });
 
+// mailto config — easy to find and update
+// TEMP TESTING: city addresses use .testing.gov so emails don't accidentally reach officials
+// lowerrockridgeslowstreets@gmail.com stays live
+const MAILTO_TO = 'zunger@oaklandca.testing.gov,jrowan@oaklandca.testing.gov,jdjohnson@oaklandca.testing.gov,officeofthemayor@oaklandca.testing.gov';
+const MAILTO_CC = 'lowerrockridgeslowstreets@gmail.com';
+
+// All bodies: support pilot, neighborhood calming, reducing traffic through Rockridge Trapezoid.
+// Themes: holistic approach, iterative, community-focused, bike safety. Site-derived detail.
+const EMAIL_TEMPLATES = [
+  { subject: 'Support for diverter pilot on Hillegass, Colby, and 62nd', body: 'Dear Oakland Officials,\n\nI support implementation of the pilot project to calm the whole neighborhood and reduce traffic through the Rockridge Trapezoid. This holistic, iterative approach will benefit our community.\n\nThe diverter pilot is the right first step. Please implement it now.\n\nBest regards,' },
+  { subject: 'Implement the traffic calming pilot now', body: 'Dear City Officials,\n\nI support reducing traffic through the Rockridge Trapezoid and the pilot for neighborhood calming. Our streets were built for neighbors, not commuter shortcuts.\n\nThis community-focused approach will improve bicycle safety and quality of life. Please act.\n\nThank you,' },
+  { subject: 'Rockridge needs the diverter pilot', body: 'Dear Oakland Officials,\n\nOver 10,000 cars per day cut through our residential streets. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nA holistic approach is needed. Please implement the diverter pilot.\n\nSincerely,' },
+  { subject: 'Kick off the OakDOT diverter pilot', body: 'Dear Officials,\n\nI support reducing traffic through the Rockridge Trapezoid and the pilot project for neighborhood calming. OakDOT has designed the pilot; it is affordable, tactical, and reversible.\n\nThis iterative approach lets us measure and adjust. Please kick it off.\n\nRespectfully,' },
+  { subject: 'Support for traffic calming pilot — Rockridge', body: 'Dear Oakland City Officials,\n\nI support the pilot to calm the whole neighborhood and reduce traffic through the Rockridge Trapezoid. Residents have been asking since 2007.\n\nFifteen years of advocacy is enough. Please implement it.\n\nRegards,' },
+  { subject: 'Implement the diverter pilot — Lower Rockridge', body: 'Dear Officials,\n\nI support reducing traffic through the Rockridge Trapezoid and the pilot for neighborhood calming. Our streets are 2–8× over safe limits.\n\nThis community-focused pilot will improve bicycle safety on Colby. Please implement it.\n\nBest regards,' },
+  { subject: 'Act now on Rockridge traffic pilot', body: 'Dear Oakland Officials,\n\nI support the pilot project for neighborhood calming and reducing traffic through the Rockridge Trapezoid. Cut-through traffic has made our streets unsafe for families and cyclists.\n\nPlease act now. The solution is designed and ready.\n\nThank you,' },
+  { subject: 'Support for diverter-based pilot', body: 'Dear City Officials,\n\nI support reducing traffic through the Rockridge Trapezoid and the pilot for calming the whole neighborhood. Diverters are standard practice in Berkeley and cities worldwide.\n\nThis holistic approach works. Please implement the pilot.\n\nSincerely,' },
+  { subject: 'Rockridge trapezoid — implement pilot', body: 'Dear Officials,\n\nTraffic on Colby and Hillegass exceeds FHWA and OakDOT limits. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nAn iterative, community-focused approach is the right path. Please implement it.\n\nRespectfully,' },
+  { subject: 'Lower Rockridge traffic pilot — my support', body: 'Dear Oakland Officials,\n\nI support reducing traffic through the Rockridge Trapezoid and the pilot project for calming the whole neighborhood. Improved bicycle safety matters to our community.\n\nPlease implement the diverter pilot.\n\nRegards,' },
+  { subject: 'Start the diverter pilot in Rockridge', body: 'Dear Officials,\n\nI support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid. The data is in; the solution is designed.\n\nThis iterative pilot is reversible. Please implement it.\n\nBest regards,' },
+  { subject: 'Traffic calming pilot — Rockridge support', body: 'Dear Oakland City Officials,\n\nI support reducing traffic through the Rockridge Trapezoid and the pilot project for neighborhood calming. A holistic approach will restore our residential character.\n\nPlease kick off the diverter pilot.\n\nThank you,' },
+  { subject: 'Support for OakDOT diverter pilot', body: 'Dear Officials,\n\nI support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid. Our streets were built for neighbors, not through traffic.\n\nImproved bicycle safety on Colby depends on it. Please implement the pilot.\n\nSincerely,' },
+  { subject: 'Implement the pilot — Rockridge residents need it', body: 'Dear Oakland Officials,\n\nI support reducing traffic through the Rockridge Trapezoid and the pilot project for neighborhood calming. Traffic is far beyond safe limits.\n\nThis community-focused, iterative pilot will help. Please act.\n\nRespectfully,' },
+  { subject: 'Rockridge pilot — please start', body: 'Dear City Officials,\n\nI support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid. Years of studies and meetings have led here.\n\nThe holistic approach is right. Please implement the pilot.\n\nRegards,' },
+  { subject: 'Colby Street bike boulevard — support diverter pilot', body: 'Dear Oakland Officials,\n\nColby is our bicycle boulevard but carries 2× the safe daily limit. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nImproved bicycle safety requires action. Please implement it.\n\nBest regards,' },
+  { subject: '10,000 cars a day — we need the pilot', body: 'Dear Officials,\n\nOver 10,000 cars per day cut through the trapezoid. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nThis holistic approach will reclaim our streets. Please act.\n\nThank you,' },
+  { subject: 'JCC traffic increase — implement pilot first', body: 'Dear City Officials,\n\nThe JCC will add 338 peak-hour trips. Streets are already over capacity. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nImplement the pilot before traffic gets worse. Please act.\n\nSincerely,' },
+  { subject: 'Navigation apps routed traffic here — pilot is the answer', body: 'Dear Oakland Officials,\n\nWaze and Google Maps send thousands through our residential streets. I support reducing traffic through the Rockridge Trapezoid and the pilot for neighborhood calming.\n\nA holistic, community-focused response is needed. Please implement it.\n\nRespectfully,' },
+  { subject: 'Preschool on Colby — traffic pilot urgent', body: 'Dear Officials,\n\nThere is a preschool on Colby. During rush hour, up to 400 cars per hour race past. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nOur community deserves safe streets. Please act now.\n\nRegards,' },
+  { subject: '2007 to now — time for the pilot', body: 'Dear Oakland City Officials,\n\nResidents have asked for traffic reduction since 2007. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nTwo petitions, hundreds of signatures. Please implement it.\n\nBest regards,' },
+  { subject: '60% traffic reduction — pilot can achieve it', body: 'Dear Officials,\n\nTraffic modeling shows the pilot can achieve 60% cut-through reduction. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nThis iterative approach is proven. Please kick it off.\n\nThank you,' },
+  { subject: 'Berkeley has diverters — we need them too', body: 'Dear Oakland Officials,\n\nBerkeley uses diverters on Hillegass, just blocks north. Their bike boulevard stays under 1,500 ADT; ours jumps to nearly 2,000. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nPlease implement it.\n\nSincerely,' },
+  { subject: 'NACTO, FHWA, OakDOT — pilot meets standards', body: 'Dear City Officials,\n\nThe pilot aligns with NACTO and FHWA guidance. I support reducing traffic through the Rockridge Trapezoid and the pilot for neighborhood calming.\n\nThis holistic approach meets professional standards. Please act.\n\nRespectfully,' },
+  { subject: 'Tactical and reversible — no excuse to delay', body: 'Dear Officials,\n\nThe pilot uses posts, paint, and planters. Nothing permanent. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nThis iterative approach is low-risk. Please implement it.\n\nRegards,' },
+  { subject: 'Pride pilot proved diverters work — Rockridge next', body: 'Dear Oakland Officials,\n\nThe 81st Ave pilot in East Oakland cut traffic 65–75%. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nProven results. Please kick it off.\n\nBest regards,' },
+  { subject: 'Working Group failed — pilot is the path forward', body: 'Dear City Officials,\n\nNo alternative to diverters was produced. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nThe holistic approach is the right path. Please implement it.\n\nThank you,' },
+  { subject: 'Six months of silence — pilot is the answer', body: 'Dear Officials,\n\nThe City has been silent for six months. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nOur community is still asking. Please act.\n\nSincerely,' },
+  { subject: 'General Plan says local streets for access — support pilot', body: 'Dear Oakland Officials,\n\n"Local streets should be used primarily for access." Our streets are not. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nPlease align with the General Plan. Act now.\n\nRespectfully,' },
+  { subject: 'Waymo coming 2026 — pilot before more traffic', body: 'Dear City Officials,\n\nWaymo and new development on College Ave will add more traffic. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nImplement the pilot before it gets worse. Please act.\n\nRegards,' },
+  { subject: '250+ signed 2021 petition — we still support pilot', body: 'Dear Officials,\n\n250+ residents signed the 2021 petition for a permanent slow neighborhood. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nOur community supports this. Please kick it off.\n\nBest regards,' },
+  { subject: 'Modal filters work better than speed bumps', body: 'Dear Oakland City Officials,\n\nPortland, San Francisco, and London show diverters achieve 60% reduction. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nModal filters work. Please implement it.\n\nThank you,' },
+  { subject: 'Planters already in city possession — use them', body: 'Dear Officials,\n\nThe pilot budget is $40,000. Planters are already in the city\'s possession. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nThis iterative, tactical approach is affordable. Please act.\n\nSincerely,' },
+  { subject: 'Barcelona superblocks — Rockridge pilot same idea', body: 'Dear Oakland Officials,\n\nBarcelona\'s superblocks reduced through-traffic 25%. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nSame proven idea. Please implement it.\n\nRespectfully,' },
+  { subject: '400 cars per hour at rush — pilot reduces that', body: 'Dear City Officials,\n\nColby hits 400 cars per hour at rush — 8× the bike boulevard limit. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nImproved bicycle safety requires this. Please kick it off.\n\nRegards,' },
+  { subject: 'Councilmember Unger — please support the pilot', body: 'Dear Councilmember Unger,\n\nI support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid. This community-focused approach has broad support.\n\nPlease champion it. Our neighborhood needs action.\n\nBest regards,' },
+  { subject: 'Director Rowan — pilot you designed, please implement', body: 'Dear Director Rowan,\n\nYou designed the diverter pilot. I support it for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nYou said you did not take diverters off the table. Please implement it.\n\nThank you,' },
+  { subject: 'OakDOT commitment to people over cars — act on it', body: 'Dear Oakland Officials,\n\nOakDOT renewed its commitment to promoting people over cars. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nThis holistic pilot advances that commitment. Please act.\n\nSincerely,' },
+  { subject: '14 entry points — pilot will reduce cut-through', body: 'Dear Officials,\n\nThe trapezoid has 14 car entry points. The diverter pilot will discourage shortcutting. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nPlease kick it off.\n\nRespectfully,' },
+  { subject: 'Fehr & Peers CEQA — traffic will worsen without pilot', body: 'Dear Oakland Officials,\n\nThe JCC CEQA study quantifies 338 additional peak-hour trips. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nTraffic will worsen without action. Please implement it.\n\nRegards,' },
+  { subject: 'Ney Avenue study — diverters redirect traffic', body: 'Dear Oakland Officials,\n\nOakland\'s Ney Avenue study showed diverters successfully redirect non-local traffic. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nProven in our own city. Please implement it.\n\nBest regards,' },
+  { subject: 'Channing Way Berkeley — NACTO documents success', body: 'Dear City Officials,\n\nNACTO documents Berkeley\'s Channing Way diverter eliminating cut-through traffic. I support the pilot for calming the whole neighborhood and reducing traffic through the Rockridge Trapezoid.\n\nSame approach, blocks away. Please kick it off.\n\nThank you,' },
+  { subject: '999,999 cut-through cars per year — pilot targets that', body: 'Dear Officials,\n\nWe aim to eliminate nearly a million cut-through cars per year from our streets. I support the pilot for neighborhood calming and reducing traffic through the Rockridge Trapezoid.\n\nThis holistic goal is achievable. Please implement it.\n\nSincerely,' }
+];
+
+let submitterName = '';
+
+function buildMailto(idx) {
+  const t = EMAIL_TEMPLATES[idx >= 0 && idx < EMAIL_TEMPLATES.length ? idx : 0];
+  const body = submitterName ? t.body + '\n\n' + submitterName : t.body;
+  return 'mailto:' + MAILTO_TO + '?cc=' + encodeURIComponent(MAILTO_CC) + '&subject=' + encodeURIComponent(t.subject) + '&body=' + encodeURIComponent(body);
+}
+
+let currentTemplateIdx = 0;
+const N = EMAIL_TEMPLATES.length;
+
+function renderTemplate() {
+  const t = EMAIL_TEMPLATES[currentTemplateIdx];
+  const displayBody = submitterName ? t.body + '\n\n' + submitterName : t.body;
+  document.getElementById('templateSubject').textContent = t.subject;
+  document.getElementById('templateBody').textContent = displayBody;
+  document.getElementById('reviewSendBtn').href = buildMailto(currentTemplateIdx);
+}
+
 // Support form handler
 function handleSupportSubmit(e) {
   e.preventDefault();
@@ -1640,30 +1760,54 @@ function handleSupportSubmit(e) {
   const form = document.getElementById('supportForm');
   const name = document.getElementById('supportName').value.trim();
   const email = document.getElementById('supportEmail').value.trim();
-  const street = document.getElementById('supportStreet').value.trim();
-  if (!name || !email || !street) return false;
+  const address = document.getElementById('supportAddress').value.trim();
+  if (!name || !email || !address) return false;
   btn.disabled = true;
   btn.textContent = 'Submitting…';
-  // Store locally (replace with real backend when ready)
-  const entry = { name, email, street, date: new Date().toISOString() };
-  const existing = JSON.parse(localStorage.getItem('pilot_supporters') || '[]');
-  existing.push(entry);
-  localStorage.setItem('pilot_supporters', JSON.stringify(existing));
-  msg.style.display = 'block';
-  msg.style.background = 'rgba(39,174,96,0.2)';
-  msg.style.color = '#2ECC71';
-  msg.textContent = 'Thank you, ' + name + '! Your support has been recorded. (' + existing.length + ' supporter' + (existing.length > 1 ? 's' : '') + ' total)';
-  btn.textContent = 'Submitted ✓';
-  btn.style.background = 'rgba(255,255,255,0.2)';
-  btn.style.color = 'white';
-  document.getElementById('supportName').disabled = true;
-  document.getElementById('supportEmail').disabled = true;
-  document.getElementById('supportStreet').disabled = true;
+  const formData = new FormData(form);
+  fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
+    .then(r => r.json())
+    .then(() => {
+      submitterName = name;
+      document.getElementById('supportFormBox').style.display = 'none';
+      document.getElementById('postSubmitBox').style.display = 'block';
+      currentTemplateIdx = Math.floor(Math.random() * N);
+      renderTemplate();
+    })
+    .catch(() => {
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(231, 76, 60, 0.2)';
+      msg.style.color = '#E74C3C';
+      msg.textContent = 'Something went wrong. Please try again or email us directly.';
+      btn.disabled = false;
+      btn.textContent = 'Add my support';
+    });
   return false;
 }
 
-// Smooth scroll for anchor links
+// Wire template viewer arrows and set fallback
+document.addEventListener('DOMContentLoaded', function() {
+  const reviewBtn = document.getElementById('reviewSendBtn');
+  const arrowLeft = document.getElementById('arrowLeft');
+  const arrowRight = document.getElementById('arrowRight');
+  if (reviewBtn) reviewBtn.setAttribute('href', buildMailto(0));
+  if (arrowLeft) {
+    arrowLeft.addEventListener('click', function() {
+      currentTemplateIdx = (currentTemplateIdx - 1 + N) % N;
+      renderTemplate();
+    });
+  }
+  if (arrowRight) {
+    arrowRight.addEventListener('click', function() {
+      currentTemplateIdx = (currentTemplateIdx + 1) % N;
+      renderTemplate();
+    });
+  }
+});
+
+// Smooth scroll for anchor links (exclude reviewSendBtn — it uses mailto, not in-page anchor)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  if (anchor.id === 'reviewSendBtn') return;
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
@@ -1675,6 +1819,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 </script>
 
 </body>
-</html>
-
 </html>
