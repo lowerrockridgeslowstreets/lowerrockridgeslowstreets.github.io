@@ -722,7 +722,7 @@ a:hover { color: var(--oak-green-light); }
 <!-- Navigation -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-brand">
+    <a href="#" class="nav-brand" data-track="nav_brand">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 22c-4.97 0-9-2.69-9-6v-4c0-3.31 4.03-6 9-6s9 2.69 9 6v4c0 3.31-4.03 6-9 6z"/>
         <path d="M12 2v4M8 6l4-4 4 4"/>
@@ -731,14 +731,14 @@ a:hover { color: var(--oak-green-light); }
       Rockridge Slow Neighborhood
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#problem">The Problem</a></li>
-      <li><a href="#data">The Data</a></li>
-      <li><a href="#solution">The Solution</a></li>
-      <li><a href="#timeline">Timeline</a></li>
-      <li><a href="#appendix">Appendix</a></li>
-      <li><a href="#action" class="nav-cta">Take Action</a></li>
+      <li><a href="#problem" data-track="nav_problem">The Problem</a></li>
+      <li><a href="#data" data-track="nav_data">The Data</a></li>
+      <li><a href="#solution" data-track="nav_solution">The Solution</a></li>
+      <li><a href="#timeline" data-track="nav_timeline">Timeline</a></li>
+      <li><a href="#appendix" data-track="nav_appendix">Appendix</a></li>
+      <li><a href="#action" class="nav-cta" data-track="nav_take_action">Take Action</a></li>
     </ul>
-    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" data-track="nav_mobile_toggle">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -749,20 +749,20 @@ a:hover { color: var(--oak-green-light); }
   <div class="hero-content">
     <div class="hero-text">
       <div class="hero-badge">Active Campaign — Spring 2026</div>
-      <h1>Our streets were built for <em>neighbors</em>, not commuter shortcuts <a href="https://its.berkeley.edu/news/your-navigation-app-making-traffic-unmanageable" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; font-weight: normal; color: rgba(255,255,255,0.6); text-decoration: underline; vertical-align: baseline; margin-left: 0.5rem;">(see study)</a></h1>
+      <h1>Our streets were built for <em>neighbors</em>, not commuter shortcuts <a href="https://its.berkeley.edu/news/your-navigation-app-making-traffic-unmanageable" target="_blank" rel="noopener noreferrer" data-track="hero_see_study" style="font-size: 0.85rem; font-weight: normal; color: rgba(255,255,255,0.6); text-decoration: underline; vertical-align: baseline; margin-left: 0.5rem;">(see study)</a></h1>
       <p class="hero-sub">
-        Over 10,000<button class="fn-trigger" data-fn="fn-10k" aria-label="Footnote 1">(1)</button> cars a day travel through the Lower Rockridge Trapezoid.<button class="fn-trigger" data-fn="fn-trapezoid" aria-label="Footnote 2">(2)</button> After 15+ years of residents lobbying the City, years of studies, 2 petitions<button class="fn-trigger" data-fn="fn-petition1" aria-label="Footnote 3">(3)</button><button class="fn-trigger" data-fn="fn-petition2" aria-label="Footnote 4">(4)</button> with hundreds of signatures requesting traffic volume reduction, 2 years of meetings, it's time for action.
+        Over 10,000<button class="fn-trigger" data-fn="fn-10k" data-track="fn_10k" aria-label="Footnote 1">(1)</button> cars a day travel through the Lower Rockridge Trapezoid.<button class="fn-trigger" data-fn="fn-trapezoid" data-track="fn_trapezoid" aria-label="Footnote 2">(2)</button> After 15+ years of residents lobbying the City, years of studies, 2 petitions<button class="fn-trigger" data-fn="fn-petition1" data-track="fn_petition1" aria-label="Footnote 3">(3)</button><button class="fn-trigger" data-fn="fn-petition2" data-track="fn_petition2" aria-label="Footnote 4">(4)</button> with hundreds of signatures requesting traffic volume reduction, 2 years of meetings, it's time for action.
       </p>
       <div class="hero-actions">
-        <a href="#action" class="btn btn-primary">Take Action →</a>
-        <a href="#problem" class="btn btn-outline">See the Evidence</a>
+        <a href="#action" class="btn btn-primary" data-track="hero_take_action">Take Action →</a>
+        <a href="#problem" class="btn btn-outline" data-track="hero_see_evidence">See the Evidence</a>
       </div>
     </div>
     <div class="hero-visual">
       <div class="hero-stat-card" style="display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden;">
         <div style="padding: 1.25rem 1.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
           <div style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); margin-bottom: 0.3rem;">Overall Volume</div>
-          <div style="font-family: 'DM Serif Display', serif; font-size: 2.8rem; color: var(--amber); line-height: 1.1;">10,000<button class="fn-trigger" data-fn="fn-10k" aria-label="Footnote 1" style="font-size: 0.75rem;">(1)</button></div>
+          <div style="font-family: 'DM Serif Display', serif; font-size: 2.8rem; color: var(--amber); line-height: 1.1;">10,000<button class="fn-trigger" data-fn="fn-10k" data-track="fn_10k_stat" aria-label="Footnote 1" style="font-size: 0.75rem;">(1)</button></div>
           <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: -0.1rem;">cars per day through the Lower Rockridge trapezoid</div>
         </div>
         <div style="padding: 1.25rem 1.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
@@ -772,7 +772,7 @@ a:hover { color: var(--oak-green-light); }
         <div style="padding: 1.25rem 1.75rem;">
           <div style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); margin-bottom: 0.3rem;">Traffic Pilot Goal</div>
           <div style="font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: var(--amber); line-height: 1.1;">Reduce traffic by a minimum of 60%</div>
-          <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: -0.1rem;">cutting through the Lower Rockridge trapezoid<button class="fn-trigger" data-fn="fn-60pct" aria-label="Footnote 5">(5)</button></div>
+          <div style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: -0.1rem;">cutting through the Lower Rockridge trapezoid<button class="fn-trigger" data-fn="fn-60pct" data-track="fn_60pct" aria-label="Footnote 5">(5)</button></div>
         </div>
       </div>
       <div class="hero-quote">
@@ -854,7 +854,7 @@ a:hover { color: var(--oak-green-light); }
       <div class="problem-card">
         <div class="problem-icon icon-info">🏗️</div>
         <h3>It's About to Get Worse</h3>
-        <p>The new <a href="https://www.dailycal.org/news/city/communities/east-bay-jewish-community-center-to-move-to-new-rockridge-campus/article_d1c01bce-f7fe-11ef-b694-1fd4fd41b8e8.html" target="_blank" rel="noopener">Jewish Community Center</a> (JCC) facility will generate up to 338 additional peak-hour vehicle trips — source: California Environmental Quality Act (CEQA) study<button class="fn-trigger" data-fn="fn-ceqa" aria-label="Reference A">(A)</button> conducted as part of the JCC remodel permitting process. <a href="https://www.nbcbayarea.com/news/local/dmv-waymo-expansion-nort-east-bay/3985806/" target="_blank" rel="noopener noreferrer">Waymo is coming to Oakland in 2026.</a> New developments on College Ave will add even more.</p>
+        <p>The new <a href="https://www.dailycal.org/news/city/communities/east-bay-jewish-community-center-to-move-to-new-rockridge-campus/article_d1c01bce-f7fe-11ef-b694-1fd4fd41b8e8.html" target="_blank" rel="noopener" data-track="link_jcc">Jewish Community Center</a> (JCC) facility will generate up to 338 additional peak-hour vehicle trips — source: California Environmental Quality Act (CEQA) study<button class="fn-trigger" data-fn="fn-ceqa" data-track="fn_ceqa" aria-label="Reference A">(A)</button> conducted as part of the JCC remodel permitting process. <a href="https://www.nbcbayarea.com/news/local/dmv-waymo-expansion-nort-east-bay/3985806/" target="_blank" rel="noopener noreferrer" data-track="link_waymo">Waymo is coming to Oakland in 2026.</a> New developments on College Ave will add even more.</p>
       </div>
       <div class="problem-card">
         <div class="problem-icon icon-warning">📱</div>
@@ -1052,7 +1052,7 @@ a:hover { color: var(--oak-green-light); }
       <div class="problem-card">
         <div class="problem-icon icon-green">🏙️</div>
         <h3>Modern Urban Design</h3>
-        <p>Inspired by Barcelona's superblocks<button class="fn-trigger" data-fn="fn-superblocks" aria-label="Reference B">(B)</button> — a proven model that reclaims residential streets from through-traffic, reducing noise and pollution while creating safer, more livable neighborhoods. Cities worldwide are adopting this approach.</p>
+        <p>Inspired by Barcelona's superblocks<button class="fn-trigger" data-fn="fn-superblocks" data-track="fn_superblocks" aria-label="Reference B">(B)</button> — a proven model that reclaims residential streets from through-traffic, reducing noise and pollution while creating safer, more livable neighborhoods. Cities worldwide are adopting this approach.</p>
       </div>
     </div>
 
@@ -1179,7 +1179,7 @@ a:hover { color: var(--oak-green-light); }
     </div>
 
     <div class="footnote" style="margin-top: 1rem;">
-      Source: Traffic Treatments Effectiveness<button class="fn-trigger" data-fn="fn-treatments" aria-label="Reference C">(C)</button>. Treatments above the 100% effectiveness threshold deliver outsized value per dollar.
+      Source: Traffic Treatments Effectiveness<button class="fn-trigger" data-fn="fn-treatments" data-track="fn_treatments" aria-label="Reference C">(C)</button>. Treatments above the 100% effectiveness threshold deliver outsized value per dollar.
     </div>
   </div>
 </section>
@@ -1211,7 +1211,7 @@ a:hover { color: var(--oak-green-light); }
       </div>
       <div class="fact">
         <div class="fact-label">Evidence</div>
-        <p>Modal filters such as bollards, boom barriers, and planters are cheaper and work better than speed bumps and typically achieve 60% traffic volume reduction, e.g. <a href="https://bikeportland.org/2025/03/03/guest-opinion-modal-filters-are-cheaper-and-work-better-than-speed-bumps-393041" target="_blank" rel="noopener noreferrer">Portland, OR</a>, <a href="https://sfbike.org/news/traffic-diverters-streets-for-people-not-for-traffic/" target="_blank" rel="noopener noreferrer">San Francisco, CA</a>, and <a href="https://en.wikipedia.org/wiki/Low_Traffic_Neighbourhood" target="_blank" rel="noopener noreferrer">London, UK</a>.</p>
+        <p>Modal filters such as bollards, boom barriers, and planters are cheaper and work better than speed bumps and typically achieve 60% traffic volume reduction, e.g. <a href="https://bikeportland.org/2025/03/03/guest-opinion-modal-filters-are-cheaper-and-work-better-than-speed-bumps-393041" target="_blank" rel="noopener noreferrer" data-track="link_portland">Portland, OR</a>, <a href="https://sfbike.org/news/traffic-diverters-streets-for-people-not-for-traffic/" target="_blank" rel="noopener noreferrer" data-track="link_sf">San Francisco, CA</a>, and <a href="https://en.wikipedia.org/wiki/Low_Traffic_Neighbourhood" target="_blank" rel="noopener noreferrer" data-track="link_london">London, UK</a>.</p>
       </div>
     </div>
 
@@ -1233,7 +1233,7 @@ a:hover { color: var(--oak-green-light); }
       </div>
       <div class="fact">
         <div class="fact-label">Evidence</div>
-        <p>Traffic modeling by career-long experts on California traffic using professional modeling tools estimated ~60% reduction in cut-through traffic, an impact consistent with similar pilots both far away, in Portland, OR, London, UK, and next door, in Berkeley on the other side of Alcatraz Avenue — see references on <a href="#appendix">Appendix page</a>.</p>
+        <p>Traffic modeling by career-long experts on California traffic using professional modeling tools estimated ~60% reduction in cut-through traffic, an impact consistent with similar pilots both far away, in Portland, OR, London, UK, and next door, in Berkeley on the other side of Alcatraz Avenue — see references on <a href="#appendix" data-track="link_appendix">Appendix page</a>.</p>
       </div>
     </div>
 
@@ -1362,7 +1362,7 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           The JCC remodel will add <strong>338 peak-hour vehicle trips</strong> to streets already far over capacity. This Fehr &amp; Peers transportation analysis quantifies the additional traffic burden on College Avenue, Chabot Road, and surrounding residential streets — making the case for diverters even more urgent. Prepared by Lamphier-Gregory, October 2024 (Case PLN23117).
         </p>
-        <a href="https://cao-94612.s3.us-west-2.amazonaws.com/documents/JCC-East-Bay-Project-CEQA-Analysis.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+        <a href="https://cao-94612.s3.us-west-2.amazonaws.com/documents/JCC-East-Bay-Project-CEQA-Analysis.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_ceqa_pdf" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
           View CEQA Analysis (PDF) →
         </a>
       </div>
@@ -1374,7 +1374,7 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           Barcelona's superblocks achieved a <strong>25% reduction in through-traffic</strong> and a <strong>17% decrease in NO₂ pollution</strong> by restricting vehicle access to local-only within multi-block zones. Streets formerly dominated by cars became public spaces for walking, cycling, and community life — with no major infrastructure cost. The model is now replicated in cities worldwide.
         </p>
-        <a href="https://urbandesignlab.in/barcelona-superblocks-reclaiming-streets-for-people/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+        <a href="https://urbandesignlab.in/barcelona-superblocks-reclaiming-streets-for-people/" target="_blank" rel="noopener noreferrer" data-track="ref_barcelona" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
           Barcelona Superblocks — Reclaiming Streets for People →
         </a>
       </div>
@@ -1387,10 +1387,10 @@ a:hover { color: var(--oak-green-light); }
           Diverters deliver <strong>65% traffic volume reduction</strong> — the highest of any treatment — and score <strong>260% on combined effectiveness</strong> (impact × affordability), far above the 100% threshold. By comparison, signage alone achieves just 3% reduction. Data compiled from FHWA, NACTO, and peer-reviewed transportation research.
         </p>
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <a href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          <a href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener noreferrer" data-track="ref_source_data" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
             View source data →
           </a>
-          <a href="https://www.sciencedirect.com/science/article/pii/S2214140523000944" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          <a href="https://www.sciencedirect.com/science/article/pii/S2214140523000944" target="_blank" rel="noopener noreferrer" data-track="ref_sciencedirect" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
             Evaluating the impact of low traffic neighbourhoods (ScienceDirect) →
           </a>
         </div>
@@ -1403,7 +1403,7 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           Gorove Slade's 2020 report reviews cut-through mitigation programs across nine U.S. municipalities. Key findings: turn restrictions achieved 70–90% traffic reduction in some cases; Waze and navigation apps have exacerbated cut-through issues; jurisdictions often pivot from street-specific to jurisdiction-wide traffic calming when localized mitigations push problems to other neighborhoods.
         </p>
-        <a href="https://media.alexandriava.gov/docs-archives/tes/info/city-of-alexandria-cut-through-research---report-5.7.2020%3Dfinal.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+        <a href="https://media.alexandriava.gov/docs-archives/tes/info/city-of-alexandria-cut-through-research---report-5.7.2020%3Dfinal.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_alexandria" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
           Read the report (PDF) →
         </a>
       </div>
@@ -1415,7 +1415,7 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           A 3-week diverter pilot in East Oakland that <strong>reduced cut-through traffic by 65–75%</strong> using a single diagonal traffic filter. Speeds dropped by up to 4 mph near East Oakland Pride Elementary, and the school principal reported dramatically calmer conditions — proof that diverters work quickly and decisively.
         </p>
-        <a href="https://www.oaklandca.gov/files/assets/city/v/1/transportation/documents/projects/calm-east-oakland-streets/81st-ave-demonstration-project-summary-12-17-24.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+        <a href="https://www.oaklandca.gov/files/assets/city/v/1/transportation/documents/projects/calm-east-oakland-streets/81st-ave-demonstration-project-summary-12-17-24.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_pride_pilot" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
           Read the full report →
         </a>
       </div>
@@ -1427,7 +1427,7 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           Oakland's own study showing diverters <strong>successfully redirected non-local traffic</strong> off residential streets while preserving full access for residents. The physical barriers eliminated shortcutting without displacing meaningful volume to adjacent streets.
         </p>
-        <a href="https://cao-94612.s3.amazonaws.com/documents/Ney-Avenue-Neighborhood-Traffic-Calming-Study-Memo-Only.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+        <a href="https://cao-94612.s3.amazonaws.com/documents/Ney-Avenue-Neighborhood-Traffic-Calming-Study-Memo-Only.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_ney_avenue" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
           Read the study →
         </a>
       </div>
@@ -1439,7 +1439,7 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           Just blocks north of our neighborhood, Berkeley used diverters on Hillegass Avenue to <strong>keep traffic volumes below 1,500 ADT</strong> on their bicycle boulevard. The same street crosses into Oakland and immediately jumps to nearly 2,000 ADT — demonstrating exactly what happens without traffic calming.
         </p>
-        <a href="https://berkeleyca.gov/sites/default/files/2022-02/Bicycle-Boulevard-Design-Tools-and-Guidelines.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+        <a href="https://berkeleyca.gov/sites/default/files/2022-02/Bicycle-Boulevard-Design-Tools-and-Guidelines.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_berkeley" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
           Read the guidelines →
         </a>
       </div>
@@ -1451,7 +1451,7 @@ a:hover { color: var(--oak-green-light); }
         <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
           NACTO documents how Berkeley's Channing Way diverter <strong>eliminated cut-through traffic</strong> while enabling safe bicycle crossings at a major intersection. The project uses loop detectors and protected platforms — a model for combining traffic reduction with active transportation safety.
         </p>
-        <a href="https://nacto.org/latest/bicycle-loop-detector-at-channing-way-and-martin-luther-king-jr-boulevard-berkeley-california/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+        <a href="https://nacto.org/latest/bicycle-loop-detector-at-channing-way-and-martin-luther-king-jr-boulevard-berkeley-california/" target="_blank" rel="noopener noreferrer" data-track="ref_nacto" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
           View case study →
         </a>
       </div>
@@ -1504,7 +1504,7 @@ a:hover { color: var(--oak-green-light); }
             <span>I support reducing traffic through the Rockridge trapezoid holistically and believe that the diverter pilot is the right way to start the solution.</span>
           </label>
         </div>
-        <button type="submit" id="supportBtn" style="margin-top: 0.5rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s;">Add my support</button>
+        <button type="submit" id="supportBtn" data-track="cta_add_support" style="margin-top: 0.5rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s;">Add my support</button>
         <div id="supportMsg" style="display: none; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; margin-top: 0.25rem;"></div>
       </form>
     </div>
@@ -1518,10 +1518,10 @@ a:hover { color: var(--oak-green-light); }
         <div id="templateBody" style="font-size: 0.9rem; color: rgba(255,255,255,0.9); line-height: 1.6; white-space: pre-wrap;"></div>
       </div>
       <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.25rem;">
-        <button type="button" id="arrowLeft" aria-label="Previous email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">◀</button>
-        <button type="button" id="arrowRight" aria-label="Next email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">▶</button>
+        <button type="button" id="arrowLeft" data-track="cta_arrow_prev" aria-label="Previous email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">◀</button>
+        <button type="button" id="arrowRight" data-track="cta_arrow_next" aria-label="Next email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">▶</button>
       </div>
-      <a id="reviewSendBtn" href="#" style="display: inline-block; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border-radius: 8px; text-decoration: none; font-family: inherit; transition: all 0.2s; cursor: pointer;">Open in your email client</a>
+      <a id="reviewSendBtn" href="#" data-track="cta_open_email" style="display: inline-block; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border-radius: 8px; text-decoration: none; font-family: inherit; transition: all 0.2s; cursor: pointer;">Open in your email client</a>
     </div>
 
   </div>
@@ -1537,7 +1537,7 @@ a:hover { color: var(--oak-green-light); }
       A community-wide, holistic initiative to restore the residential nature of the Lower Rockridge Trapezoid neighborhood — making it safe and pleasant for residents, bikes, dogs, and all who call this area home. We advocate for neighborhood quality of life using proven, iterative, traffic engineering approaches.
     </p>
     <p style="margin-bottom: 1rem;">
-      <a href="mailto:lowerrockridgeslowstreets@gmail.com" style="color: var(--amber); font-weight: 600;">lowerrockridgeslowstreets@gmail.com</a>
+      <a href="mailto:lowerrockridgeslowstreets@gmail.com" data-track="footer_email" style="color: var(--amber); font-weight: 600;">lowerrockridgeslowstreets@gmail.com</a>
     </p>
     <p style="margin-top: 1.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
       Data sources: career-long experts on California traffic using professional modeling tools, OakDOT, FHWA, Fehr &amp; Peers CEQA study. This site represents the views of neighborhood residents advocating for traffic safety. All data cited is from public sources.
@@ -1816,6 +1816,43 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
+
+// Cloudflare analytics: track clicks and hovers on interactive elements
+(function() {
+  function trackEvent(type, name) {
+    if (!name) return;
+    try {
+      if (typeof zaraz !== 'undefined') zaraz.track('cf_' + type, { element: name });
+      if (typeof cfBeacon !== 'undefined' && typeof cfBeacon === 'function') cfBeacon('event', { name: type, value: name });
+    } catch (e) {}
+  }
+  function getTrackName(el) {
+    var target = el && el.closest('[data-track]');
+    return target ? target.getAttribute('data-track') : null;
+  }
+  function getFallbackName(el) {
+    if (!el) return null;
+    if (el.id) return el.id;
+    if (el.getAttribute('aria-label')) return el.getAttribute('aria-label').replace(/\s+/g, '_').toLowerCase();
+    if (el.href && el.href.startsWith('http')) return 'link_external';
+    if (el.href && el.href.startsWith('mailto:')) return 'link_mailto';
+    if (el.tagName === 'A' || el.tagName === 'BUTTON') return el.textContent.trim().slice(0, 30).replace(/\s+/g, '_') || 'interactive';
+    return null;
+  }
+  document.addEventListener('click', function(e) {
+    var name = getTrackName(e.target) || getFallbackName(e.target);
+    if (name) trackEvent('click', name);
+  });
+  var hoverDebounce = {};
+  document.addEventListener('mouseover', function(e) {
+    var name = getTrackName(e.target) || getFallbackName(e.target);
+    if (!name) return;
+    var now = Date.now();
+    if (hoverDebounce[name] && now - hoverDebounce[name] < 2000) return;
+    hoverDebounce[name] = now;
+    trackEvent('hover', name);
+  });
+})();
 </script>
 
 </body>
