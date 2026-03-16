@@ -1823,7 +1823,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   function trackEvent(type, name) {
     if (!name) return;
     try {
-      if (typeof zaraz !== 'undefined') zaraz.track('cf_' + type, { element: name });
+      if (typeof zaraz !== 'undefined') zaraz.track('cf_' + type + ':' + name, { element: name });
       if (typeof cfBeacon !== 'undefined' && typeof cfBeacon === 'function') cfBeacon('event', { name: type, value: name });
     } catch (e) {}
   }
