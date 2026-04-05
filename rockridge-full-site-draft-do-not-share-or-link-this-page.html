@@ -1435,19 +1435,26 @@ a:hover { color: var(--oak-green-light); }
       </form>
     </div>
 
-    <!-- Post-submit screen (Step 2) — template viewer with arrows -->
+    <!-- Post-submit screen (Step 2) — mix-and-match email generator -->
     <div id="postSubmitBox" style="display: none; max-width: 600px; margin: 2.5rem auto 2.5rem; background: rgba(232, 168, 48, 0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 2.5rem; text-align: left;">
       <h3 style="font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--amber); margin-bottom: 1rem; line-height: 1.2;">Thank you.</h3>
-      <p style="color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 1rem; line-height: 1.6;">Can you help with one more thing? Choose an email below, then open it in your mail client.</p>
+      <p style="color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 1rem; line-height: 1.6;">Can you help with one more thing? Review the draft email below, then open the draft email in your mail client. Tap the button if you want a different draft wording.</p>
       <div id="templateCard" style="background: rgba(0,0,0,0.2); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;">
         <div id="templateSubject" style="font-weight: 700; font-size: 1rem; color: var(--amber); margin-bottom: 0.75rem;"></div>
         <div id="templateBody" style="font-size: 0.9rem; color: rgba(255,255,255,0.9); line-height: 1.6; white-space: pre-wrap;"></div>
       </div>
-      <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.25rem;">
-        <button type="button" id="arrowLeft" data-track="cta_arrow_prev" aria-label="Previous email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">◀</button>
-        <button type="button" id="arrowRight" data-track="cta_arrow_next" aria-label="Next email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 8px; font-size: 1.25rem; cursor: pointer;">▶</button>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem; margin-bottom: 1.25rem;">
+        <button type="button" id="regenerateBtn" data-track="cta_regenerate_email" aria-label="Generate a different email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6"/>
+            <path d="M2.5 22v-6h6"/>
+            <path d="M2.5 11.5a10 10 0 0 1 18.34-4.5"/>
+            <path d="M21.5 12.5a10 10 0 0 1-18.34 4.5"/>
+          </svg>
+        </button>
+        <span style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Generate a different email</span>
       </div>
-      <a id="reviewSendBtn" href="#" data-track="cta_open_email" style="display: inline-block; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border-radius: 8px; text-decoration: none; font-family: inherit; transition: all 0.2s; cursor: pointer;">Open in your email client</a>
+      <a id="reviewSendBtn" href="#" data-track="cta_open_email" style="display: inline-block; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border-radius: 8px; text-decoration: none; font-family: inherit; transition: all 0.2s; cursor: pointer;">Open draft in your email client</a>
     </div>
 
   </div>
@@ -1616,59 +1623,254 @@ document.addEventListener('click', (e) => {
 });
 
 // mailto config — easy to find and update
-// TEMP TESTING: city addresses use .testing.gov so emails don't accidentally reach officials
-// lowerrockridgeslowstreets@gmail.com stays live
-const MAILTO_TO = 'zunger@oaklandca.testing.gov,jrowan@oaklandca.testing.gov,jdjohnson@oaklandca.testing.gov,officeofthemayor@oaklandca.testing.gov';
+const MAILTO_TO = 'zunger@oaklandca.gov,jrowan@oaklandca.gov,jdjohnson@oaklandca.gov,officeofthemayor@oaklandca.gov';
 const MAILTO_CC = 'lowerrockridgeslowstreets@gmail.com';
 
-// Email bodies: OakDOT-led trapezoid-wide volume reduction; engineering process; no specific facility ask.
-const EMAIL_TEMPLATES = [
-  { subject: 'Rockridge trapezoid — support OakDOT-led traffic volume plan', body: 'Dear Oakland Officials,\n\nI support reducing cut-through traffic through the Lower Rockridge trapezoid in a holistic way. OakDOT should lead a coordinated engineering plan for the whole neighborhood — counts, modeling, and phased measures based on data.\n\nPlease move this forward without ad hoc political interference in the technical process.\n\nBest regards,' },
-  { subject: 'Lower Rockridge — let OakDOT engineer volume reduction', body: 'Dear City Officials,\n\nOur residential streets carry far more traffic than safe limits allow. I support OakDOT developing and implementing a trapezoid-wide plan to reduce that volume using standard traffic engineering.\n\nResidents have waited years. Please prioritize transparent, professional analysis and action.\n\nThank you,' },
-  { subject: '10,000+ vehicles/day — need trapezoid-wide solution', body: 'Dear Oakland Officials,\n\nOver 10,000 cars a day cut through the Lower Rockridge trapezoid. I support OakDOT leading a neighborhood-wide response focused on sustained volume reduction, not piecemeal fixes.\n\nPlease resource the study and implementation process.\n\nSincerely,' },
-  { subject: 'Colby bike boulevard — volume must come down', body: 'Dear Officials,\n\nColby is a designated bicycle boulevard but carries multiples of the volumes NACTO and OakDOT cite as appropriate. I support OakDOT engineering a plan to bring trapezoid traffic down to safe levels.\n\nPlease act on the data.\n\nRespectfully,' },
-  { subject: 'General Plan: local streets for access, not shortcuts', body: 'Dear Oakland Officials,\n\nThe General Plan says local streets should discourage through traffic. The trapezoid is treated as a shortcut. I support OakDOT delivering an engineering-led plan to restore that intent across the whole area.\n\nPlease align policy with the plan.\n\nRegards,' },
-  { subject: 'JCC trips + existing overload — plan the trapezoid now', body: 'Dear City Officials,\n\nThe JCC CEQA analysis adds hundreds of peak-hour trips to streets already far over capacity. I support OakDOT developing a coordinated volume-reduction strategy for the trapezoid before conditions worsen.\n\nPlease treat this as urgent.\n\nSincerely,' },
-  { subject: 'Navigation apps — address cut-through at neighborhood scale', body: 'Dear Oakland Officials,\n\nWaze and similar apps route commuters through our residential grid. I support OakDOT analyzing and addressing that cut-through volume for the Lower Rockridge trapezoid as a whole.\n\nA professional, data-driven plan is overdue.\n\nThank you,' },
-  { subject: 'Director Rowan — OakDOT should lead Rockridge volume work', body: 'Dear Director Rowan,\n\nI support OakDOT leading design of a trapezoid-wide plan to reduce cut-through traffic using standard engineering tools. The community needs clear goals, transparent data, and decisions grounded in your department\'s analysis.\n\nPlease advance that work.\n\nRespectfully,' },
-  { subject: 'Councilmember Unger — Rockridge needs OakDOT action', body: 'Dear Councilmember Unger,\n\nI support reducing traffic volume through the Lower Rockridge trapezoid under OakDOT\'s engineering leadership. Residents have organized for years; we need a visible process and follow-through.\n\nPlease help ensure OakDOT can complete its work without political sidetracking.\n\nBest regards,' },
-  { subject: 'FHWA / OakDOT limits — we are far over', body: 'Dear Officials,\n\nMeasured volumes on Colby, Hillegass, and other trapezoid streets exceed FHWA and OakDOT thresholds for local and bike routes. I support OakDOT implementing a plan to bring the neighborhood into compliance through real volume reduction.\n\nPlease fund and schedule the work.\n\nRegards,' },
-  { subject: 'Modeling shows major cut-through reduction is achievable', body: 'Dear Oakland Officials,\n\nProfessional traffic modeling for the trapezoid shows large reductions in cut-through traffic are achievable with the kinds of measures OakDOT studies elsewhere. I support OakDOT selecting and phasing interventions based on that analysis — not on ad hoc pressure.\n\nPlease publish criteria and timelines.\n\nSincerely,' },
-  { subject: 'Berkeley Hillegass — contrast shows need for Oakland plan', body: 'Dear City Officials,\n\nJust north of us, Berkeley manages Hillegass volumes on its side of the line; Oakland\'s side is far higher. I support OakDOT engineering a trapezoid-wide approach so our residential streets are not the pressure relief valve for regional traffic.\n\nPlease coordinate a serious plan.\n\nThank you,' },
-  { subject: 'Reference: Ney Avenue study (Oakland)', body: 'Dear Oakland Officials,\n\nOakland\'s own Ney Avenue memo documents how engineered treatments can redirect non-local traffic off residential streets. I support OakDOT applying that same professional approach at the scale of the Lower Rockridge trapezoid.\n\nPlease extend lessons learned to our neighborhood.\n\nBest regards,' },
-  { subject: 'Reference: 81st Ave demonstration (East Oakland)', body: 'Dear Officials,\n\nThe city\'s 81st Avenue demonstration showed how quickly measured interventions can change driver behavior. I support OakDOT bringing that same evidence-based mindset to a trapezoid-wide study for Lower Rockridge.\n\nPlease commit resources.\n\nRespectfully,' },
-  { subject: 'NACTO / peer cities — use professional toolkit', body: 'Dear City Officials,\n\nCities document successful bike and traffic-calming projects using NACTO-style tools. I support OakDOT choosing from that professional toolkit for the Rockridge trapezoid based on study — including, where appropriate, approaches used in Berkeley and elsewhere.\n\nPlease keep the process technical and transparent.\n\nRegards,' },
-  { subject: 'Six months of silence — resume OakDOT process', body: 'Dear Oakland Officials,\n\nThe community has heard little from the City for months. I support resuming a public, OakDOT-led process to reduce trapezoid volume with clear milestones.\n\nSilence should not be mistaken for lack of concern.\n\nSincerely,' },
-  { subject: 'Working group ended — OakDOT should proceed on merits', body: 'Dear Officials,\n\nAfter the working group process, residents still need a path forward. I support OakDOT proceeding with trapezoid-wide engineering analysis and recommendations on the merits — not indefinite delay.\n\nPlease set a schedule.\n\nThank you,' },
-  { subject: 'Waymo + new development — plan before more load', body: 'Dear City Officials,\n\nAutonomous vehicle rollout and new development will add trips. I support OakDOT completing a volume-reduction framework for the trapezoid now so growth does not fall entirely on residential streets.\n\nPlease coordinate land use and transportation planning.\n\nBest regards,' },
-  { subject: '2021 and 2025 petitions — still asking for volume relief', body: 'Dear Oakland Officials,\n\nHundreds of residents have signed petitions asking for traffic relief in the trapezoid. I support OakDOT honoring that mandate with an engineering plan that measurably cuts cut-through volume.\n\nPlease respond with action, not delay.\n\nSincerely,' },
-  { subject: '14 entry points — holistic plan required', body: 'Dear Officials,\n\nThe trapezoid has many car entry points; treating one street alone shifts shortcuts. I support OakDOT modeling and implementing measures that address the whole network.\n\nPlease avoid one-off fixes that move the problem.\n\nRespectfully,' },
-  { subject: 'Preschool on Colby — safety needs lower volumes', body: 'Dear City Officials,\n\nFamilies and a preschool depend on Colby being truly local-serving. I support OakDOT prioritizing volume reduction so children can cross and play safely.\n\nPlease treat peak-hour overload as unacceptable.\n\nRegards,' },
-  { subject: '1,000,000 cut-through trips/year — community goal', body: 'Dear Officials,\n\nOur neighborhood aims to remove roughly a million cut-through car trips per year from the trapezoid. I support OakDOT defining how to measure progress toward that goal and which engineering steps get us there.\n\nPlease align city action with measurable outcomes.\n\nThank you,' },
-  { subject: 'Footnote on modeling — follow OakDOT analysis', body: 'Dear Oakland Officials,\n\nIndependent and OakDOT-associated modeling show major cut-through reductions are technically feasible. I support the City adopting whatever package of measures OakDOT\'s trapezoid study shows best meets safety and volume goals.\n\nPlease trust the engineering process.\n\nBest regards,' },
-  { subject: 'Barcelona / superblocks — context for network thinking', body: 'Dear City Officials,\n\nOther cities reduce through-traffic by planning at the block or district scale. I support OakDOT taking a similar network view of the Lower Rockridge trapezoid rather than isolated spot fixes.\n\nPlease publish a scoped study and timeline.\n\nSincerely,' },
-  { subject: 'Transparency — data and criteria in public', body: 'Dear Officials,\n\nI support reducing trapezoid volume under OakDOT leadership. Please make traffic counts, modeling assumptions, and decision criteria accessible so residents understand how choices are made.\n\nTransparency reduces conflict and builds trust.\n\nRespectfully,' },
-  { subject: 'No substitute for professional traffic engineering', body: 'Dear Oakland Officials,\n\nShortcuts through our neighborhood are a traffic-engineering problem. I support OakDOT\'s staff and consultants doing the analysis and recommending a phased plan — without political interference that overrides their conclusions.\n\nPlease defend that process.\n\nRegards,' },
-  { subject: 'Spring 2026 — expect community meeting and follow-through', body: 'Dear City Officials,\n\nResidents expect upcoming community meetings to connect to real next steps. I support OakDOT presenting options and a path to implement trapezoid-wide volume reduction after public input.\n\nPlease do not let this be another listening session only.\n\nThank you,' }
+// Email mixer: 50 subjects (anti-repeat history 5); other pools 20 each (history 3)
+const SUBJECTS = [
+  "Traffic volume on Rockridge residential streets",
+  "Unsafe traffic levels in Lower Rockridge",
+  "Rockridge traffic — requesting city action",
+  "When will the city address Rockridge traffic volume?",
+  "Lower Rockridge needs traffic engineering, not more delay",
+  "Traffic safety in the Rockridge triangle",
+  "Our residential streets are not arterials",
+  "Cut-through traffic is making our neighborhood unsafe",
+  "Request for OakDOT action on residential traffic",
+  "Our streets were not designed for this traffic",
+  "Traffic volume in Rockridge — years of inaction",
+  "Please act on Lower Rockridge traffic",
+  "Enough delay on Rockridge traffic",
+  "Rockridge cut-through traffic keeps getting worse",
+  "Residents deserve safe streets in Lower Rockridge",
+  "Asking for a professional traffic solution in Rockridge",
+  "Lower Rockridge traffic volume is a safety crisis",
+  "Navigation apps are destroying our residential streets",
+  "We need OakDOT to do its job on Rockridge traffic",
+  "Rockridge triangle — traffic volume is out of control",
+  "A resident asking for help with neighborhood traffic",
+  "Please let OakDOT fix the Rockridge traffic problem",
+  "Frustrated by traffic and inaction in Lower Rockridge",
+  "Our neighborhood deserves a real traffic plan",
+  "Lower Rockridge traffic — enough studying, time to act",
+  "Kids, cyclists, and seniors need safer streets",
+  "Why is nothing being done about Rockridge traffic?",
+  "Traffic in our neighborhood exceeds federal guidelines",
+  "Rockridge triangle needs an engineering solution",
+  "Commuters are using our streets as a highway",
+  "When does the city plan to reduce our traffic volume?",
+  "Requesting a timeline for Rockridge traffic action",
+  "Neighborhood traffic — data is clear, action is overdue",
+  "Lower Rockridge — let the engineers lead",
+  "Stop the delay on Rockridge traffic relief",
+  "App-driven traffic is overwhelming our neighborhood",
+  "Our neighborhood streets are at breaking point",
+  "Rockridge resident — concerned about traffic safety",
+  "Traffic volume keeps climbing — what's the plan?",
+  "A simple ask — let OakDOT reduce our traffic",
+  "How much longer do Rockridge residents have to wait?",
+  "Professional engineering, not politics, for Rockridge traffic",
+  "The Rockridge triangle needs help now",
+  "Waze is routing thousands of cars through our neighborhood",
+  "Lower Rockridge traffic — a quality of life emergency",
+  "Can Oakland protect its residential neighborhoods from traffic?",
+  "Rockridge traffic — please don't let this keep sliding",
+  "Fifteen years of asking — Rockridge needs traffic relief",
+  "OakDOT should lead on Rockridge traffic, free from interference",
+  "Our neighborhood is drowning in cut-through traffic"
 ];
+const GREETINGS = [
+  "Dear City Manager Johnson, Director Rowan, Councilmember Unger, and Mayor Lee,",
+  "Dear Oakland City Leadership,",
+  "Hi,",
+  "Hello,",
+  "Good morning,",
+  "Good afternoon,",
+  "Dear Councilmember Unger and Director Rowan,",
+  "To the City Manager, OakDOT Director, and Mayor's Office,",
+  "Dear City Manager and OakDOT Director,",
+  "Dear City Officials,",
+  "Hello — writing as a Rockridge resident,",
+  "Dear Mayor Lee, City Manager Johnson, Councilmember Unger, and Director Rowan,",
+  "To Oakland leadership,",
+  "Dear City Manager Johnson and Director Rowan,",
+  "Hi — I'm a Lower Rockridge neighbor reaching out about traffic,",
+  "To whom it may concern at OakDOT and the City Manager's office,",
+  "Dear Oakland City Administration,",
+  "Councilmember Unger, Director Rowan, City Manager Johnson, and Mayor Lee —",
+  "Good evening,",
+  "Dear City Manager, Director Rowan, and Council,"
+];
+const OPENERS = [
+  "I'm writing because traffic on my street has become unacceptable and nothing has been done about it.",
+  "I live in the Lower Rockridge area and I need to tell you that the traffic situation here has gotten truly dangerous.",
+  "I've been a Rockridge resident for many years and I'm increasingly alarmed by the volume of cars cutting through our neighborhood.",
+  "I'm reaching out because I can no longer stay silent about the traffic conditions in Lower Rockridge.",
+  "This is not the first time residents have raised this issue, and I'm frustrated that it still hasn't been addressed.",
+  "I want to bring to your attention a traffic safety problem that has been getting worse every year in the Rockridge triangle.",
+  "I'm a constituent in your district and I'm writing to urge action on residential traffic volume in Lower Rockridge.",
+  "As someone who walks, bikes, and drives through Lower Rockridge daily, I'm compelled to write about traffic conditions that are rapidly deteriorating.",
+  "The traffic situation in our neighborhood has reached a point where something needs to change — and I'm asking you to make that happen.",
+  "I'm writing out of genuine concern for the safety of my neighbors and family given current traffic volumes on our residential streets.",
+  "I've watched the traffic in our neighborhood go from manageable to overwhelming, and I'm writing to ask what the city plans to do about it.",
+  "I am a longtime Rockridge resident and I'm asking for your help. Our residential streets are carrying traffic volumes that belong on arterials, not in neighborhoods.",
+  "I want you to know that the cut-through traffic in Lower Rockridge is not a minor inconvenience — it's a daily safety hazard.",
+  "You may have heard from residents before about Rockridge traffic. I'm adding my voice because the problem is only getting worse.",
+  "I need to express my deep frustration with the lack of progress on traffic volume in the Rockridge triangle area.",
+  "I don't usually write to city officials, but the traffic on our streets has become a serious quality-of-life issue and I feel I need to speak up.",
+  "I'm writing to ask a straightforward question: what is the city doing to reduce the volume of cut-through traffic in Lower Rockridge?",
+  "As a resident of the neighborhood bounded by College, Claremont, Telegraph, and Alcatraz, I'm asking the city to take action on traffic volume.",
+  "I believe the city has a responsibility to address the traffic crisis unfolding in our residential neighborhood, and I'm writing to ask that you fulfill it.",
+  "After years of watching traffic volume climb and hearing promises that something would be done, I'm writing to request a concrete plan with a timeline."
+];
+const PROBLEMS = [
+  "Traffic counts on Colby Street show nearly 4,000 vehicles per day — double the OakDOT threshold for a street that's part of the bike network. Hillegass is similarly overloaded. These aren't edge cases — they're clear violations of the city's own standards.",
+  "Navigation apps like Waze and Google Maps are routing thousands of cars a day through streets designed for local access. This is a well-documented national problem, and our neighborhood is one of the worst-affected areas in Oakland.",
+  "The streets in our neighborhood carry far more traffic than they were designed for. The daily vehicle count on Colby alone is approaching 4,000 — nearly twice what OakDOT considers safe for a bike route. And it will get worse as new developments open nearby.",
+  "The core issue is simple: residential streets in Lower Rockridge are being used as shortcuts by drivers who don't live here. The volume has been climbing steadily for years and now far exceeds both local and federal guidelines for streets of this type.",
+  "Every morning and evening, our neighborhood floods with cut-through traffic that doesn't belong on residential streets. The volume has grown to levels that exceed what the federal highway administration considers appropriate for a local street. This is not perception — it's documented data.",
+  "Our streets are carrying arterial-level traffic despite being narrow residential roads with no sidewalk buffers, kids walking to school, and cyclists trying to use the designated bike route. It's an obvious mismatch between the infrastructure and the traffic load.",
+  "The traffic problem here isn't speed — it's sheer volume. Thousands of non-local vehicles pour through every day, directed by apps that treat our neighborhood as a shortcut between major roads. Speed humps and signs won't fix a volume problem.",
+  "With the JCC development coming and continued growth along College Avenue, traffic is only going to increase. Right now the numbers already exceed safety thresholds. Waiting longer means the problem becomes harder and more expensive to solve.",
+  "Over the last decade, daily traffic counts on Colby have roughly doubled. During peak hours, it can feel like living on a collector road. This has happened gradually enough that it's easy for people who don't live here to not realize how bad it's gotten.",
+  "Multiple traffic studies, including OakDOT's own data, confirm that our streets carry far more traffic than appropriate. Residents have been raising this for over fifteen years. The data supports action — the only thing missing is follow-through.",
+  "The explosion of navigation app usage has fundamentally changed the traffic patterns in our neighborhood. What used to be quiet residential streets are now throughways for commuters avoiding congestion on the arterials. The numbers speak for themselves.",
+  "I see families dodging speeding cars, cyclists nearly hit on what's supposed to be a bike route, and elderly neighbors afraid to cross the street. The traffic volume on our residential streets is not just an inconvenience — it's creating genuinely unsafe conditions.",
+  "Colby Street, which is part of Oakland's bike network, is carrying nearly 4,000 cars a day. OakDOT's own standards say that number should be under 2,000. That's not a close call — the street is at double its safe capacity and the trend line is going up.",
+  "Our neighborhood sits between several major roads, and modern navigation apps have essentially erased the distinction between arterials and residential streets. The result is that thousands of vehicles cut through every day on streets that were never built for that kind of load.",
+  "The problem is volume, not just speed. We've had speed bumps and other calming measures for years — they haven't touched the fundamental issue, which is that too many cars are using our streets as shortcuts. You can slow cars down, but if there are still thousands of them a day, the neighborhood remains unsafe and unlivable.",
+  "I've lived in this neighborhood long enough to remember when these streets were actually quiet. That's no longer the case. The traffic data confirms what we experience every day — volumes have climbed well past what these streets can safely handle.",
+  "I want to be clear that this isn't about being anti-car or anti-development. It's about the fact that residential streets have capacity limits, and ours have been exceeded. The city has standards for this — and our streets are failing those standards.",
+  "Traffic engineers have well-established thresholds for what qualifies as safe traffic volume on residential streets. Our neighborhood exceeds those thresholds by wide margins. This is an engineering problem with known solutions — it just needs to be treated as one.",
+  "The data is not ambiguous. Traffic volume on our key residential streets exceeds the thresholds set by both OakDOT and federal highway guidelines. Residents have documented this, the city has documented this, and yet nothing has changed.",
+  "What's happening in our neighborhood is not unique — cities across the country and around the world are dealing with cut-through traffic caused by navigation apps. But many of those cities have actually responded with engineering solutions. Oakland has not."
+];
+const ASKS = [
+  "I'm asking the city to direct OakDOT to develop and implement an engineering plan that will meaningfully reduce traffic volume in the Lower Rockridge triangle — and to let the traffic engineers make the design decisions without political interference.",
+  "What we need is simple: OakDOT should design a traffic volume reduction plan for our neighborhood using standard engineering tools. The decision about which treatments to deploy should be made by traffic professionals, not by politicians responding to pressure.",
+  "Please direct OakDOT to take the lead on this and come back to the neighborhood with a professional engineering plan to reduce cut-through volume. This is their area of expertise — let them do their job.",
+  "I urge you to empower OakDOT to design and implement a real solution — one aimed at reducing the volume of cut-through traffic, not just slowing it down. And I urge you to let the engineers lead this process free from political interference.",
+  "Residents aren't asking the city to pick sides in a neighborhood debate. We're asking for a professional traffic engineering response to documented unsafe conditions. OakDOT has the tools and the expertise. Please let them use both.",
+  "The solution should come from OakDOT's traffic engineers — people trained to evaluate options, model outcomes, and implement what works. I'm asking you to give them that authority and protect the process from ad hoc political pressure.",
+  "I'm not here to prescribe a specific treatment. That's OakDOT's job. What I'm asking is that the city commit to a meaningful reduction in traffic volume and let the professionals figure out how to achieve it.",
+  "Cities worldwide solve this kind of problem every day. OakDOT knows how to do this. What's been missing is not expertise or data — it's political will. Please provide it.",
+  "I'm asking for three things: a commitment from the city to reduce traffic volume in our neighborhood, an OakDOT-led engineering process to design the solution, and assurance that the process won't be derailed by political pressure.",
+  "Please stop treating this as a political problem and start treating it as an engineering one. OakDOT has the competence to design a solution. What they need is authorization and support from city leadership to move forward.",
+  "We need the city to set a clear goal — meaningful traffic volume reduction — and then get out of OakDOT's way so they can deliver it using proven engineering approaches.",
+  "After years of delay, I'm asking for action. Specifically: direct OakDOT to design a comprehensive traffic volume reduction plan for the Lower Rockridge area, implement it on a reasonable timeline, and evaluate the results with data.",
+  "This is a straightforward engineering problem. Other cities — Berkeley, just blocks north of us, Paris, Barcelona — have applied standard traffic tools to exactly this kind of situation. I'm asking Oakland to do the same.",
+  "The ask is not complicated: treat this as the traffic engineering problem it is, have OakDOT design a professional solution, and implement it. The residents of this neighborhood have been waiting for over a decade.",
+  "I want to see OakDOT empowered to design a real volume reduction plan — not more meetings, not more study, not more stakeholder processes designed to produce paralysis. The data is clear. It's time to act on it.",
+  "Please ensure that OakDOT's professional judgment drives this process, not political calculations. The engineers understand the problem and know the tools available. Let them propose and implement a solution.",
+  "I respectfully request that the city commit to a concrete plan, with a timeline, to reduce traffic volume in Lower Rockridge — led by OakDOT engineers, evaluated with real data, and implemented without further unnecessary delay.",
+  "We're asking the city to do what cities are supposed to do: protect residential neighborhoods from unsafe traffic conditions using professional engineering. This should not be controversial.",
+  "The neighborhood needs the city to act on this — not study it further, not hold more meetings, but actually direct OakDOT to design and implement a traffic volume reduction plan. Please give them the green light.",
+  "I'm asking you to lead. Commit to reducing traffic volume in our neighborhood, task OakDOT with the engineering, and protect the process from the kind of political interference that has stalled progress for years."
+];
+const CLOSERS = [
+  "This has gone on long enough. Please act.",
+  "Thank you for reading this. I look forward to hearing what the city plans to do.",
+  "I hope you'll treat this with the urgency it deserves.",
+  "Our neighborhood is counting on you to follow through.",
+  "I'd appreciate a response, even a brief one, so I know this was received.",
+  "Please don't let this get buried in another study or process. We need action.",
+  "I'll be watching for progress on this and I hope to see something concrete soon.",
+  "I'm happy to discuss this further if it would be helpful. But what we really need is for OakDOT to get started.",
+  "The residents of this neighborhood have been patient. We're asking you not to waste that goodwill.",
+  "I believe this is solvable. It just requires the city to decide it's a priority.",
+  "We deserve streets that are safe to walk, bike, and live on. Please help make that happen.",
+  "This isn't just my concern — it's shared by hundreds of neighbors who have signed petitions, attended meetings, and waited for years.",
+  "Every month of delay means more traffic, more risk, and a harder problem to fix. Please act now.",
+  "I trust that OakDOT has the expertise. What I'm asking from you is the leadership to let them use it.",
+  "I hope this email helps you understand how strongly residents feel about this issue.",
+  "I appreciate your service to Oakland and I'm asking you to bring that dedication to this problem.",
+  "I'll continue to advocate for this until we see results. I hope we can work together rather than at cross-purposes.",
+  "Thank you for your time. This is one of the most important quality-of-life issues in our neighborhood.",
+  "Please treat this as the safety issue it is, not a political football.",
+  "I've done my part by writing to you. Now I'm asking you to do yours."
+];
+const SIGNOFFS = [
+  "Thank you,",
+  "Sincerely,",
+  "Respectfully,",
+  "Best regards,",
+  "Thanks,",
+  "With appreciation,",
+  "Best,",
+  "Regards,",
+  "Yours truly,",
+  "Grateful for your attention,",
+  "Many thanks,",
+  "Thank you for your time,",
+  "Respectfully yours,",
+  "Warm regards,",
+  "Hoping for action,",
+  "With urgency,",
+  "In good faith,",
+  "Cordially,",
+  "Thank you for listening,",
+  "— A concerned neighbor,"
+];
+
+const _recentPicks = {};
+/** maxRecent = how many last-picked indices to avoid repeating (default 3; SUBJECTS uses 5). */
+function pickRandom(poolName, pool, maxRecent) {
+  const cap = typeof maxRecent === 'number' && maxRecent > 0 ? maxRecent : 3;
+  if (!_recentPicks[poolName]) _recentPicks[poolName] = [];
+  const recent = _recentPicks[poolName];
+  let idx;
+  let attempts = 0;
+  do {
+    idx = Math.floor(Math.random() * pool.length);
+    attempts++;
+  } while (recent.includes(idx) && attempts < 30);
+  if (recent.includes(idx)) idx = Math.floor(Math.random() * pool.length);
+  recent.push(idx);
+  while (recent.length > cap) recent.shift();
+  return pool[idx];
+}
 
 let submitterName = '';
 
-function buildMailto(idx) {
-  const t = EMAIL_TEMPLATES[idx >= 0 && idx < EMAIL_TEMPLATES.length ? idx : 0];
-  const body = submitterName ? t.body + '\n\n' + submitterName : t.body;
-  return 'mailto:' + MAILTO_TO + '?cc=' + encodeURIComponent(MAILTO_CC) + '&subject=' + encodeURIComponent(t.subject) + '&body=' + encodeURIComponent(body);
+function generateEmail() {
+  const subject = pickRandom('SUBJECTS', SUBJECTS, 5);
+  const greeting = pickRandom('GREETINGS', GREETINGS);
+  const opener = pickRandom('OPENERS', OPENERS);
+  const problem = pickRandom('PROBLEMS', PROBLEMS);
+  const ask = pickRandom('ASKS', ASKS);
+  const closer = pickRandom('CLOSERS', CLOSERS);
+  const signoff = pickRandom('SIGNOFFS', SIGNOFFS);
+
+  const body = [
+    greeting,
+    '',
+    opener,
+    '',
+    problem,
+    '',
+    ask,
+    '',
+    closer,
+    '',
+    signoff,
+    submitterName || ''
+  ].join('\n');
+
+  return { subject, body };
 }
 
-let currentTemplateIdx = 0;
-const N = EMAIL_TEMPLATES.length;
+function buildMailto(email) {
+  return 'mailto:' + MAILTO_TO
+    + '?cc=' + encodeURIComponent(MAILTO_CC)
+    + '&subject=' + encodeURIComponent(email.subject)
+    + '&body=' + encodeURIComponent(email.body);
+}
 
-function renderTemplate() {
-  const t = EMAIL_TEMPLATES[currentTemplateIdx];
-  const displayBody = submitterName ? t.body + '\n\n' + submitterName : t.body;
-  document.getElementById('templateSubject').textContent = t.subject;
-  document.getElementById('templateBody').textContent = displayBody;
-  document.getElementById('reviewSendBtn').href = buildMailto(currentTemplateIdx);
+function applyGeneratedEmail() {
+  const email = generateEmail();
+  document.getElementById('templateSubject').textContent = email.subject;
+  document.getElementById('templateBody').textContent = email.body;
+  document.getElementById('reviewSendBtn').href = buildMailto(email);
 }
 
 // Support form handler
@@ -1690,8 +1892,7 @@ function handleSupportSubmit(e) {
       submitterName = name;
       document.getElementById('supportFormBox').style.display = 'none';
       document.getElementById('postSubmitBox').style.display = 'block';
-      currentTemplateIdx = Math.floor(Math.random() * N);
-      renderTemplate();
+      applyGeneratedEmail();
     })
     .catch(() => {
       msg.style.display = 'block';
@@ -1704,22 +1905,12 @@ function handleSupportSubmit(e) {
   return false;
 }
 
-// Wire template viewer arrows and set fallback
 document.addEventListener('DOMContentLoaded', function() {
-  const reviewBtn = document.getElementById('reviewSendBtn');
-  const arrowLeft = document.getElementById('arrowLeft');
-  const arrowRight = document.getElementById('arrowRight');
-  if (reviewBtn) reviewBtn.setAttribute('href', buildMailto(0));
-  if (arrowLeft) {
-    arrowLeft.addEventListener('click', function() {
-      currentTemplateIdx = (currentTemplateIdx - 1 + N) % N;
-      renderTemplate();
-    });
-  }
-  if (arrowRight) {
-    arrowRight.addEventListener('click', function() {
-      currentTemplateIdx = (currentTemplateIdx + 1) % N;
-      renderTemplate();
+  applyGeneratedEmail();
+  const regen = document.getElementById('regenerateBtn');
+  if (regen) {
+    regen.addEventListener('click', function() {
+      applyGeneratedEmail();
     });
   }
 });
