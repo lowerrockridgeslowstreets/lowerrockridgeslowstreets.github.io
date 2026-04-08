@@ -763,7 +763,7 @@ a:hover { color: var(--oak-green-light); }
 </head>
 <body>
 <!-- When opening this HTML as file://, browsers block fetch(); keep in sync with supporter-count.json -->
-<script type="application/json" id="supporter-count-embed">{"count":18}</script>
+<script type="application/json" id="supporter-count-embed">{"count":2}</script>
 
 <!-- Navigation -->
 <nav class="nav" id="nav">
@@ -1611,7 +1611,9 @@ function loadSupporterCountFromEmbed() {
 }
 
 function fetchSupporterCount() {
-  var url = new URL('supporter-count.json', window.location.href).href;
+  // Root-relative URL + cache-buster: custom domains (e.g. Cloudflare in front of Pages)
+  // may ignore fetch cache modes; stale JSON was preventing the live count from updating.
+  var url = '/supporter-count.json?_=' + Date.now();
   return fetch(url, { cache: 'no-store' })
     .then(function(r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
