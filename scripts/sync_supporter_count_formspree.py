@@ -2,7 +2,7 @@
 """
 Fetch Formspree submission count and write supporter-count.json in the repo root.
 
-Secrets (not in git): `.env` in repo root (gitignored), or FORMSPREE_ENV_FILE / environment variables.
+Secrets (not in git): .env in repo root (gitignored), or FORMSPREE_ENV_FILE / environment variables.
 
 Repo root: parent of scripts/ (this file lives in scripts/).
 
