@@ -5,7 +5,7 @@ Fetch Formspree submission count and write supporter-count.json in the repo root
 Secrets: NOT in this repo. Use either:
   - Environment variables FORMSPREE_API_KEY (+ optional FORMSPREE_FORM_HASHID), or
   - ~/.config/rockridge-formspree.env (good for cron), or
-  - private/formspree-sync.env (copy from scripts/formspree-sync.env.example)
+  - private/formspree-sync.env (optional; gitignored)
 
 Repo root: two levels up from this file in scripts/, OR set ROCKRIDGE_REPO (use when this script is copied to ~/bin for macOS cron).
 
@@ -108,7 +108,7 @@ def main() -> int:
     if not api_key:
         print(
             "Missing FORMSPREE_API_KEY. Set ~/.config/rockridge-formspree.env, "
-            f"{DEFAULT_ENV_PATH}, or env (see scripts/formspree-sync.env.example).",
+            f"{DEFAULT_ENV_PATH}, or environment variables.",
             file=sys.stderr,
         )
         return 1
