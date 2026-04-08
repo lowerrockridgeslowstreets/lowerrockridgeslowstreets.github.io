@@ -133,7 +133,19 @@ a:hover { color: var(--oak-green-light); }
   background: var(--amber); animation: pulse 2s infinite;
 }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
+@keyframes btnPulse {
+  0%, 100% {
+    box-shadow:
+      0 2px 12px rgba(232, 168, 48, 0.55),
+      0 0 0 1px rgba(255, 220, 140, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 6px 32px rgba(232, 168, 48, 0.95),
+      0 0 36px rgba(255, 200, 90, 0.65),
+      0 0 0 1px rgba(255, 235, 180, 0.45);
+  }
+}
 .hero h1 { color: white; margin-bottom: 1rem; }
 .hero h1 em {
   font-style: normal; color: var(--amber);
@@ -144,6 +156,25 @@ a:hover { color: var(--oak-green-light); }
   margin-bottom: 1.5rem;
 }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-counter {
+  font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-top: 0.75rem;
+}
+.hero-counter-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem; font-weight: 700; color: var(--amber);
+  display: inline;
+}
+.support-form-counter {
+  margin-top: 0.45rem;
+  text-align: center;
+}
+/* Hidden until supporter-count.json loads successfully */
+[data-supporter-wrap] {
+  display: none;
+}
+[data-supporter-wrap].supporter-count-ready {
+  display: block;
+}
 .btn {
   display: inline-flex; align-items: center; gap: 0.5rem;
   padding: 0.85rem 1.75rem; border-radius: 8px;
@@ -154,6 +185,9 @@ a:hover { color: var(--oak-green-light); }
 .btn-primary {
   background: var(--amber); color: var(--text);
   box-shadow: 0 2px 8px rgba(232, 168, 48, 0.3);
+}
+.hero .btn-primary {
+  animation: btnPulse 2s ease-in-out infinite;
 }
 .btn-primary:hover { background: #f0b440; transform: translateY(-1px); color: var(--text); }
 .btn-outline {
@@ -728,6 +762,8 @@ a:hover { color: var(--oak-green-light); }
 <script src="/cdn-cgi/zaraz/i.js" referrerpolicy="origin"></script>
 </head>
 <body>
+<!-- When opening this HTML as file://, browsers block fetch(); keep in sync with supporter-count.json -->
+<script type="application/json" id="supporter-count-embed">{"count":18}</script>
 
 <!-- Navigation -->
 <nav class="nav" id="nav">
@@ -767,6 +803,7 @@ a:hover { color: var(--oak-green-light); }
         <a href="#action" class="btn btn-primary" data-track="hero_take_action">Take Action →</a>
         <a href="#problem" class="btn btn-outline" data-track="hero_see_evidence">See the Evidence</a>
       </div>
+      <div class="hero-counter" id="heroCounter" data-supporter-wrap><span class="hero-counter-number" id="supporterCount" data-supporter-num></span> neighbors and counting have added their support</div>
     </div>
     <div class="hero-visual">
       <div class="hero-stat-card" style="display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden;">
@@ -1033,26 +1070,6 @@ a:hover { color: var(--oak-green-light); }
         </thead>
         <tbody>
           <tr>
-            <td><strong>Chicanes</strong><br><span class="comp-desc">Alternating curb extensions or parking shifts creating an S-curve</span></td>
-            <td>
-              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 15%; background: #B0C8B0;">10%</div></div>
-            </td>
-            <td><div class="affordability-dots">★★☆☆☆</div></td>
-            <td>
-              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-low" style="width: 7%;">20%</div><div class="eff-threshold"></div></div>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Cul-de-sacs / Dead-end Street Networks</strong><br><span class="comp-desc">Terminates street connectivity for cars while keeping pedestrian/cyclist access</span></td>
-            <td>
-              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 69%; background: #5B8C5A;">45%</div></div>
-            </td>
-            <td><div class="affordability-dots">★★★☆☆</div></td>
-            <td>
-              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-good" style="width: 35%;">135%</div><div class="eff-threshold"></div></div>
-            </td>
-          </tr>
-          <tr>
             <td><strong>Curb extension</strong><br><span class="comp-desc">Tightened corner radii and shorter crossings</span></td>
             <td>
               <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 8%; background: #C8D8C8;">5%</div></div>
@@ -1063,13 +1080,33 @@ a:hover { color: var(--oak-green-light); }
             </td>
           </tr>
           <tr>
-            <td><strong>Diverters</strong><br><span class="comp-desc">Physical barriers (planters, bollards) allowing walking, biking</span></td>
+            <td><strong>Signage only</strong><br><span class="comp-desc">Posted signs without physical enforcement</span></td>
             <td>
-              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 100%; background: #5B8C5A;">65%</div></div>
+              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 5%; background: #D8E4D8;">3%</div></div>
             </td>
-            <td><div class="affordability-dots">★★★★☆</div></td>
+            <td><div class="affordability-dots">★★★★★</div></td>
             <td>
-              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-mid" style="width: 87%;">260%</div><div class="eff-threshold"></div></div>
+              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-low" style="width: 5%;">15%</div><div class="eff-threshold"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Chicanes</strong><br><span class="comp-desc">Alternating curb extensions or parking shifts creating an S-curve</span></td>
+            <td>
+              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 15%; background: #B0C8B0;">10%</div></div>
+            </td>
+            <td><div class="affordability-dots">★★☆☆☆</div></td>
+            <td>
+              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-low" style="width: 7%;">20%</div><div class="eff-threshold"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Traffic circle</strong><br><span class="comp-desc">Raised or painted circles at intersections to slow traffic</span></td>
+            <td>
+              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 31%; background: #7BA37B;">20%</div></div>
+            </td>
+            <td><div class="affordability-dots">★★☆☆☆</div></td>
+            <td>
+              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-mid" style="width: 13%;">40%</div><div class="eff-threshold"></div></div>
             </td>
           </tr>
           <tr>
@@ -1080,16 +1117,6 @@ a:hover { color: var(--oak-green-light); }
             <td><div class="affordability-dots">★★☆☆☆</div></td>
             <td>
               <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-mid" style="width: 17%;">50%</div><div class="eff-threshold"></div></div>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Signage only</strong><br><span class="comp-desc">Posted signs without physical enforcement</span></td>
-            <td>
-              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 5%; background: #D8E4D8;">3%</div></div>
-            </td>
-            <td><div class="affordability-dots">★★★★★</div></td>
-            <td>
-              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-low" style="width: 5%;">15%</div><div class="eff-threshold"></div></div>
             </td>
           </tr>
           <tr>
@@ -1104,13 +1131,13 @@ a:hover { color: var(--oak-green-light); }
             </td>
           </tr>
           <tr>
-            <td><strong>Traffic circle</strong><br><span class="comp-desc">Raised or painted circles at intersections to slow traffic</span></td>
+            <td><strong>Cul-de-sacs / Dead-end Street Networks</strong><br><span class="comp-desc">Terminates street connectivity for cars while keeping pedestrian/cyclist access</span></td>
             <td>
-              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 31%; background: #7BA37B;">20%</div></div>
+              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 69%; background: #5B8C5A;">45%</div></div>
             </td>
-            <td><div class="affordability-dots">★★☆☆☆</div></td>
+            <td><div class="affordability-dots">★★★☆☆</div></td>
             <td>
-              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-mid" style="width: 13%;">40%</div><div class="eff-threshold"></div></div>
+              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-good" style="width: 35%;">135%</div><div class="eff-threshold"></div></div>
             </td>
           </tr>
           <tr>
@@ -1121,6 +1148,16 @@ a:hover { color: var(--oak-green-light); }
             <td><div class="affordability-dots">★★★★★</div></td>
             <td>
               <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-best" style="width: 55%;">200%</div><div class="eff-threshold"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Diverters</strong><br><span class="comp-desc">Physical barriers (planters, bollards) allowing walking, biking</span></td>
+            <td>
+              <div class="comp-bar-track"><div class="comp-bar-fill" style="width: 100%; background: #5B8C5A;">65%</div></div>
+            </td>
+            <td><div class="affordability-dots">★★★★☆</div></td>
+            <td>
+              <div class="comp-bar-track eff-track"><div class="comp-bar-fill eff-mid" style="width: 87%;">260%</div><div class="eff-threshold"></div></div>
             </td>
           </tr>
         </tbody>
@@ -1432,6 +1469,7 @@ a:hover { color: var(--oak-green-light); }
         </div>
         <button type="submit" id="supportBtn" data-track="cta_add_support" style="margin-top: 0.5rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s;">Add my support</button>
         <div id="supportMsg" style="display: none; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; margin-top: 0.25rem;"></div>
+        <div class="hero-counter support-form-counter" id="heroCounterForm" data-supporter-wrap><span class="hero-counter-number" id="supporterCountForm" data-supporter-num></span> neighbors and counting have added their support</div>
       </form>
     </div>
 
@@ -1536,6 +1574,75 @@ a:hover { color: var(--oak-green-light); }
 </div>
 
 <script>
+// ── Supporter count ── Primary: supporter-count.json (same folder as this page on the server).
+// file:// cannot fetch local JSON — uses #supporter-count-embed (keep in sync when testing locally).
+// Poll every 60s over http(s) only; failed polls leave the last good value on screen.
+var SUPPORTER_POLL_MS = 60000;
+
+function applySupporterCount(count) {
+  var n = parseInt(count, 10);
+  if (!Number.isFinite(n) || n < 1) return false;
+  var formatted = n.toLocaleString();
+  document.querySelectorAll('[data-supporter-num]').forEach(function(el) {
+    el.textContent = formatted;
+  });
+  document.querySelectorAll('[data-supporter-wrap]').forEach(function(w) {
+    w.classList.add('supporter-count-ready');
+  });
+  return true;
+}
+
+function parseSupporterJsonText(text) {
+  try {
+    var data = JSON.parse(String(text).replace(/^\uFEFF/, '').trim());
+    var n = parseInt(data && data.count, 10);
+    if (!Number.isFinite(n) || n < 1) return null;
+    return n;
+  } catch (e) {
+    return null;
+  }
+}
+
+function loadSupporterCountFromEmbed() {
+  var el = document.getElementById('supporter-count-embed');
+  if (!el) return false;
+  var n = parseSupporterJsonText(el.textContent);
+  return n != null && applySupporterCount(n);
+}
+
+function fetchSupporterCount() {
+  var url = new URL('supporter-count.json', window.location.href).href;
+  return fetch(url, { cache: 'no-store' })
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function(text) {
+      var n = parseSupporterJsonText(text);
+      if (n == null) throw new Error('invalid count');
+      applySupporterCount(n);
+    });
+}
+
+function loadSupporterCount() {
+  if (window.location.protocol === 'file:') {
+    if (loadSupporterCountFromEmbed()) return Promise.resolve();
+    console.warn('Supporter count: copy supporter-count.json into #supporter-count-embed, or open this page via a local web server.');
+    return Promise.resolve();
+  }
+  return fetchSupporterCount().catch(function(err) {
+    if (loadSupporterCountFromEmbed()) return;
+    console.warn('Supporter count could not be loaded:', err && err.message ? err.message : err);
+  });
+}
+
+loadSupporterCount();
+if (window.location.protocol !== 'file:' && SUPPORTER_POLL_MS > 0) {
+  setInterval(function() {
+    fetchSupporterCount().catch(function() { /* keep last value */ });
+  }, SUPPORTER_POLL_MS);
+}
+
 // Mobile menu toggle
 document.getElementById('mobileToggle').addEventListener('click', function() {
   document.getElementById('navLinks').classList.toggle('open');
@@ -1890,6 +1997,11 @@ function handleSupportSubmit(e) {
     .then(r => r.json())
     .then(() => {
       submitterName = name;
+      var nums = document.querySelectorAll('[data-supporter-num]');
+      if (nums.length) {
+        var cur = parseInt(nums[0].textContent.replace(/,/g, ''), 10);
+        if (Number.isFinite(cur) && cur >= 1) applySupporterCount(cur + 1);
+      }
       document.getElementById('supportFormBox').style.display = 'none';
       document.getElementById('postSubmitBox').style.display = 'block';
       applyGeneratedEmail();

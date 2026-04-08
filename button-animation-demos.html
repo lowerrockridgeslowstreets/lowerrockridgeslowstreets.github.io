@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Take Action button — animation options (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amber: #E8A830;
+    --text: #1A1A1A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: linear-gradient(135deg, #1a2a14 0%, #2d4a22 40%, #1e3318 100%);
+    color: rgba(255,255,255,0.88);
+    padding: 2rem 1.5rem 3rem;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    color: #fff;
+  }
+  .sub {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.65);
+    margin: 0 0 2rem;
+    line-height: 1.5;
+  }
+  .card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    margin-bottom: 0.85rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    border: none;
+    cursor: default;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    background: var(--amber);
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(232, 168, 48, 0.3);
+  }
+
+  /* 1. Glow pulse */
+  @keyframes glowPulse {
+    0%, 100% {
+      box-shadow:
+        0 2px 14px rgba(232, 168, 48, 0.5),
+        0 0 0 1px rgba(255, 220, 140, 0.2);
+    }
+    50% {
+      box-shadow:
+        0 6px 28px rgba(232, 168, 48, 0.85),
+        0 0 32px rgba(255, 200, 90, 0.45);
+    }
+  }
+  .opt1 { animation: glowPulse 2.5s ease-in-out infinite; }
+
+  /* 2. Letter wave */
+  .opt2 span {
+    display: inline-block;
+    animation: letterColor 3.2s ease-in-out infinite;
+    color: var(--text);
+  }
+  @keyframes letterColor {
+    0%, 100% { color: var(--text); }
+    40%, 60% { color: #fff; }
+  }
+  .opt2 span:nth-child(1)  { animation-delay: 0s; }
+  .opt2 span:nth-child(2)  { animation-delay: 0.06s; }
+  .opt2 span:nth-child(3)  { animation-delay: 0.12s; }
+  .opt2 span:nth-child(4)  { animation-delay: 0.18s; }
+  .opt2 span:nth-child(5)  { animation-delay: 0.24s; }
+  .opt2 span:nth-child(6)  { animation-delay: 0.3s; }
+  .opt2 span:nth-child(7)  { animation-delay: 0.36s; }
+  .opt2 span:nth-child(8)  { animation-delay: 0.42s; }
+  .opt2 span:nth-child(9)  { animation-delay: 0.48s; }
+  .opt2 span:nth-child(10) { animation-delay: 0.54s; }
+  .opt2 span:nth-child(11) { animation-delay: 0.6s; }
+  .opt2 span:nth-child(12) { animation-delay: 0.66s; }
+  .opt2 span:nth-child(13) { animation-delay: 0.72s; }
+  .opt2 span:nth-child(14) { animation-delay: 0.78s; }
+  .opt2 span:nth-child(15) { animation-delay: 0.84s; }
+
+  /* 3. Sheen */
+  .opt3 {
+    position: relative;
+    overflow: hidden;
+  }
+  .opt3::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.45) 50%, transparent 60%);
+    background-size: 200% 100%;
+    animation: sheen 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes sheen {
+    0%, 30% { background-position: 100% 0; }
+    70%, 100% { background-position: -100% 0; }
+  }
+
+  /* 4. Arrow nudge */
+  .opt4 .arr { display: inline-block; animation: arrNudge 1.8s ease-in-out infinite; }
+  @keyframes arrNudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+  }
+
+  /* 5. Scale breath */
+  .opt5 { animation: breath 3s ease-in-out infinite; }
+  @keyframes breath {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+
+  /* 6. Text gradient shine */
+  .opt6 {
+    background: linear-gradient(90deg, var(--text) 0%, var(--text) 32%, #fff 50%, var(--text) 68%, var(--text) 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: textShine 4s linear infinite;
+  }
+  @keyframes textShine {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  /* 7 · Short stock + tall triangle chevron (SVG), bounce variants */
+  .chev-wrap {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.15rem;
+    vertical-align: middle;
+  }
+  .chev-wrap svg {
+    display: block;
+    height: 0.95em;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  @keyframes chevBounceA {
+    0%, 100% { transform: translateX(0); }
+    35% { transform: translateX(10px); }
+    52% { transform: translateX(3px); }
+    68% { transform: translateX(7px); }
+    82% { transform: translateX(4px); }
+  }
+  .chev-bounce-a { animation: chevBounceA 1.65s ease-in-out infinite; }
+
+  @keyframes chevBounceB {
+    0%, 100% { transform: translateX(0); }
+    28% { transform: translateX(13px); }
+    45% { transform: translateX(4px); }
+    62% { transform: translateX(10px); }
+    78% { transform: translateX(6px); }
+  }
+  .chev-bounce-b { animation: chevBounceB 1.35s ease-in-out infinite; }
+
+  @keyframes chevBounceC {
+    0%, 100% { transform: translateX(0); }
+    22% { transform: translateX(15px); }
+    38% { transform: translateX(5px); }
+    54% { transform: translateX(12px); }
+    70% { transform: translateX(7px); }
+    85% { transform: translateX(9px); }
+  }
+  .chev-bounce-c { animation: chevBounceC 1.15s ease-in-out infinite; }
+
+  @keyframes chevBounceD {
+    0%, 100% { transform: translateX(0); }
+    18% { transform: translateX(17px); }
+    32% { transform: translateX(4px); }
+    48% { transform: translateX(14px); }
+    64% { transform: translateX(8px); }
+    80% { transform: translateX(11px); }
+  }
+  .chev-bounce-d { animation: chevBounceD 1s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .opt1, .opt2 span, .opt3::after, .opt4 .arr, .opt5, .opt6,
+    .chev-bounce-a, .chev-bounce-b, .chev-bounce-c, .chev-bounce-d { animation: none !important; }
+    .opt6 {
+      color: var(--text);
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Take Action — animation options</h1>
+    <p class="sub">Demo only (not the live campaign page). Same amber button as the hero. Pick a number and we can port it.</p>
+
+    <div class="card">
+      <div class="label">1 · Glow pulse (box-shadow)</div>
+      <a class="btn opt1" href="#">Take Action →</a>
+    </div>
+    <div class="card">
+      <div class="label">2 · Letter wave (dark ↔ white, staggered)</div>
+      <a class="btn opt2" id="opt2" href="#">Take Action →</a>
+    </div>
+    <div class="card">
+      <div class="label">3 · Sheen sweep across the button</div>
+      <a class="btn opt3" href="#">Take Action →</a>
+    </div>
+    <div class="card">
+      <div class="label">4 · Arrow nudge only</div>
+      <a class="btn opt4" href="#">Take Action <span class="arr">→</span></a>
+    </div>
+    <div class="card">
+      <div class="label">5 · Whole-button soft scale</div>
+      <a class="btn opt5" href="#">Take Action →</a>
+    </div>
+    <div class="card">
+      <div class="label">6 · Gradient shine on text (no letter spans)</div>
+      <a class="btn opt6" href="#">Take Action →</a>
+    </div>
+
+    <p class="sub" style="margin-top: 2rem; margin-bottom: 1rem;">Tall triangle + short “stock” (not a long arrow shaft). Same icon in each row — only the bounce curve differs.</p>
+
+    <div class="card">
+      <div class="label">7a · Chevron bounce — moderate (10px peak)</div>
+      <a class="btn" href="#">Take Action<span class="chev-wrap chev-bounce-a" aria-hidden="true"><svg viewBox="0 0 26 14" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="5" width="2.5" height="4" rx="0.5" fill="currentColor"/><path d="M 3.5 0.5 L 3.5 13.5 L 23.5 7 Z" fill="currentColor"/></svg></span></a>
+    </div>
+    <div class="card">
+      <div class="label">7b · Stronger (13px peak, slightly faster)</div>
+      <a class="btn" href="#">Take Action<span class="chev-wrap chev-bounce-b" aria-hidden="true"><svg viewBox="0 0 26 14" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="5" width="2.5" height="4" rx="0.5" fill="currentColor"/><path d="M 3.5 0.5 L 3.5 13.5 L 23.5 7 Z" fill="currentColor"/></svg></span></a>
+    </div>
+    <div class="card">
+      <div class="label">7c · Strong (15px, extra mid wiggle)</div>
+      <a class="btn" href="#">Take Action<span class="chev-wrap chev-bounce-c" aria-hidden="true"><svg viewBox="0 0 26 14" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="5" width="2.5" height="4" rx="0.5" fill="currentColor"/><path d="M 3.5 0.5 L 3.5 13.5 L 23.5 7 Z" fill="currentColor"/></svg></span></a>
+    </div>
+    <div class="card">
+      <div class="label">7d · Max punch (17px, quickest cycle)</div>
+      <a class="btn" href="#">Take Action<span class="chev-wrap chev-bounce-d" aria-hidden="true"><svg viewBox="0 0 26 14" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="5" width="2.5" height="4" rx="0.5" fill="currentColor"/><path d="M 3.5 0.5 L 3.5 13.5 L 23.5 7 Z" fill="currentColor"/></svg></span></a>
+    </div>
+  </div>
+<script>
+  (function () {
+    var el = document.getElementById('opt2');
+    if (!el) return;
+    var t = el.textContent;
+    el.textContent = '';
+    for (var i = 0; i < t.length; i++) {
+      var s = document.createElement('span');
+      s.textContent = t[i] === ' ' ? '\u00a0' : t[i];
+      el.appendChild(s);
+    }
+  })();
+</script>
+</body>
+</html>
