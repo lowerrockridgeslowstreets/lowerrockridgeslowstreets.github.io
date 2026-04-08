@@ -1,0 +1,27 @@
+Formspree sync on macOS — cron vs LaunchAgent
+==============================================
+
+Your log showed:
+  Operation not permitted — can't open ./scripts/sync_supporter_count_formspree.py
+
+That is usually macOS blocking CRON from reading ~/Documents (Library protection).
+Fix options:
+
+A) Give cron Full Disk Access (less ideal)
+   System Settings → Privacy & Security → Full Disk Access → + 
+   Add: /usr/sbin/cron
+
+B) Use LaunchAgent (recommended)
+   Runs as your user after login; normally can read ~/Documents.
+
+   cp scripts/com.lowerrockridge.formspree-sync.plist ~/Library/LaunchAgents/
+   launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.lowerrockridge.formspree-sync.plist
+
+   Edit the plist first if your repo is not under:
+   /Users/USER/Documents/GitHub/rockridge-slow-neighborhood-staging
+
+   Remove the */5 crontab line for this job so it does not run twice.
+
+C) Move the repo out of ~/Documents (e.g. ~/Developer/...) so cron can read it.
+
+Verify: tail -f /tmp/formspree-sync.log
