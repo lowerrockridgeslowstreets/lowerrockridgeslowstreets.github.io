@@ -2,16 +2,16 @@
 """
 Fetch Formspree submission count and write supporter-count.json in the repo root.
 
-Secrets: NOT in this repo. Use either:
-  - Environment variables FORMSPREE_API_KEY (+ optional FORMSPREE_FORM_HASHID), or
-  - ~/.config/rockridge-formspree.env (good for cron), or
-  - private/formspree-sync.env (optional; gitignored)
+Secrets (not in git): private/formspree-sync.env (gitignored), or ~/.config/rockridge-formspree.env,
+or FORMSPREE_ENV_FILE / environment variables.
 
-Repo root: two levels up from this file in scripts/, OR set ROCKRIDGE_REPO (use when this script is copied to ~/bin for macOS cron).
+Repo root: parent of scripts/ (this file lives in scripts/).
 
 Requires: Python 3.9+ (stdlib only). Formspree Submissions API (paid plans).
 
-Optional: GIT_PUSH=1 to git add/commit/push supporter-count.json from repo root (needs git + credentials).
+Optional: GIT_PUSH=1 to git add/commit/push supporter-count.json (needs git + credentials).
+
+macOS: repo under ~/Documents requires Full Disk Access for /usr/sbin/cron so cron can write + git push.
 """
 from __future__ import annotations
 
@@ -24,18 +24,11 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-_repo_override = (os.environ.get("ROCKRIDGE_REPO") or "").strip()
-if _repo_override:
-    REPO_ROOT = Path(_repo_override).expanduser().resolve()
-else:
-    REPO_ROOT = Path(__file__).resolve().parent.parent
-
+REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_ENV_PATH = REPO_ROOT / "private" / "formspree-sync.env"
 OUT_JSON = REPO_ROOT / "supporter-count.json"
 API_BASE = "https://formspree.io/api/0/forms"
 
-# Formspree sits behind Cloudflare; default urllib User-Agent often gets Error 1010
-# ("browser_signature_banned"). Use a normal browser-like client hint.
 _BROWSER_HEADERS = (
     (
         "User-Agent",
@@ -99,16 +92,16 @@ def main() -> int:
     if env_path:
         load_env_file(Path(env_path))
     else:
+        load_env_file(DEFAULT_ENV_PATH)
         home_cfg = Path.home() / ".config" / "rockridge-formspree.env"
         load_env_file(home_cfg)
-        load_env_file(DEFAULT_ENV_PATH)
 
     api_key = (os.environ.get("FORMSPREE_API_KEY") or "").strip()
     form_hash = (os.environ.get("FORMSPREE_FORM_HASHID") or "xjgagzdj").strip()
     if not api_key:
         print(
-            "Missing FORMSPREE_API_KEY. Set ~/.config/rockridge-formspree.env, "
-            f"{DEFAULT_ENV_PATH}, or environment variables.",
+            "Missing FORMSPREE_API_KEY. Set "
+            f"{DEFAULT_ENV_PATH}, ~/.config/rockridge-formspree.env, or environment.",
             file=sys.stderr,
         )
         return 1
