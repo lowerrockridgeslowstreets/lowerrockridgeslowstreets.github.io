@@ -1,27 +1,29 @@
-Formspree sync on macOS — cron vs LaunchAgent
-==============================================
+Formspree sync on macOS (cron)
+===============================
 
-Your log showed:
-  Operation not permitted — can't open ./scripts/sync_supporter_count_formspree.py
+Cron could not open the script under ~/Documents (Operation not permitted). Fix:
 
-That is usually macOS blocking CRON from reading ~/Documents (Library protection).
-Fix options:
+1) Copy the script OUT of Documents (repo stays where it is):
 
-A) Give cron Full Disk Access (less ideal)
-   System Settings → Privacy & Security → Full Disk Access → + 
-   Add: /usr/sbin/cron
+   mkdir -p ~/bin
+   cp /Users/USER/Documents/GitHub/rockridge-slow-neighborhood-staging/scripts/sync_supporter_count_formspree.py ~/bin/
+   chmod +x ~/bin/sync_supporter_count_formspree.py
 
-B) Use LaunchAgent (recommended)
-   Runs as your user after login; normally can read ~/Documents.
+   After "git pull", re-copy ~/bin from scripts/ if the script changed.
 
-   cp scripts/com.lowerrockridge.formspree-sync.plist ~/Library/LaunchAgents/
-   launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.lowerrockridge.formspree-sync.plist
+2) Put API secrets where cron can read them (NOT only under Documents):
 
-   Edit the plist first if your repo is not under:
-   /Users/USER/Documents/GitHub/rockridge-slow-neighborhood-staging
+   mkdir -p ~/.config
+   cp private/formspree-sync.env ~/.config/rockridge-formspree.env
+   (or create ~/.config/rockridge-formspree.env with FORMSPREE_API_KEY=...)
 
-   Remove the */5 crontab line for this job so it does not run twice.
+3) Crontab — one line (remove any older */5 line that cd'd into the repo):
 
-C) Move the repo out of ~/Documents (e.g. ~/Developer/...) so cron can read it.
+*/5 * * * * ROCKRIDGE_REPO=/Users/USER/Documents/GitHub/rockridge-slow-neighborhood-staging GIT_PUSH=1 /usr/bin/python3 /Users/USER/bin/sync_supporter_count_formspree.py >> /tmp/formspree-sync.log 2>&1
 
-Verify: tail -f /tmp/formspree-sync.log
+4) If "git push" still fails under cron, macOS is blocking git in ~/Documents:
+   add /usr/sbin/cron to Full Disk Access (⌘⇧G → /usr/sbin → cron), OR move the repo.
+
+Log: tail -f /tmp/formspree-sync.log
+
+Optional: LaunchAgent plist in this folder if you prefer that over cron.

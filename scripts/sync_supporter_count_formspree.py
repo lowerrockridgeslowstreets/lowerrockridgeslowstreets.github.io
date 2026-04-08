@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """
-Fetch Formspree submission count and write ../supporter-count.json if it changed.
+Fetch Formspree submission count and write supporter-count.json in the repo root.
 
 Secrets: NOT in this repo. Use either:
   - Environment variables FORMSPREE_API_KEY (+ optional FORMSPREE_FORM_HASHID), or
-  - A gitignored file: private/formspree-sync.env (copy from scripts/formspree-sync.env.example)
+  - ~/.config/rockridge-formspree.env (good for cron), or
+  - private/formspree-sync.env (copy from scripts/formspree-sync.env.example)
+
+Repo root: two levels up from this file in scripts/, OR set ROCKRIDGE_REPO (use when this script is copied to ~/bin for macOS cron).
 
 Requires: Python 3.9+ (stdlib only). Formspree Submissions API (paid plans).
 
@@ -21,7 +24,12 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+_repo_override = (os.environ.get("ROCKRIDGE_REPO") or "").strip()
+if _repo_override:
+    REPO_ROOT = Path(_repo_override).expanduser().resolve()
+else:
+    REPO_ROOT = Path(__file__).resolve().parent.parent
+
 DEFAULT_ENV_PATH = REPO_ROOT / "private" / "formspree-sync.env"
 OUT_JSON = REPO_ROOT / "supporter-count.json"
 API_BASE = "https://formspree.io/api/0/forms"
@@ -40,18 +48,21 @@ _BROWSER_HEADERS = (
 
 
 def load_env_file(path: Path) -> None:
-    if not path.is_file():
+    try:
+        if not path.is_file():
+            return
+        for raw in path.read_text(encoding="utf-8").splitlines():
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" not in line:
+                continue
+            key, _, val = line.partition("=")
+            key, val = key.strip(), val.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = val
+    except OSError:
         return
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"):
-            continue
-        if "=" not in line:
-            continue
-        key, _, val = line.partition("=")
-        key, val = key.strip(), val.strip().strip('"').strip("'")
-        if key and key not in os.environ:
-            os.environ[key] = val
 
 
 def count_submissions(form_hash: str, api_key: str) -> int:
@@ -88,16 +99,16 @@ def main() -> int:
     if env_path:
         load_env_file(Path(env_path))
     else:
-        load_env_file(DEFAULT_ENV_PATH)
         home_cfg = Path.home() / ".config" / "rockridge-formspree.env"
         load_env_file(home_cfg)
+        load_env_file(DEFAULT_ENV_PATH)
 
     api_key = (os.environ.get("FORMSPREE_API_KEY") or "").strip()
     form_hash = (os.environ.get("FORMSPREE_FORM_HASHID") or "xjgagzdj").strip()
     if not api_key:
         print(
-            "Missing FORMSPREE_API_KEY. Set it in the environment or in "
-            f"{DEFAULT_ENV_PATH} (copy from scripts/formspree-sync.env.example).",
+            "Missing FORMSPREE_API_KEY. Set ~/.config/rockridge-formspree.env, "
+            f"{DEFAULT_ENV_PATH}, or env (see scripts/formspree-sync.env.example).",
             file=sys.stderr,
         )
         return 1
