@@ -2,8 +2,7 @@
 """
 Fetch Formspree submission count and write supporter-count.json in the repo root.
 
-Secrets (not in git): private/formspree-sync.env (gitignored), or ~/.config/rockridge-formspree.env,
-or FORMSPREE_ENV_FILE / environment variables.
+Secrets (not in git): `.env` in repo root (gitignored), or FORMSPREE_ENV_FILE / environment variables.
 
 Repo root: parent of scripts/ (this file lives in scripts/).
 
@@ -25,7 +24,7 @@ import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_ENV_PATH = REPO_ROOT / "private" / "formspree-sync.env"
+DEFAULT_ENV_PATH = REPO_ROOT / ".env"
 OUT_JSON = REPO_ROOT / "supporter-count.json"
 API_BASE = "https://formspree.io/api/0/forms"
 
@@ -93,15 +92,13 @@ def main() -> int:
         load_env_file(Path(env_path))
     else:
         load_env_file(DEFAULT_ENV_PATH)
-        home_cfg = Path.home() / ".config" / "rockridge-formspree.env"
-        load_env_file(home_cfg)
 
     api_key = (os.environ.get("FORMSPREE_API_KEY") or "").strip()
     form_hash = (os.environ.get("FORMSPREE_FORM_HASHID") or "xjgagzdj").strip()
     if not api_key:
         print(
-            "Missing FORMSPREE_API_KEY. Set "
-            f"{DEFAULT_ENV_PATH}, ~/.config/rockridge-formspree.env, or environment.",
+            "Missing FORMSPREE_API_KEY. Add it to "
+            f"{DEFAULT_ENV_PATH}, set FORMSPREE_ENV_FILE, or export in the environment.",
             file=sys.stderr,
         )
         return 1
