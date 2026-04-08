@@ -26,6 +26,18 @@ DEFAULT_ENV_PATH = REPO_ROOT / "private" / "formspree-sync.env"
 OUT_JSON = REPO_ROOT / "supporter-count.json"
 API_BASE = "https://formspree.io/api/0/forms"
 
+# Formspree sits behind Cloudflare; default urllib User-Agent often gets Error 1010
+# ("browser_signature_banned"). Use a normal browser-like client hint.
+_BROWSER_HEADERS = (
+    (
+        "User-Agent",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    ),
+    ("Accept", "application/json, text/plain, */*"),
+    ("Accept-Language", "en-US,en;q=0.9"),
+)
+
 
 def load_env_file(path: Path) -> None:
     if not path.is_file():
@@ -51,7 +63,8 @@ def count_submissions(form_hash: str, api_key: str) -> int:
         req = urllib.request.Request(url)
         token = base64.b64encode(f":{api_key}".encode()).decode("ascii")
         req.add_header("Authorization", f"Basic {token}")
-        req.add_header("Accept", "application/json")
+        for name, value in _BROWSER_HEADERS:
+            req.add_header(name, value)
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
