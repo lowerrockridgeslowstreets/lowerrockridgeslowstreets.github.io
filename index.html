@@ -1493,6 +1493,24 @@ a:hover { color: var(--oak-green-light); }
         <span style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Generate a different email</span>
         <a id="reviewSendBtn" href="#" data-track="cta_open_email" style="display: inline-block; margin-top: 0.75rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border-radius: 8px; text-decoration: none; font-family: inherit; transition: all 0.2s; cursor: pointer; text-align: center;">Open draft in your email client</a>
       </div>
+      <details style="margin-top: 0.25rem; margin-bottom: 0;">
+        <summary style="cursor: pointer; font-size: 0.85rem; color: rgba(255,255,255,0.5); list-style: none; user-select: none;">&#9654; No email client? Copy addresses manually</summary>
+        <div style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
+          <div>
+            <div style="color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">To</div>
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.5rem 0.75rem; color: rgba(255,255,255,0.85); word-break: break-all; user-select: all;">zunger@oaklandca.gov, jrowan@oaklandca.gov, jdjohnson@oaklandca.gov, officeofthemayor@oaklandca.gov</div>
+          </div>
+          <div>
+            <div style="color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">CC</div>
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.5rem 0.75rem; color: rgba(255,255,255,0.85); user-select: all;">voices@rockridgeslowneighborhood.com</div>
+          </div>
+          <div>
+            <div style="color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">Subject</div>
+            <div id="manualSubject" style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.5rem 0.75rem; color: rgba(255,255,255,0.85); user-select: all;"></div>
+          </div>
+          <p style="font-size: 0.78rem; color: rgba(255,255,255,0.35); margin: 0;">Paste each field into your webmail compose window. Use the body text shown above.</p>
+        </div>
+      </details>
     </div>
 
   </div>
@@ -1732,8 +1750,22 @@ document.addEventListener('click', (e) => {
 });
 
 // mailto config — easy to find and update
-const MAILTO_TO = 'zunger@oaklandca.gov,jrowan@oaklandca.gov,jdjohnson@oaklandca.gov,officeofthemayor@oaklandca.gov';
+const MAILTO_TO_LIST = [
+  'zunger@oaklandca.gov',
+  'jrowan@oaklandca.gov',
+  'jdjohnson@oaklandca.gov',
+  'officeofthemayor@oaklandca.gov'
+];
 const MAILTO_CC = 'voices@rockridgeslowneighborhood.com';
+
+function shuffled(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 // Email mixer: 50 subjects (anti-repeat history 5); other pools 20 each (history 3)
 const SUBJECTS = [
@@ -1969,7 +2001,8 @@ function generateEmail() {
 }
 
 function buildMailto(email) {
-  return 'mailto:' + MAILTO_TO
+  const to = shuffled(MAILTO_TO_LIST).join(',');
+  return 'mailto:' + to
     + '?cc=' + encodeURIComponent(MAILTO_CC)
     + '&subject=' + encodeURIComponent(email.subject)
     + '&body=' + encodeURIComponent(email.body);
@@ -1980,6 +2013,8 @@ function applyGeneratedEmail() {
   document.getElementById('templateSubject').textContent = email.subject;
   document.getElementById('templateBody').textContent = email.body;
   document.getElementById('reviewSendBtn').href = buildMailto(email);
+  const ms = document.getElementById('manualSubject');
+  if (ms) ms.textContent = email.subject;
 }
 
 // Support form handler
