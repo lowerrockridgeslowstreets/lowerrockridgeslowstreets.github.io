@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rockridge Slow Neighborhood — Coming Soon</title>
+<meta name="description" content="Join the movement to squeeze out 1,000,000 cut-through cars from Oakland's Lower Rockridge trapezoid. More info coming April 11th.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #1a2a14 0%, #2d4a22 40%, #1e3318 100%);
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+body::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.container {
+  position: relative; z-index: 1;
+  max-width: 600px; width: 100%;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+h1 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  color: rgba(255,255,255,0.9);
+  line-height: 1.35;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+.big-number {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(4rem, 12vw, 7rem);
+  color: #E8A830;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.big-label {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+.date-line {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 0.5rem;
+}
+.date-sub {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 2.5rem;
+}
+.notify-form {
+  max-width: 420px;
+  margin: 0 auto;
+}
+.notify-label {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.input-row {
+  display: flex; gap: 0.5rem;
+}
+.input-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.3);
+  color: white;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+.input-row input::placeholder { color: rgba(255,255,255,0.35); }
+.input-row input:focus { outline: none; border-color: #E8A830; }
+.input-row button {
+  padding: 0.75rem 1.5rem;
+  background: #E8A830;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+.input-row button:hover:not(:disabled) { background: #f0b440; transform: translateY(-1px); }
+.input-row button:disabled { opacity: 0.6; cursor: default; transform: none; }
+.msg {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  min-height: 1.2em;
+}
+.msg.success { color: #4ade80; }
+.msg.error { color: #f87171; }
+.footer-line {
+  margin-top: 3rem;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+}
+.footer-line a { color: rgba(255,255,255,0.5); }
+@media (max-width: 480px) {
+  .input-row { flex-direction: column; }
+  .input-row button { width: 100%; white-space: normal; }
+  .container { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Join the movement to squeeze out</h1>
+  <div class="big-number">1,000,000</div>
+  <div class="big-label">cars cutting through the<br>Lower Rockridge trapezoid</div>
+
+  <div class="date-line">Stay tuned.</div>
+  <div class="date-sub">More info coming on April 11th.</div>
+
+  <form class="notify-form" id="notifyForm" action="https://formspree.io/f/xykbbwrr" method="POST">
+    <label class="notify-label" for="notifyEmail">Be notified when the page is launched</label>
+    <div class="input-row">
+      <input type="email" name="email" required placeholder="you@example.com" id="notifyEmail" autocomplete="email" inputmode="email">
+      <button type="submit" id="notifyBtn">Notify me</button>
+    </div>
+    <div class="msg" id="notifyMsg" role="status" aria-live="polite"></div>
+  </form>
+
+  <div class="footer-line">
+    <a href="mailto:hello@rockridgeslowneighborhood.com">hello@rockridgeslowneighborhood.com</a>
+  </div>
+</div>
+
+<script>
+document.getElementById('notifyForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  var btn = document.getElementById('notifyBtn');
+  var msg = document.getElementById('notifyMsg');
+  var email = document.getElementById('notifyEmail').value.trim();
+  if (!email) return;
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  msg.className = 'msg';
+  msg.textContent = '';
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(function(r) {
+    return r.json().then(function(data) {
+      return { ok: r.ok, data: data };
+    });
+  })
+  .then(function(result) {
+    if (result.ok) {
+      msg.className = 'msg success';
+      msg.textContent = "You're on the list. We'll email you when the site launches.";
+      btn.textContent = 'Done';
+    } else {
+      msg.className = 'msg error';
+      msg.textContent = 'Something went wrong. Try again or email us directly.';
+      btn.disabled = false;
+      btn.textContent = 'Notify me';
+    }
+  })
+  .catch(function() {
+    msg.className = 'msg error';
+    msg.textContent = 'Something went wrong. Try again or email us directly.';
+    btn.disabled = false;
+    btn.textContent = 'Notify me';
+  });
+});
+</script>
+
+</body>
+</html>
