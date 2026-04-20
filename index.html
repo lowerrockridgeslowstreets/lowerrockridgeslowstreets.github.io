@@ -673,6 +673,7 @@ a:hover { color: var(--oak-green-light); }
   .data-bar-thresholds { left: 0; }
   .data-bar-scale { padding-left: 0; }
   .data-bar-scale-inner > div { font-size: 0.6rem; }
+  #supportForm > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
 }
 
 /* Popup Footnotes */
@@ -1441,74 +1442,80 @@ a:hover { color: var(--oak-green-light); }
 <!-- CTA -->
 <section class="cta-section" id="action">
   <div class="container">
-    <h2>Demand immediate action!</h2>
-    <p>Every email matters. City officials have said the silence was being interpreted as fading interest. Let them know that's wrong.</p>
 
-    <!-- Support petition box -->
-    <div id="supportFormBox" class="support-box fade-in" style="max-width: 600px; margin: 2.5rem auto 2.5rem; background: rgba(232, 168, 48, 0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 2.5rem; text-align: left;">
-      <h3 style="color: var(--amber); font-size: 1.15rem; margin-bottom: 0.5rem; line-height: 1.4;">Support an OakDOT-led plan to cut traffic volume across the Lower Rockridge trapezoid</h3>
-      <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Add your name to show city officials this community demands action now.</p>
-      <form id="supportForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)" style="display: flex; flex-direction: column; gap: 1rem;">
-        <div>
-          <label for="supportName" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;">Name *</label>
-          <input type="text" id="supportName" name="name" required placeholder="Your full name" style="width: 100%; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;">
-        </div>
-        <div>
-          <label for="supportAddress" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;">Street address *</label>
-          <input type="text" id="supportAddress" name="address" required placeholder="Full street address" style="width: 100%; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;">
-        </div>
-        <div>
-          <label for="supportEmail" style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; display: block;">Email address *</label>
-          <input type="email" id="supportEmail" name="email" required placeholder="you@example.com" style="width: 100%; padding: 0.7rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;">
-        </div>
-        <div>
-          <label style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
-            <input type="checkbox" id="supportCheckbox" name="support_statement" value="yes" style="margin-top: 0.3rem;">
-            <span>I support reducing cut-through traffic through the Rockridge trapezoid holistically, led by OakDOT using professional traffic engineering — without ad hoc political interference in the technical process.</span>
-          </label>
-        </div>
-        <button type="submit" id="supportBtn" data-track="cta_add_support" style="margin-top: 0.5rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s;">Add my support</button>
-        <div id="supportMsg" style="display: none; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; margin-top: 0.25rem;"></div>
-        <!-- <div class="hero-counter support-form-counter" id="heroCounterForm" data-supporter-wrap><span class="hero-counter-number" id="supporterCountForm" data-supporter-num></span> neighbors and counting have added their support</div> -->
-      </form>
+    <!-- Transition headline -->
+    <div style="text-align: center; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 2.5rem;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 1rem;">Take action</div>
+      <h2 style="color: white; margin-bottom: 0.75rem;">You've got the data.<br>Now help move this forward.</h2>
+      <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto;">City officials have said the silence was being read as fading interest. Two ways to push back, below.</p>
     </div>
 
-    <!-- Post-submit screen (Step 2) — mix-and-match email generator -->
-    <div id="postSubmitBox" style="display: none; max-width: 600px; margin: 2.5rem auto 2.5rem; background: rgba(232, 168, 48, 0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 2.5rem; text-align: left;">
-      <h3 style="font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--amber); margin-bottom: 1rem; line-height: 1.2;">Thank you.</h3>
-      <p style="color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 1rem; line-height: 1.6;">Can you help with one more thing? Review the draft email below, then open the draft email in your mail client. Tap the button if you want a different draft wording.</p>
-      <div id="templateCard" style="background: rgba(0,0,0,0.2); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;">
-        <div id="templateSubject" style="font-weight: 700; font-size: 1rem; color: var(--amber); margin-bottom: 0.75rem;"></div>
-        <div id="templateBody" style="font-size: 0.9rem; color: rgba(255,255,255,0.9); line-height: 1.6; white-space: pre-wrap;"></div>
+    <!-- Stay informed (compact inline strip) -->
+    <div id="supportFormBox" class="fade-in" style="max-width: 560px; margin: 0 auto 2rem;">
+      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.85rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        <span style="font-size: 1rem; color: rgba(255,255,255,0.95); font-weight: 500;">Stay informed</span>
       </div>
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem; margin-bottom: 1.25rem;">
-        <button type="button" id="regenerateBtn" data-track="cta_regenerate_email" aria-label="Generate a different email" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 2v6h-6"/>
-            <path d="M2.5 22v-6h6"/>
-            <path d="M2.5 11.5a10 10 0 0 1 18.34-4.5"/>
-            <path d="M21.5 12.5a10 10 0 0 1-18.34 4.5"/>
-          </svg>
-        </button>
-        <span style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Generate a different email</span>
-        <a id="reviewSendBtn" href="#" data-track="cta_open_email" style="display: inline-block; margin-top: 0.75rem; padding: 0.85rem 2rem; background: var(--amber); color: #1a1a1a; font-weight: 700; font-size: 1rem; border-radius: 8px; text-decoration: none; font-family: inherit; transition: all 0.2s; cursor: pointer; text-align: center;">Open draft in your email client</a>
+      <form id="supportForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <input type="text" id="supportName" name="name" placeholder="Name (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
+          <input type="text" id="supportAddress" name="address" placeholder="Address (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="email" id="supportEmail" name="email" required placeholder="you@example.com" style="flex: 1; min-width: 0; padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit;">
+          <button type="submit" id="supportBtn" data-track="cta_stay_informed" style="padding: 0.55rem 1.1rem; background: rgba(232,168,48,0.2); color: var(--amber); font-weight: 500; font-size: 0.85rem; border: 1px solid rgba(232,168,48,0.4); border-radius: 6px; cursor: pointer; font-family: inherit; white-space: nowrap;">Sign up</button>
+        </div>
+        <div id="supportMsg" style="display: none; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-top: 0.5rem;"></div>
+      </form>
+      <div id="signupThanksBox" style="display: none; padding-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.9);">Got it — we'll be in touch.</div>
+    </div>
+
+    <!-- Write to city officials -->
+    <div id="emailActionBox" class="fade-in" style="max-width: 560px; margin: 0 auto; background: rgba(232, 168, 48, 0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 1.5rem 1.75rem; text-align: left;">
+      <h3 style="font-family: 'DM Serif Display', Georgia, serif; font-size: 1.5rem; color: var(--amber); margin: 0 0 0.25rem; font-weight: 400;">Write to city officials</h3>
+      <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin: 0 0 1.25rem; line-height: 1.5;">We've drafted an email for you. Tap the refresh button if you'd like a different version, then send.</p>
+
+      <div id="templateCard" style="background: rgba(0,0,0,0.25); border-radius: 8px; padding: 1.1rem 1.25rem; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.65rem;">
+          <span style="font-size: 0.7rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.06em;">Subject</span>
+          <span id="templateSubject" style="font-weight: 500; font-size: 0.9rem; color: var(--amber);"></span>
+        </div>
+        <div id="templateBody" style="font-size: 0.85rem; color: rgba(255,255,255,0.9); line-height: 1.6; white-space: pre-wrap; padding-top: 0.65rem; border-top: 1px solid rgba(255,255,255,0.08);"></div>
       </div>
-      <details style="margin-top: 0.25rem; margin-bottom: 0;">
-        <summary style="cursor: pointer; font-size: 0.85rem; color: rgba(255,255,255,0.5); list-style: none; user-select: none;">&#9654; No email client? Copy addresses manually</summary>
-        <div style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem;">
+
+      <button type="button" id="regenerateBtn" data-track="cta_regenerate_email" aria-label="Generate a different email" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.75rem 1rem; background: rgba(255,255,255,0.12); color: white; font-weight: 500; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; font-family: inherit; margin-bottom: 0.6rem;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2v6h-6"/>
+          <path d="M2.5 22v-6h6"/>
+          <path d="M2.5 11.5a10 10 0 0 1 18.34-4.5"/>
+          <path d="M21.5 12.5a10 10 0 0 1-18.34 4.5"/>
+        </svg>
+        <span>Try a different version</span>
+      </button>
+
+      <a id="reviewSendBtn" href="#" data-track="cta_open_email" style="display: block; padding: 0.7rem 1rem; background: var(--amber); color: #1a1a1a; font-weight: 500; font-size: 0.95rem; border-radius: 8px; text-decoration: none; font-family: inherit; text-align: center; margin-bottom: 0.75rem;">Open in your email client →</a>
+
+      <details style="margin-top: 0.5rem;">
+        <summary style="cursor: pointer; font-size: 0.9rem; color: rgba(255,255,255,0.75); list-style: none; user-select: none; display: flex; align-items: center; justify-content: center; gap: 0.4rem;">
+          <span>No email client? Show addresses to copy</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem;">
           <div>
-            <div style="color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">To</div>
-            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.5rem 0.75rem; color: rgba(255,255,255,0.85); word-break: break-all; user-select: all;">zunger@oaklandca.gov, jrowan@oaklandca.gov, jdjohnson@oaklandca.gov, officeofthemayor@oaklandca.gov</div>
+            <div style="color: rgba(255,255,255,0.4); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">To</div>
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.45rem 0.7rem; color: rgba(255,255,255,0.85); word-break: break-all; user-select: all; font-size: 0.78rem;">zunger@oaklandca.gov, jrowan@oaklandca.gov, jdjohnson@oaklandca.gov, officeofthemayor@oaklandca.gov</div>
           </div>
           <div>
-            <div style="color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">CC</div>
-            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.5rem 0.75rem; color: rgba(255,255,255,0.85); user-select: all;">voices@rockridgeslowneighborhood.com</div>
+            <div style="color: rgba(255,255,255,0.4); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">CC</div>
+            <div style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.45rem 0.7rem; color: rgba(255,255,255,0.85); user-select: all; font-size: 0.78rem;">voices@rockridgeslowneighborhood.com</div>
           </div>
           <div>
-            <div style="color: rgba(255,255,255,0.4); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">Subject</div>
-            <div id="manualSubject" style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.5rem 0.75rem; color: rgba(255,255,255,0.85); user-select: all;"></div>
+            <div style="color: rgba(255,255,255,0.4); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem;">Subject</div>
+            <div id="manualSubject" style="background: rgba(0,0,0,0.25); border-radius: 6px; padding: 0.45rem 0.7rem; color: rgba(255,255,255,0.85); user-select: all; font-size: 0.78rem;"></div>
           </div>
-          <p style="font-size: 0.78rem; color: rgba(255,255,255,0.35); margin: 0;">Paste each field into your webmail compose window. Use the body text shown above.</p>
         </div>
       </details>
     </div>
@@ -1523,10 +1530,16 @@ a:hover { color: var(--oak-green-light); }
       <strong style="color: rgba(255,255,255,0.9); font-size: 1.1rem;">Rockridge Slow Neighborhood</strong>
     </p>
     <p style="margin-bottom: 1rem; line-height: 1.7; color: rgba(255,255,255,0.7);">
-      A community-wide, holistic initiative to restore the residential nature of the Lower Rockridge Trapezoid neighborhood — making it safe and pleasant for residents, bikes, dogs, and all who call this area home. We advocate for neighborhood quality of life using professional, data-driven, iterative traffic engineering approaches.
+      A community-wide initiative to restore the residential nature of the Lower Rockridge Trapezoid neighborhood — making it safe and pleasant for all who call this area home — using professional, data-driven, iterative traffic engineering approaches.
     </p>
     <p style="margin-bottom: 1rem;">
       <a href="mailto:hello@rockridgeslowneighborhood.com" data-track="footer_email" style="color: var(--amber); font-weight: 600;">hello@rockridgeslowneighborhood.com</a>
+    </p>
+    <p style="margin-bottom: 1rem; line-height: 1.7; color: rgba(255,255,255,0.7);">
+      Questions, suggestions, or criticisms — reach out.
+    </p>
+    <p style="margin-bottom: 1rem; line-height: 1.7; color: rgba(255,255,255,0.7);">
+      This site is intentionally unattributed — we want the conversation to be about the data, not tribes. The traffic counts are the same regardless of who presents them.
     </p>
     <p style="margin-top: 1.5rem; font-size: 0.75rem; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
       Data sources: career-long experts on California traffic using professional modeling tools, OakDOT, FHWA, Fehr &amp; Peers CEQA study. This site represents the views of neighborhood residents advocating for traffic safety. All data cited is from public sources.
@@ -2023,25 +2036,16 @@ function handleSupportSubmit(e) {
   const btn = document.getElementById('supportBtn');
   const msg = document.getElementById('supportMsg');
   const form = document.getElementById('supportForm');
-  const name = document.getElementById('supportName').value.trim();
   const email = document.getElementById('supportEmail').value.trim();
-  const address = document.getElementById('supportAddress').value.trim();
-  if (!name || !email || !address) return false;
+  if (!email) return false;
   btn.disabled = true;
-  btn.textContent = 'Submitting…';
+  btn.textContent = 'Sending…';
   const formData = new FormData(form);
   fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
     .then(r => r.json())
     .then(() => {
-      submitterName = name;
-      var nums = document.querySelectorAll('[data-supporter-num]');
-      if (nums.length) {
-        var cur = parseInt(nums[0].textContent.replace(/,/g, ''), 10);
-        if (Number.isFinite(cur) && cur >= 1) applySupporterCount(cur + 1);
-      }
-      document.getElementById('supportFormBox').style.display = 'none';
-      document.getElementById('postSubmitBox').style.display = 'block';
-      applyGeneratedEmail();
+      document.getElementById('supportForm').style.display = 'none';
+      document.getElementById('signupThanksBox').style.display = 'block';
     })
     .catch(() => {
       msg.style.display = 'block';
@@ -2049,7 +2053,7 @@ function handleSupportSubmit(e) {
       msg.style.color = '#E74C3C';
       msg.textContent = 'Something went wrong. Please try again or email us directly.';
       btn.disabled = false;
-      btn.textContent = 'Add my support';
+      btn.textContent = 'Sign up';
     });
   return false;
 }
