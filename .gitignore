@@ -2,6 +2,8 @@
 .claude/
 .env
 private/
+__pycache__/
+*.pyc
 
 # Local mirror of large reference PDFs (see reference-pdfs/README.md)
 reference-pdfs/*.pdf
