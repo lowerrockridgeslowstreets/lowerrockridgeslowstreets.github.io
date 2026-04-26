@@ -1721,7 +1721,25 @@ a:hover { color: var(--oak-green-light); }
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.75rem;">Take action</div>
       <button type="button" class="stay-informed-cta-link" data-stay-informed-open data-track="cta_stay_informed_under_label">Stay informed</button>
       <h2 style="color: white; margin-bottom: 0.75rem; margin-top: 0;">You've got the data.<br>Please help move this forward.</h2>
-      <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto;">City officials have said the silence was being read as fading interest. Add your voice to city officials below, or get email updates with Stay informed (above in the hero, or just above).</p>
+      <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto;">City officials have said the silence was being read as fading interest. Sign up for updates or write directly to city officials below.</p>
+    </div>
+
+    <!-- Stay informed inline form -->
+    <div id="ctaSignupBox" class="fade-in" style="max-width: 560px; margin: 0 auto 1.5rem; background: rgba(232,168,48,0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 1.5rem 1.75rem; text-align: left;">
+      <h3 style="font-family: 'DM Serif Display', Georgia, serif; font-size: 1.5rem; color: var(--amber); margin: 0 0 0.25rem; font-weight: 400;">Stay informed</h3>
+      <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin: 0 0 1.25rem; line-height: 1.5;">Leave your email and we'll keep you updated as things develop.</p>
+      <form id="ctaSignupForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleCtaSignup(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <input type="text" name="name" placeholder="Name (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
+          <input type="text" name="address" placeholder="Address (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <input type="email" id="ctaSignupEmail" name="email" required placeholder="you@example.com" style="flex: 1; min-width: 0; padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit;">
+          <button type="submit" id="ctaSignupBtn" data-track="cta_stay_informed_inline" style="padding: 0.55rem 1.1rem; background: rgba(232,168,48,0.2); color: var(--amber); font-weight: 500; font-size: 0.85rem; border: 1px solid rgba(232,168,48,0.4); border-radius: 6px; cursor: pointer; font-family: inherit; white-space: nowrap;">Sign up</button>
+        </div>
+        <div id="ctaSignupMsg" style="display: none; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-top: 0.5rem;"></div>
+      </form>
+      <div id="ctaSignupThanks" style="display: none; padding-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.9);">Got it — we'll be in touch.</div>
     </div>
 
     <!-- Write to city officials -->
@@ -2355,6 +2373,32 @@ function handleSupportSubmit(e) {
     .catch(() => {
       msg.style.display = 'block';
       msg.style.background = 'rgba(231, 76, 60, 0.2)';
+      msg.style.color = '#E74C3C';
+      msg.textContent = 'Something went wrong. Please try again or email us directly.';
+      btn.disabled = false;
+      btn.textContent = 'Sign up';
+    });
+  return false;
+}
+
+function handleCtaSignup(e) {
+  e.preventDefault();
+  const form = document.getElementById('ctaSignupForm');
+  const btn  = document.getElementById('ctaSignupBtn');
+  const msg  = document.getElementById('ctaSignupMsg');
+  const email = document.getElementById('ctaSignupEmail').value.trim();
+  if (!email) return false;
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+    .then(r => r.json())
+    .then(() => {
+      form.style.display = 'none';
+      document.getElementById('ctaSignupThanks').style.display = 'block';
+    })
+    .catch(() => {
+      msg.style.display = 'block';
+      msg.style.background = 'rgba(231,76,60,0.2)';
       msg.style.color = '#E74C3C';
       msg.textContent = 'Something went wrong. Please try again or email us directly.';
       btn.disabled = false;
