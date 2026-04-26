@@ -155,7 +155,17 @@ a:hover { color: var(--oak-green-light); }
   font-size: 1.15rem; line-height: 1.7; color: rgba(255,255,255,0.8);
   margin-bottom: 1.5rem;
 }
-.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+.hero-cta-col {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem;
+}
+.stay-informed-hero-link {
+  background: none; border: none; padding: 0; margin: 0;
+  font-family: inherit; font-size: 0.9rem; font-weight: 500;
+  color: rgba(255,255,255,0.75); text-decoration: underline; text-underline-offset: 3px;
+  cursor: pointer; transition: color 0.2s;
+}
+.stay-informed-hero-link:hover { color: var(--amber); }
 .hero-counter {
   font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-top: 0.75rem;
 }
@@ -759,6 +769,36 @@ a:hover { color: var(--oak-green-light); }
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Stay informed modal */
+.stay-informed-dialog { border: none; padding: 0; max-width: calc(100% - 2rem); width: 520px; background: transparent; }
+.stay-informed-dialog::backdrop { background: rgba(0,0,0,0.55); }
+.stay-informed-dialog__panel {
+  background: #1a2418;
+  border: 2px solid var(--amber);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem 1.5rem;
+  color: #fff;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+}
+.stay-informed-dialog__close {
+  position: absolute; top: 0.65rem; right: 0.75rem;
+  background: none; border: none; color: rgba(255,255,255,0.5);
+  font-size: 1.5rem; line-height: 1; cursor: pointer; padding: 0.25rem;
+  border-radius: 4px; transition: color 0.2s;
+}
+.stay-informed-dialog__close:hover { color: #fff; }
+.stay-informed-dialog__title {
+  font-family: 'DM Serif Display', Georgia, serif; font-size: 1.5rem;
+  color: var(--amber); font-weight: 400; margin: 0 2rem 0.5rem 0;
+  line-height: 1.2;
+}
+.stay-informed-dialog__lede {
+  font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.5;
+  margin: 0 0 1.25rem;
+}
+#stayInformedModal #supportFormBox { max-width: none; margin: 0; }
 </style>
 <script src="/cdn-cgi/zaraz/i.js" referrerpolicy="origin"></script>
 </head>
@@ -801,7 +841,10 @@ a:hover { color: var(--oak-green-light); }
         Over 10,000<button class="fn-trigger" data-fn="fn-10k" data-track="fn_10k" aria-label="Footnote 1">(1)</button> cars a day travel through the Lower Rockridge Trapezoid.<button class="fn-trigger" data-fn="fn-trapezoid" data-track="fn_trapezoid" aria-label="Footnote 2">(2)</button> After 15+ years of residents lobbying the City, years of studies, 2 petitions<button class="fn-trigger" data-fn="fn-petition1" data-track="fn_petition1" aria-label="Footnote 3">(3)</button><button class="fn-trigger" data-fn="fn-petition2" data-track="fn_petition2" aria-label="Footnote 4">(4)</button> with hundreds of signatures requesting traffic volume reduction, 2 years of meetings, it's time for action.
       </p>
       <div class="hero-actions">
-        <a href="#action" class="btn btn-primary" data-track="hero_take_action">Take Action →</a>
+        <div class="hero-cta-col">
+          <a href="#action" class="btn btn-primary" data-track="hero_take_action">Take Action →</a>
+          <button type="button" class="stay-informed-hero-link" data-stay-informed-open data-track="hero_stay_informed_modal">Stay informed</button>
+        </div>
         <a href="#problem" class="btn btn-outline" data-track="hero_see_evidence">See the Evidence</a>
       </div>
       <!-- <div class="hero-counter" id="heroCounter" data-supporter-wrap><span class="hero-counter-number" id="supporterCount" data-supporter-num></span> neighbors and counting have added their support</div> -->
@@ -945,16 +988,23 @@ a:hover { color: var(--oak-green-light); }
         </div>
 
         <div class="data-bar">
-          <div class="data-bar-label">Hillegass Ave</div>
+          <div class="data-bar-label">Hillegass (archive)</div>
           <div class="data-bar-track">
-            <div class="data-bar-fill data-bar-split" style="--threshold-pct: 37%; --value-pct: 38%;">~1,900</div>
+            <div class="data-bar-fill data-bar-split" style="--threshold-pct: 40%; --value-pct: 37%;">~1,840</div>
+          </div>
+        </div>
+
+        <div class="data-bar">
+          <div class="data-bar-label">Hillegass (#8271)</div>
+          <div class="data-bar-track">
+            <div class="data-bar-fill data-bar-split" style="--threshold-pct: 40%; --value-pct: 30%;">~1,500</div>
           </div>
         </div>
 
         <div class="data-bar">
           <div class="data-bar-label">Hillegass (w/ JCC)</div>
           <div class="data-bar-track">
-            <div class="data-bar-fill data-bar-split" style="--threshold-pct: 29%; --value-pct: 48%;">~2,400</div>
+            <div class="data-bar-fill data-bar-split" style="--threshold-pct: 40%; --value-pct: 46%;">~2,320</div>
           </div>
         </div>
 
@@ -1011,16 +1061,22 @@ a:hover { color: var(--oak-green-light); }
           <td class="over-limit">250%+ over limit</td>
         </tr>
         <tr>
-          <td><strong>Hillegass Ave</strong></td>
-          <td class="over-limit">~1,900</td>
+          <td><strong>Hillegass Ave</strong> (Telraam archive export)</td>
+          <td class="over-limit">~1,840</td>
           <td class="limit">700 (FHWA local street)</td>
-          <td class="over-limit">271% over limit</td>
+          <td class="over-limit">263% over limit</td>
+        </tr>
+        <tr>
+          <td><strong>Hillegass Ave</strong> (segment 8271, 2025–26 sample)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_h8271" aria-label="Sensor reliability">(H)</button></td>
+          <td class="over-limit">~1,500</td>
+          <td class="limit">700 (FHWA local street)</td>
+          <td class="over-limit">214% over limit</td>
         </tr>
         <tr>
           <td><strong>Hillegass Ave</strong> (projected w/ JCC)</td>
-          <td class="over-limit">~2,400</td>
+          <td class="over-limit">~2,320</td>
           <td class="limit">700 (FHWA local street)</td>
-          <td class="over-limit">343% over limit</td>
+          <td class="over-limit">331% over limit</td>
         </tr>
         <tr>
           <td><strong>Martin St</strong></td>
@@ -1038,7 +1094,7 @@ a:hover { color: var(--oak-green-light); }
     </table>
 
     <div class="footnote">
-      Sources: Community Telraam traffic counters (continuous); OakDOT survey data; FHWA guidelines (700 ADT for local streets; 1,500 ADT for residential collectors); OakDOT standard (2,000 ADT max for bike routes, 50 vehicles/hr/direction at peak — see footnote 6); Fehr &amp; Peers CEQA study for JCC East Bay project.
+      Sources: Community Telraam traffic counters — Colby and Martin from API/daily exports; Hillegass <strong>archive</strong> from long-run Telraam dashboard export (mean motorized ADT ~1,840 over 270 days, Mar&nbsp;2025–Apr&nbsp;2026); Hillegass <strong>segment 8271</strong> (<a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">telraam.net</a>) had extended outages; the ~1,500 figure is the mean motorized count on five full-count days with reliable car classification (Mar&nbsp;4–5&nbsp;2025 and Apr&nbsp;13,&nbsp;20–21&nbsp;2026), not a full-year ADT. OakDOT survey data; FHWA guidelines (700 ADT for local streets; 1,500 ADT for residential collectors); OakDOT standard (2,000 ADT max for bike routes, 50 vehicles/hr/direction at peak — see footnote 6); Fehr &amp; Peers CEQA study for JCC East Bay project.
     </div>
   </div>
 </section>
@@ -1427,7 +1483,7 @@ a:hover { color: var(--oak-green-light); }
   <div class="container">
     <div class="section-label">Footnotes</div>
     <ol class="footnotes-list">
-      <li id="fn-ref-1"><strong>(1)</strong> Traffic counting equipment compiled ADT as ~3,500 on Colby, ~1,900 on Hillegass, and ~2,000 on Martin/Ayala. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.</li>
+      <li id="fn-ref-1"><strong>(1)</strong> Traffic counting equipment compiled ADT as ~3,500 on Colby, ~1,840 motorized on Hillegass (long-run Telraam archive), and ~2,000 on Martin/Ayala. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.</li>
       <li id="fn-ref-2"><strong>(2)</strong> Lower Rockridge trapezoid is the residential area delimited by 4 avenues — College, Claremont, Telegraph and Alcatraz — with 14 points of entry/exit for car traffic.</li>
       <li id="fn-ref-3"><strong>(3)</strong> 2021 petition requesting the trapezoid to be converted into a permanent slow neighborhood.</li>
       <li id="fn-ref-4"><strong>(4)</strong> 2025 petition requesting OakDOT move forward with professional study and measures to reduce traffic volume through the trapezoid.</li>
@@ -1435,6 +1491,7 @@ a:hover { color: var(--oak-green-light); }
       <li id="fn-ref-6"><strong>(6)</strong> NACTO Urban Bikeway Design Guide: bike boulevards should target 500 vehicles/day and no more than 50 motor vehicles per peak hour; volumes up to 2,000/day are acceptable if speeds are kept at or below 20 mph. <a href="https://nacto.org/publication/urban-bikeway-design-guide/designing-bikeways-for-all-ages-and-abilities/bikeways-on-low-speed-low-volume-streets/bike-boulevards/" target="_blank" rel="noopener noreferrer">NACTO — bike boulevards</a></li>
       <li id="fn-ref-7"><strong>(7)</strong> Let's Bike Oakland (2019) — OakDOT's citywide bicycle plan. Designates Colby Street as a neighborhood bike route (bicycle boulevard) with shared-lane markings and traffic calming. <a href="https://www.oaklandca.gov/resources/bicycle-plan" target="_blank" rel="noopener noreferrer">Oakland Bicycle Plan</a></li>
       <li id="fn-ref-8"><strong>(8)</strong> Oakland General Plan, Land Use and Transportation Element (LUTE), adopted 1998. Classifies local streets as intended for access to abutting property, not through-traffic. <a href="https://www.oaklandca.gov/Planning-Building/General-Plan-Neighborhood-Plans/City-of-Oakland-Current-General-Plan-Elements/Land-Use-and-Transportation-Element-LUTE" target="_blank" rel="noopener noreferrer">LUTE (General Plan)</a></li>
+      <li id="fn-ref-H"><strong>(H)</strong> <a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">Telraam segment 9000008271</a> (Hillegass Ave) had long reporting gaps while the sensor was down or unreliable. The ~1,500 figure is mean motorized traffic (cars + large + night, excluding people walking and biking) on five days with normal car counts—Mar 4–5, 2025 and Apr 13, 20–21, 2026—not a full-year ADT. Use the Hillegass <em>archive</em> export for long-run volume; use this counter to show the street is still heavily driven once the device was working again.</li>
     </ol>
   </div>
 </section>
@@ -1447,30 +1504,7 @@ a:hover { color: var(--oak-green-light); }
     <div style="text-align: center; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 2.5rem;">
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 1rem;">Take action</div>
       <h2 style="color: white; margin-bottom: 0.75rem;">You've got the data.<br>Please help move this forward.</h2>
-      <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto;">City officials have said the silence was being read as fading interest. Two ways to push back, below.</p>
-    </div>
-
-    <!-- Stay informed (compact inline strip) -->
-    <div id="supportFormBox" class="fade-in" style="max-width: 560px; margin: 0 auto 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.85rem;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-          <polyline points="22,6 12,13 2,6"/>
-        </svg>
-        <span style="font-size: 1rem; color: rgba(255,255,255,0.95); font-weight: 500;">Stay informed</span>
-      </div>
-      <form id="supportForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
-          <input type="text" id="supportName" name="name" placeholder="Name (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
-          <input type="text" id="supportAddress" name="address" placeholder="Address (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
-        </div>
-        <div style="display: flex; gap: 0.5rem;">
-          <input type="email" id="supportEmail" name="email" required placeholder="you@example.com" style="flex: 1; min-width: 0; padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit;">
-          <button type="submit" id="supportBtn" data-track="cta_stay_informed" style="padding: 0.55rem 1.1rem; background: rgba(232,168,48,0.2); color: var(--amber); font-weight: 500; font-size: 0.85rem; border: 1px solid rgba(232,168,48,0.4); border-radius: 6px; cursor: pointer; font-family: inherit; white-space: nowrap;">Sign up</button>
-        </div>
-        <div id="supportMsg" style="display: none; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-top: 0.5rem;"></div>
-      </form>
-      <div id="signupThanksBox" style="display: none; padding-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.9);">Got it — we'll be in touch.</div>
+      <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto;">City officials have said the silence was being read as fading interest. Use <strong style="color: rgba(255,255,255,0.95);">Stay informed</strong> (next to Take Action) for email updates, then add your voice to city officials below.</p>
     </div>
 
     <!-- Write to city officials -->
@@ -1547,10 +1581,32 @@ a:hover { color: var(--oak-green-light); }
   </div>
 </footer>
 
+<dialog id="stayInformedModal" class="stay-informed-dialog" aria-labelledby="stayInformedDialogTitle" aria-modal="true">
+  <div class="stay-informed-dialog__panel">
+    <button type="button" class="stay-informed-dialog__close" id="stayInformedModalClose" aria-label="Close dialog">&times;</button>
+    <h2 id="stayInformedDialogTitle" class="stay-informed-dialog__title">Stay informed</h2>
+    <p class="stay-informed-dialog__lede">Leave your email and we'll keep you updated as things develop.</p>
+    <div id="supportFormBox" class="fade-in" style="max-width: 560px; margin: 0;">
+      <form id="supportForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <input type="text" id="supportName" name="name" placeholder="Name (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
+          <input type="text" id="supportAddress" name="address" placeholder="Address (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <input type="email" id="supportEmail" name="email" required placeholder="you@example.com" style="flex: 1; min-width: 0; padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit;">
+          <button type="submit" id="supportBtn" data-track="cta_stay_informed" style="padding: 0.55rem 1.1rem; background: rgba(232,168,48,0.2); color: var(--amber); font-weight: 500; font-size: 0.85rem; border: 1px solid rgba(232,168,48,0.4); border-radius: 6px; cursor: pointer; font-family: inherit; white-space: nowrap;">Sign up</button>
+        </div>
+        <div id="supportMsg" style="display: none; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-top: 0.5rem;"></div>
+      </form>
+      <div id="signupThanksBox" style="display: none; padding-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.9);">Got it — we'll be in touch.</div>
+    </div>
+  </div>
+</dialog>
+
 <!-- Popup footnotes (placed at body level to avoid overflow:hidden clipping) -->
 <div class="fn-popup" id="fn-10k" data-ref="fn-ref-1">
   <button class="fn-close" aria-label="Close">&times;</button>
-  Traffic counting equipment compiled ADT as ~3,500 on Colby, ~1,900 on Hillegass, and ~2,000 on Martin/Ayala. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.
+  Traffic counting equipment compiled ADT as ~3,500 on Colby, ~1,840 motorized on Hillegass (long-run archive), and ~2,000 on Martin/Ayala. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.
   <a href="#fn-ref-1" class="fn-goto" onclick="document.querySelectorAll('.fn-popup').forEach(p=>p.classList.remove('visible'))">see full footnote (1) ↓</a>
 </div>
 <div class="fn-popup" id="fn-trapezoid" data-ref="fn-ref-2">
@@ -1602,6 +1658,11 @@ a:hover { color: var(--oak-green-light); }
   <button class="fn-close" aria-label="Close">&times;</button>
   Comparative analysis of traffic calming treatments — impact, affordability, and combined effectiveness in one summary dataset. <a href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener" style="color: var(--amber);">View data</a>
   <a href="#ref-C" class="fn-goto" onclick="document.querySelectorAll('.fn-popup').forEach(p=>p.classList.remove('visible'))">see full reference (C) ↓</a>
+</div>
+<div class="fn-popup" id="fn-hillegass-8271" data-ref="fn-ref-H">
+  <button class="fn-close" aria-label="Close">&times;</button>
+  Second Telraam installation on Hillegass (segment 9000008271). Equipment outages left most of 2025–26 without API data; ~1,500 is the mean motorized count on five full-count days after the sensor was behaving normally—not annual ADT.
+  <a href="#fn-ref-H" class="fn-goto" onclick="document.querySelectorAll('.fn-popup').forEach(p=>p.classList.remove('visible'))">see full footnote (H) ↓</a>
 </div>
 
 <script>
@@ -2064,6 +2125,34 @@ document.addEventListener('DOMContentLoaded', function() {
   if (regen) {
     regen.addEventListener('click', function() {
       applyGeneratedEmail();
+    });
+  }
+  const stayModal = document.getElementById('stayInformedModal');
+  if (stayModal) {
+    document.querySelectorAll('[data-stay-informed-open]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        stayModal.showModal();
+        const em = document.getElementById('supportEmail');
+        if (em) setTimeout(function () { em.focus(); }, 0);
+      });
+    });
+    const closeBtn = document.getElementById('stayInformedModalClose');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () { stayModal.close(); });
+    }
+    stayModal.addEventListener('click', function (e) {
+      if (e.target === stayModal) stayModal.close();
+    });
+    stayModal.addEventListener('close', function () {
+      const f = document.getElementById('supportForm');
+      const th = document.getElementById('signupThanksBox');
+      if (f) f.style.display = '';
+      if (th) th.style.display = 'none';
+      const btn = document.getElementById('supportBtn');
+      if (btn) { btn.disabled = false; btn.textContent = 'Sign up'; }
+      const msg = document.getElementById('supportMsg');
+      if (msg) { msg.style.display = 'none'; msg.textContent = ''; }
+      if (f) f.reset();
     });
   }
 });
