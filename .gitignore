@@ -2,3 +2,7 @@
 .claude/
 .env
 private/
+
+# Local mirror of large reference PDFs (see reference-pdfs/README.md)
+reference-pdfs/*.pdf
+reference-pdfs/_extracted/
