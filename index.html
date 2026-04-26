@@ -61,9 +61,6 @@ a:hover { color: var(--oak-green-light); }
 .container { max-width: 1140px; margin: 0 auto; padding: 0 1.5rem; }
 .section { padding: 5rem 0; }
 .section-alt { background: var(--section-alt); }
-/* Less air between reference cards (Appendix) and Footnotes — both sections use full .section padding by default */
-#appendix { padding-bottom: 2rem; }
-#footnotes { padding-top: 2rem; }
 
 /* Navigation */
 .nav {
@@ -160,31 +157,15 @@ a:hover { color: var(--oak-green-light); }
 }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
 .hero-cta-col {
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  gap: 0.45rem; text-align: center;
-  width: max-content; max-width: 100%;
-  margin-inline: 0; /* in row, column hugs content so link stays centered under button */
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem;
 }
 .stay-informed-hero-link {
-  display: inline-block; width: auto; align-self: center;
   background: none; border: none; padding: 0; margin: 0;
   font-family: inherit; font-size: 0.9rem; font-weight: 500;
-  color: rgba(255,255,255,0.75); text-decoration: underline; text-underline-offset: 3px; text-align: center;
+  color: rgba(255,255,255,0.75); text-decoration: underline; text-underline-offset: 3px;
   cursor: pointer; transition: color 0.2s;
 }
 .stay-informed-hero-link:hover { color: var(--amber); }
-/* When hero actions stack, center the whole Take Action + Stay informed column */
-@media (max-width: 600px) {
-  .hero-cta-col { margin-inline: auto; }
-}
-.stay-informed-cta-link {
-  display: block; width: max-content; max-width: 100%;
-  margin: 0.5rem auto 1.5rem; padding: 0;
-  background: none; border: none; font-family: inherit; font-size: 0.95rem; font-weight: 500;
-  color: rgba(255,255,255,0.8); text-decoration: underline; text-underline-offset: 3px; text-align: center;
-  cursor: pointer; transition: color 0.2s;
-}
-.stay-informed-cta-link:hover { color: var(--amber); }
 .hero-counter {
   font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-top: 0.75rem;
 }
@@ -285,11 +266,10 @@ a:hover { color: var(--oak-green-light); }
 }
 
 /* Problem Section */
-.problem-layout {
+.problem-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-  margin-top: 2.5rem; align-items: start;
+  margin-top: 2.5rem;
 }
-.problem-stack { display: flex; flex-direction: column; gap: 1.25rem; }
 .problem-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -297,52 +277,6 @@ a:hover { color: var(--oak-green-light); }
   transition: box-shadow 0.3s;
 }
 .problem-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-.problem-news {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.1rem 1.4rem;
-  position: sticky; top: 5.5rem;
-}
-.problem-news h3 {
-  font-family: 'DM Serif Display', serif; font-size: 1.35rem; margin: 0 0 0.65rem;
-  color: var(--oak-green);
-}
-.problem-news-list { list-style: none; margin: 0; padding: 0; }
-.problem-news-list li { margin: 0; padding: 0 0 0.55rem; border-bottom: 1px solid var(--border); }
-.problem-news-list li:last-child { border-bottom: none; padding-bottom: 0; }
-.problem-news-list a { color: var(--oak-green); font-weight: 600; text-decoration: none; line-height: 1.4; }
-.problem-news-list a:hover { text-decoration: underline; }
-.problem-news-date {
-  display: block; font-size: 0.75rem; font-weight: 500; color: var(--text-secondary);
-  margin: 0.15rem 0 0; line-height: 1.3;
-}
-.problem-news-place {
-  display: block; font-size: 0.8rem; font-weight: 400; color: var(--text-muted);
-  margin-top: 0.15rem; line-height: 1.4;
-}
-.problem-news-extra { margin: 0; padding: 0; border: none; }
-.problem-news-extra[hidden] { display: none !important; }
-.problem-news-extra:not([hidden]) {
-  margin-top: 0.35rem; padding-top: 0.5rem;
-  border-top: 1px solid var(--border);
-}
-.problem-news-extra .problem-news-list { margin: 0; }
-.problem-news-more-btn {
-  display: block; width: 100%; margin-top: 0.5rem;
-  padding: 0.4rem 0.75rem;
-  font-family: inherit; font-size: 0.9rem; font-weight: 600;
-  color: var(--oak-green);
-  background: #faf9f6;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-}
-.problem-news-more-btn:hover { background: #f0ece4; border-color: #c4bfb5; }
-.problem-news-more-btn:focus { outline: 2px solid var(--amber); outline-offset: 2px; }
-.problem-news-more-btn[aria-expanded="true"] { background: #f0ece4; }
-.problem-news--no-more .problem-news-more-btn { display: none; }
 .problem-icon {
   width: 48px; height: 48px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
@@ -352,91 +286,6 @@ a:hover { color: var(--oak-green-light); }
 .icon-warning { background: #FEF3CD; }
 .icon-info { background: #E8F0FE; }
 .icon-green { background: #E8F5E9; }
-
-/* Appendix: Reference projects as cards (4 columns → stacked on small screens) */
-.ref-studies { margin-top: 2.5rem; }
-.ref-studies-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.15rem; }
-.ref-studies-header {
-  display: grid;
-  grid-template-areas: "hproj hdesc hvol";
-  grid-template-columns: minmax(11rem, 1fr) minmax(0, 1.25fr) minmax(0, 1.5fr);
-  gap: 0.75rem 1.25rem; padding: 0 0 0.6rem; margin-bottom: 0.1rem;
-  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);
-  align-items: end;
-}
-.ref-h-proj { grid-area: hproj; }
-.ref-h-desc { grid-area: hdesc; }
-.ref-h-vol { grid-area: hvol; }
-.ref-studies-item {
-  background: #fff; border: 1px solid var(--border);
-  border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  padding: 1.25rem 1.35rem 1.35rem; margin: 0;
-}
-.ref-studies-row {
-  display: grid;
-  grid-template-areas: "project desc vol";
-  grid-template-columns: minmax(11rem, 1fr) minmax(0, 1.25fr) minmax(0, 1.5fr);
-  gap: 0.75rem 1.25rem; padding: 0; align-items: start;
-}
-.ref-cell-icon { display: none; }
-.ref-cell-project { grid-area: project; }
-.ref-cell-desc { grid-area: desc; }
-.ref-cell-vol { grid-area: vol; }
-/* Thumbnail below the title in the project column */
-.ref-studies-thumb {
-  display: block; width: 100%; height: 120px;
-  margin-top: 0.85rem; border-radius: 8px;
-  object-fit: cover; border: 1px solid var(--border);
-}
-.ref-studies-thumb--emoji {
-  display: flex; align-items: center; justify-content: center;
-  background: #faf9f6; font-size: 2.75rem;
-  border-radius: 8px; border: 1px solid var(--border);
-  margin-top: 0.85rem; height: 100px;
-}
-.ref-studies-title {
-  font-family: 'DM Serif Display', Georgia, serif; font-size: 1.05rem; font-weight: 400; line-height: 1.3;
-  margin: 0; color: var(--oak-green);
-}
-.ref-studies-title a { color: var(--oak-green); font-weight: 700; text-decoration: none; }
-.ref-studies-title a:hover { text-decoration: underline; }
-.ref-studies-title .ref-id { color: var(--amber); font-size: 0.8rem; font-family: 'DM Sans', sans-serif; font-weight: 600; }
-.ref-link-inline { color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
-.ref-link-inline:hover { text-decoration: underline; }
-.ref-studies-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0; }
-.ref-studies-vol { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0; }
-.ref-studies-vol strong { color: var(--text); font-weight: 600; }
-/* Internal writer cautions: red, below public “Volume / trips” text — not in the section title/lead */
-.ref-internal { display: block; margin-top: 0.5rem; color: #b42318; font-size: 0.82rem; font-weight: 500; line-height: 1.45; }
-.ref-internal + .ref-internal { margin-top: 0.35rem; }
-/* YouTube row: thumbnail preview in the project column (opens watch URL in new tab) */
-.ref-studies-youtube-preview {
-  position: relative; display: block; margin-top: 0.85rem;
-  border-radius: 8px; overflow: hidden; border: 1px solid var(--border);
-  text-decoration: none; color: inherit;
-}
-.ref-studies-youtube-preview:hover .ref-youtube-play { background: rgba(0,0,0,0.72); transform: translate(-50%, -50%) scale(1.05); }
-.ref-studies-youtube-preview .ref-studies-thumb { margin-top: 0; border: 0; border-radius: 0; }
-.ref-youtube-play {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  width: 3rem; height: 3rem; border-radius: 50%;
-  background: rgba(0,0,0,0.55); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; padding-left: 0.2em;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3); pointer-events: none;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-@media (max-width: 900px) {
-  .ref-studies-header { display: none; }
-  .ref-studies-row {
-    grid-template-areas: "project" "desc" "vol";
-    grid-template-columns: 1fr;
-  }
-  .ref-studies-thumb { height: 140px; }
-  .ref-cell-desc::before { content: "Summary"; display: block; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 0.4rem 0 0.15rem; }
-  .ref-cell-vol::before { content: "Volume / trips"; display: block; font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 0.4rem 0 0.15rem; }
-}
 
 /* Data Visualization */
 .data-bar-chart { margin: 2rem 0; }
@@ -797,8 +646,7 @@ a:hover { color: var(--oak-green-light); }
 @media (max-width: 900px) {
   .hero { min-height: 100vh; align-items: center; }
   .hero-content { grid-template-columns: 1fr; gap: 2rem; padding: 6rem 1.5rem 2.5rem; align-items: stretch; }
-  .problem-layout { grid-template-columns: 1fr; }
-  .problem-news { position: static; }
+  .problem-grid { grid-template-columns: 1fr; }
   .model-comparison { grid-template-columns: 1fr; gap: 1rem; }
   .model-arrow { transform: rotate(90deg); }
   .myth-fact { grid-template-columns: 1fr; }
@@ -819,8 +667,6 @@ a:hover { color: var(--oak-green-light); }
 
 @media (max-width: 600px) {
   .section { padding: 3.5rem 0; }
-  #appendix { padding-bottom: 1.5rem; }
-  #footnotes { padding-top: 1.5rem; }
   .hero-content { padding-top: 5rem; padding-bottom: 2rem; }
   .hero-actions { flex-direction: column; }
   .btn { justify-content: center; }
@@ -924,22 +770,8 @@ a:hover { color: var(--oak-green-light); }
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* Stay informed modal (native <dialog>: explicit center; stripped UA styles sit top-left) */
-.stay-informed-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(520px, calc(100% - 2rem));
-  max-width: calc(100% - 2rem);
-  max-height: min(90dvh, 100%);
-  margin: 0;
-  border: none;
-  padding: 0;
-  background: transparent;
-  box-sizing: border-box;
-  overflow: visible;
-}
+/* Stay informed modal */
+.stay-informed-dialog { border: none; padding: 0; max-width: calc(100% - 2rem); width: 520px; background: transparent; }
 .stay-informed-dialog::backdrop { background: rgba(0,0,0,0.55); }
 .stay-informed-dialog__panel {
   background: #1a2418;
@@ -949,9 +781,6 @@ a:hover { color: var(--oak-green-light); }
   color: #fff;
   position: relative;
   box-shadow: 0 20px 50px rgba(0,0,0,0.45);
-  max-height: min(85dvh, 100%);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 .stay-informed-dialog__close {
   position: absolute; top: 0.65rem; right: 0.75rem;
@@ -1102,66 +931,27 @@ a:hover { color: var(--oak-green-light); }
       The Rockridge "trapezoid" — the residential area bounded by College, Claremont, Telegraph, and Alcatraz Avenues — has become a major cut-through corridor. Waze, Google Maps, and gig-economy routing send thousands of commuter vehicles daily onto streets never designed for that volume.
     </p>
 
-    <div class="problem-layout fade-in">
-      <div class="problem-stack" aria-label="Key problems">
-        <div class="problem-card">
-          <div class="problem-icon icon-danger">⚠️</div>
-          <h3>Children at risk</h3>
-          <p>There's a preschool on Colby Street. During rush hour, up to 400 cars per hour can race past<button class="fn-trigger" data-fn="fn-10k" data-track="fn_400hr" aria-label="Footnote 1">(1)</button> — residents can't safely exit their driveways, and families can't safely cross the street.</p>
-        </div>
-        <div class="problem-card">
-          <div class="problem-icon icon-green">🚲</div>
-          <h3>Bike Boulevard</h3>
-          <p>Colby is Oakland's designated bicycle boulevard<button class="fn-trigger" data-fn="fn-bikeplan" data-track="fn_bikeplan" aria-label="Footnote 7">(7)</button> — a primary bike corridor connecting neighborhoods across North Oakland and South Berkeley. NACTO guidance<button class="fn-trigger" data-fn="fn-nacto" data-track="fn_nacto" aria-label="Footnote 6">(6)</button> establish as a ceiling 50 cars per hour and 2,000 per day on a bike boulevard. During rush hour we hit 400 — 8× the hourly limit — and daily volumes reach 4,000, 2× the daily threshold.</p>
-        </div>
-        <div class="problem-card">
-          <div class="problem-icon icon-info">🏗️</div>
-          <h3>It's about to get worse</h3>
-          <p>The new <a href="https://www.dailycal.org/news/city/communities/east-bay-jewish-community-center-to-move-to-new-rockridge-campus/article_d1c01bce-f7fe-11ef-b694-1fd4fd41b8e8.html" target="_blank" rel="noopener" data-track="link_jcc">Community Center</a> (JCC) facility will generate up to 338 additional peak-hour vehicle trips — source: California Environmental Quality Act (CEQA) study<button class="fn-trigger" data-fn="fn-ceqa" data-track="fn_ceqa" aria-label="Reference A">(A)</button> conducted as part of the JCC remodel permitting process. <a href="https://www.nbcbayarea.com/news/local/dmv-waymo-expansion-nort-east-bay/3985806/" target="_blank" rel="noopener noreferrer" data-track="link_waymo">Waymo is coming to Oakland in 2026.</a> New developments on College Ave will add even more.</p>
-        </div>
-        <div class="problem-card">
-          <div class="problem-icon icon-warning">📱</div>
-          <h3>App-driven</h3>
-          <p>The vast majority of traffic on Colby and Hillegass is cut-through — drivers following navigation apps like Waze and Google Maps that route them through residential streets to shave time off their commute.</p>
-        </div>
+    <div class="problem-grid fade-in">
+      <div class="problem-card">
+        <div class="problem-icon icon-danger">⚠️</div>
+        <h3>Children at Risk</h3>
+        <p>There's a preschool on Colby Street. During rush hour, up to 400 cars per hour can race past<button class="fn-trigger" data-fn="fn-10k" data-track="fn_400hr" aria-label="Footnote 1">(1)</button> — residents can't safely exit their driveways, and families can't safely cross the street.</p>
       </div>
-      <aside class="problem-news" id="problemNews" aria-label="Recent news">
-        <h3>Recent news</h3>
-        <ul class="problem-news-list">
-          <li>
-            <a href="https://www.sfchronicle.com/realestate/article/housing-towers-trader-joes-oakland-22199857.php" data-track="problem_news_safeway" target="_blank" rel="noopener noreferrer">SF Chronicle: “Housing towers, Trader Joe’s coming to North Oakland Safeway site”</a>
-            <time class="problem-news-date" datetime="2026-04-22">Apr 22, 2026</time>
-          </li>
-          <li>
-            <a href="https://www.facebook.com/SFChronicle/posts/pfbid027DiCWvSRtLaVrcsYqihSgbK9Hx4WSsEyTyXzDU3eC6UVq6LxkfSfpr8QZR8sFheMl" data-track="problem_news_sfchron_fb" target="_blank" rel="noopener noreferrer">SF Chronicle (Facebook): Oakland development and traffic news</a>
-            <time class="problem-news-date" datetime="2026-04-22">Apr 22, 2026</time>
-          </li>
-          <li>
-            <a href="https://dot.ca.gov/caltrans-near-me/district-4/d4-news/2026-02-27-oaap-begins-construction" data-track="problem_news_oaap" target="_blank" rel="noopener noreferrer">Caltrans: “Oakland Alameda Access Project (OAAP) Begins Construction”</a>
-            <time class="problem-news-date" datetime="2026-02-27">Feb 27, 2026</time>
-          </li>
-          <li>
-            <a href="https://abc7news.com/post/oakland-rolls-speed-cameras-18-locations-city-60-day-warning-period-underway/18416294/" data-track="problem_news_speed_cameras" target="_blank" rel="noopener noreferrer">ABC7 News: “Oakland rolls out speed cameras at 18 locations across city”</a>
-            <time class="problem-news-date" datetime="2026-01-16">Jan 16, 2026</time>
-          </li>
-          <li>
-            <a href="https://nextdoor.com/p/C64cWR2JDJcM?post=472999887" data-track="problem_news_nextdoor" target="_blank" rel="noopener noreferrer">Nextdoor: North Oakland traffic &amp; neighborhood discussion</a>
-            <time class="problem-news-date" datetime="2026-04-23">Apr 23, 2026</time>
-          </li>
-          <li>
-            <a href="https://www.streetlightdata.com/balancing-road-safety-and-congestion-oakland/" data-track="problem_news_streetlight" target="_blank" rel="noopener noreferrer">StreetLight Data: “Balancing Road Safety and Congestion in Oakland: Big Data Analysis Reveals Potential Solutions for a Dangerous Corridor”</a>
-            <time class="problem-news-date" datetime="2025-01-17">Jan 17, 2025</time>
-          </li>
-          <li>
-            <a href="https://www.actransit.org/rapid-corridors/grand-avenue" data-track="problem_news_actransit" target="_blank" rel="noopener noreferrer">AC Transit: “Grand/West Grand Avenue Rapid Corridors Project”</a>
-            <time class="problem-news-date" datetime="2025-01-29">Jan 29, 2025</time>
-          </li>
-          <li>
-            <a href="https://bikeeastbay.org/telegraph_talkingpoints/" data-track="problem_news_telegraph" target="_blank" rel="noopener noreferrer">Bike East Bay: “Telegraph Avenue Outreach Strategy / Talking Points”</a>
-            <time class="problem-news-date" datetime="2019-04">Apr 2019</time>
-          </li>
-        </ul>
-      </aside>
+      <div class="problem-card">
+        <div class="problem-icon icon-green">🚲</div>
+        <h3>Bike Boulevard Failure</h3>
+        <p>Colby is Oakland's designated bicycle boulevard<button class="fn-trigger" data-fn="fn-bikeplan" data-track="fn_bikeplan" aria-label="Footnote 7">(7)</button> — a primary bike corridor connecting neighborhoods across North Oakland and South Berkeley. NACTO guidance<button class="fn-trigger" data-fn="fn-nacto" data-track="fn_nacto" aria-label="Footnote 6">(6)</button> establish as a ceiling 50 cars per hour and 2,000 per day on a bike boulevard. During rush hour we hit 400 — 8× the hourly limit — and daily volumes reach 4,000, 2× the daily threshold.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon icon-info">🏗️</div>
+        <h3>It's About to Get Worse</h3>
+        <p>The new <a href="https://www.dailycal.org/news/city/communities/east-bay-jewish-community-center-to-move-to-new-rockridge-campus/article_d1c01bce-f7fe-11ef-b694-1fd4fd41b8e8.html" target="_blank" rel="noopener" data-track="link_jcc">Community Center</a> (JCC) facility will generate up to 338 additional peak-hour vehicle trips — source: California Environmental Quality Act (CEQA) study<button class="fn-trigger" data-fn="fn-ceqa" data-track="fn_ceqa" aria-label="Reference A">(A)</button> conducted as part of the JCC remodel permitting process. <a href="https://www.nbcbayarea.com/news/local/dmv-waymo-expansion-nort-east-bay/3985806/" target="_blank" rel="noopener noreferrer" data-track="link_waymo">Waymo is coming to Oakland in 2026.</a> New developments on College Ave will add even more.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon icon-warning">📱</div>
+        <h3>App-Driven Volume</h3>
+        <p>The vast majority of traffic on Colby and Hillegass is cut-through — drivers following navigation apps like Waze and Google Maps that route them through residential streets to shave time off their commute.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1259,7 +1049,7 @@ a:hover { color: var(--oak-green-light); }
       </thead>
       <tbody>
         <tr>
-          <td><a href="https://telraam.net/en/location/9000009286" target="_blank" rel="noopener noreferrer"><strong>Colby St</strong></a> (bike boulevard)</td>
+          <td><strong>Colby St</strong> (bike boulevard)</td>
           <td class="over-limit">~3,500</td>
           <td class="limit">2,000 (FHWA and OakDOT bike route)</td>
           <td class="over-limit">175% over limit</td>
@@ -1271,13 +1061,13 @@ a:hover { color: var(--oak-green-light); }
           <td class="over-limit">250%+ over limit</td>
         </tr>
         <tr>
-          <td><a href="https://drive.google.com/drive/folders/1Ztb8gt4iZi6F7FyHgl7ttAEDchgAMrbU?usp=drive_link" target="_blank" rel="noopener noreferrer"><strong>Hillegass Ave</strong></a> (Telraam archive export, 267 days)</td>
+          <td><strong>Hillegass Ave</strong> (Telraam archive export)</td>
           <td class="over-limit">~1,840</td>
           <td class="limit">700 (FHWA local street)</td>
           <td class="over-limit">263% over limit</td>
         </tr>
         <tr>
-          <td><a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer"><strong>Hillegass Ave</strong></a> (segment 9000008271, Mar&nbsp;2025–Apr&nbsp;2026)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_h8271" aria-label="Sensor reliability">(H)</button></td>
+          <td><strong>Hillegass Ave</strong> (segment 8271, 2025–26 sample)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_h8271" aria-label="Sensor reliability">(H)</button></td>
           <td class="over-limit">~1,500</td>
           <td class="limit">700 (FHWA local street)</td>
           <td class="over-limit">214% over limit</td>
@@ -1289,7 +1079,7 @@ a:hover { color: var(--oak-green-light); }
           <td class="over-limit">331% over limit</td>
         </tr>
         <tr>
-          <td><a href="https://telraam.net/en/location/9000010647" target="_blank" rel="noopener noreferrer"><strong>Martin St</strong></a></td>
+          <td><strong>Martin St</strong></td>
           <td class="over-limit">~2,000</td>
           <td class="limit">700 (FHWA local street)</td>
           <td class="over-limit">286% over limit</td>
@@ -1304,12 +1094,7 @@ a:hover { color: var(--oak-green-light); }
     </table>
 
     <div class="footnote">
-      Sources: Community Telraam traffic counters —
-      <a href="https://telraam.net/en/location/9000009286" target="_blank" rel="noopener noreferrer">Colby St (9000009286)</a>,
-      <a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">Hillegass Ave (9000008271)</a>,
-      <a href="https://telraam.net/en/location/9000010647" target="_blank" rel="noopener noreferrer">Martin St (9000010647)</a>;
-      long-run export data in <a href="https://drive.google.com/drive/folders/1Ztb8gt4iZi6F7FyHgl7ttAEDchgAMrbU?usp=drive_link" target="_blank" rel="noopener noreferrer">Google Drive archive</a>.
-      OakDOT survey data; FHWA guidelines (700 ADT for local streets; 1,500 ADT for residential collectors); OakDOT standard (2,000 ADT max for bike routes, 50 vehicles/hr/direction at peak — see footnote 6); Fehr &amp; Peers CEQA study for JCC East Bay project.
+      Sources: Community Telraam traffic counters — Colby and Martin from API/daily exports; Hillegass <strong>archive</strong> from long-run Telraam dashboard export (mean motorized ADT ~1,840 over 270 days, Mar&nbsp;2025–Apr&nbsp;2026); Hillegass <strong>segment 8271</strong> (<a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">telraam.net</a>) had extended outages; the ~1,500 figure is the mean motorized count on five full-count days with reliable car classification (Mar&nbsp;4–5&nbsp;2025 and Apr&nbsp;13,&nbsp;20–21&nbsp;2026), not a full-year ADT. OakDOT survey data; FHWA guidelines (700 ADT for local streets; 1,500 ADT for residential collectors); OakDOT standard (2,000 ADT max for bike routes, 50 vehicles/hr/direction at peak — see footnote 6); Fehr &amp; Peers CEQA study for JCC East Bay project.
     </div>
   </div>
 </section>
@@ -1549,141 +1334,146 @@ a:hover { color: var(--oak-green-light); }
   <div class="container">
     <div class="section-label">Appendix</div>
     <h2>Reference Projects & Studies</h2>
-    <p class="lead">Short summaries and, where applicable, what each source reports on vehicle trips or volumes.</p>
+    <p class="lead">These successful traffic calming projects demonstrate proven approaches to reducing cut-through traffic and improving neighborhood safety.</p>
 
-    <div class="ref-studies" role="region" aria-label="Reference projects in list form">
-      <div class="ref-studies-header" aria-hidden="true">
-        <span class="ref-h-proj">Project</span>
-        <span class="ref-h-desc">Summary</span>
-        <span class="ref-h-vol">Volume / trips</span>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+
+      <!-- (A) CEQA Analysis — Fehr & Peers -->
+      <div id="ref-A" style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);"><span style="color: var(--amber); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; vertical-align: middle;">(A)</span> CEQA Analysis: JCC East Bay Project</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          The JCC remodel will add <strong>338 peak-hour vehicle trips</strong> to streets already far over capacity. This Fehr &amp; Peers transportation analysis quantifies the additional traffic burden on College Avenue, Chabot Road, and surrounding residential streets — underscoring the need for a trapezoid-wide volume plan. Prepared by Lamphier-Gregory, October 2024 (Case PLN23117).
+        </p>
+        <a href="https://cao-94612.s3.us-west-2.amazonaws.com/documents/JCC-East-Bay-Project-CEQA-Analysis.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_ceqa_pdf" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          View CEQA Analysis (PDF) →
+        </a>
       </div>
-      <ul class="ref-studies-list">
 
-        <li class="ref-studies-item" id="ref-A">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://cao-94612.s3.us-west-2.amazonaws.com/documents/JCC-East-Bay-Project-CEQA-Analysis.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_ceqa_pdf"><span class="ref-id">(A)</span> CEQA Analysis: JCC East Bay Project</a></h3>
-              <div class="ref-studies-thumb ref-studies-thumb--emoji" aria-hidden="true">📄</div>
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">The official Fehr &amp; Peers transportation addendum (via Lamphier-Gregory, Oct. 2024, Case PLN23117) that quantifies how many additional peak-hour vehicle trips the JCC East Bay campus remodel adds to College Avenue, Chabot Road, and surrounding residential streets — and what City rules require to offset them.</p>
-            <p class="ref-studies-vol ref-cell-vol">The analysis puts the number at <strong>up to 338</strong> net new <strong>a.m. peak</strong> vehicle trips on a <strong>summer camp</strong> day, and <strong>195 / 184</strong> a.m. and p.m. peak trips on a non-summer “typical” weekday (PDF ˜pp. 48–49, Table 5 area). When a project crosses 100 new peak-hour trips, the City’s SCA framework requires a TDM plan targeting up to <strong>20% vehicle trip reduction (VTR)</strong>.</p>
-          </div>
-        </li>
+      <!-- (D) City of Alexandria Cut-Through Research -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);"><span style="color: var(--amber); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; vertical-align: middle;">(D)</span> City of Alexandria Cut-Through Traffic Mitigation Research</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          Gorove Slade's 2020 report reviews cut-through mitigation programs across nine U.S. municipalities. Key findings: turn restrictions achieved 70–90% traffic reduction in some cases; Waze and navigation apps have exacerbated cut-through issues; jurisdictions often pivot from street-specific to jurisdiction-wide traffic calming when localized mitigations push problems to other neighborhoods.
+        </p>
+        <a href="https://media.alexandriava.gov/docs-archives/tes/info/city-of-alexandria-cut-through-research---report-5.7.2020%3Dfinal.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_alexandria" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          Read the report (PDF) →
+        </a>
+      </div>
 
-        <li class="ref-studies-item">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://media.alexandriava.gov/docs-archives/tes/info/city-of-alexandria-cut-through-research---report-5.7.2020%3Dfinal.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_alexandria"><span class="ref-id">(D)</span> City of Alexandria cut-through mitigation research (2020)</a></h3>
-              <div class="ref-studies-thumb ref-studies-thumb--emoji" aria-hidden="true">📋</div>
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">Gorove Slade’s 2020 review of how nine U.S. cities — including Fremont, CA and Bellevue, WA — used turn restrictions, app-routing awareness, and area-wide programs to measurably cut non-local cut-through traffic in residential neighborhoods.</p>
-            <p class="ref-studies-vol ref-cell-vol">Cities in the report saw large reductions in cut-through volumes: <strong>Fremont</strong> documented <strong>70–90% less cut-through traffic</strong> in neighborhoods with turn restrictions, plus <strong>33% less congestion</strong> on Mission Boulevard; <strong>Bellevue</strong> saw <strong>75–80% fewer left-turning vehicles</strong> in a tested movement. The report also examines how cities manage rerouting to adjacent streets as part of a broader area strategy.<span class="ref-internal">[[ These % figures are from Fremont and Bellevue specifically — not a prediction for the Rockridge trapezoid. ]]</span></p>
-          </div>
-        </li>
+      <!-- (B) Barcelona Superblocks -->
+      <div id="ref-B" style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <img src="barcelona-superblock.png" alt="Barcelona superblock — streets reclaimed for people with planters, pedestrians, and cyclists" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: cover; max-height: 180px;">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);"><span style="color: var(--amber); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; vertical-align: middle;">(B)</span> Barcelona Superblocks</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          Barcelona's superblocks achieved a <strong>25% reduction in through-traffic</strong> and a <strong>17% decrease in NO₂ pollution</strong> by restricting vehicle access to local-only within multi-block zones. Streets formerly dominated by cars became public spaces for walking, cycling, and community life — with no major infrastructure cost. The model is now replicated in cities worldwide.
+        </p>
+        <a href="https://urbandesignlab.in/barcelona-superblocks-reclaiming-streets-for-people/" target="_blank" rel="noopener noreferrer" data-track="ref_barcelona" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          Barcelona Superblocks — Reclaiming Streets for People →
+        </a>
+      </div>
 
-        <li class="ref-studies-item" id="ref-B">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://urbandesignlab.in/barcelona-superblocks-reclaiming-streets-for-people/" target="_blank" rel="noopener noreferrer" data-track="ref_barcelona"><span class="ref-id">(B)</span> Barcelona superblocks (overview)</a></h3>
-              <img class="ref-studies-thumb" src="barcelona-superblock.png" alt="" loading="lazy">
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">Barcelona’s superblock model clusters residential streets into people-priority cells, restricting through-motor-traffic to perimeter routes and freeing interior streets for walking, cycling, and community life. Now replicated in cities worldwide, it shows how limiting through-traffic transforms a neighborhood.</p>
-            <p class="ref-studies-vol ref-cell-vol">Peer-reviewed studies of early superblock pilots document <strong>large reductions in motor-vehicle exposure</strong> on interior streets alongside <strong>significant air-quality gains</strong>, including strong <strong>NO₂ reductions</strong> (and, in some studies, particulate matter) that benefit residents’ health directly.<span class="ref-internal">[[ For any vehicle-volume number, cite the peer-reviewed study, not a popular-press summary. ]]</span></p>
-          </div>
-        </li>
+      <!-- Bristol LTN video -->
+      <div id="ref-bristol" style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 1rem; color: var(--oak-green);">Slow Neighborhood success in Bristol, UK</h3>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; background: #000;">
+          <iframe src="https://www.youtube.com/embed/y4pO1vS0gkc" title="Slow Neighborhood success in Bristol, UK" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" data-track="ref_bristol_video"></iframe>
+        </div>
+        <p style="color: var(--text-secondary); margin: 0; line-height: 1.6; font-size: 0.9rem;">
+          How Bristol applied modal filters and neighborhood traffic management — a reference for what “slow neighborhood” outcomes look like on the ground.
+        </p>
+      </div>
 
-        <li class="ref-studies-item" id="ref-bristol">
-          <div class="ref-studies-row">
-            <div class="ref-cell-project">
-              <h3 class="ref-studies-title" id="ref-bristol-title"><a href="https://www.youtube.com/watch?v=y4pO1vS0gkc" target="_blank" rel="noopener noreferrer" data-track="ref_bristol_video">Slow neighborhood, Bristol, UK (video)</a></h3>
-              <a class="ref-studies-youtube-preview" href="https://www.youtube.com/watch?v=y4pO1vS0gkc" target="_blank" rel="noopener noreferrer" data-track="ref_bristol_video" aria-label="Watch Slow Neighborhood success in Bristol, UK on YouTube (opens in new tab)">
-                <img class="ref-studies-thumb" src="https://i.ytimg.com/vi/y4pO1vS0gkc/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
-                <span class="ref-youtube-play" aria-hidden="true">▶</span>
-              </a>
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">A ground-level look at how Bristol used modal filters and neighborhood traffic management to transform the feel of residential streets — showing what a functioning slow neighborhood actually looks like and how residents experience the change.</p>
-            <p class="ref-studies-vol ref-cell-vol">Shows the <strong>street-level outcome</strong> of volume reduction: quieter roads, more people walking and cycling, and a calmer neighborhood character that residents and local advocates describe as a direct result of the LTN tools.</p>
-          </div>
-        </li>
+      <!-- Slow Streets Alameda (reference) -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <img src="ref-preview-alameda-slow-streets.png" alt="Slow Streets Alameda program logo" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: contain; max-height: 200px; background: #fff;">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);">Slow Streets Alameda</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          Alameda’s official Slow Streets program — COVID-era soft closures, council direction through 2024–2025, and transition toward neighborhood greenways. Useful Bay Area peer context for volume reduction and community engagement.
+        </p>
+        <a href="https://www.alamedaca.gov/Departments/Planning-Building-and-Transportation/Transportation/Slow-Streets-Alameda" target="_blank" rel="noopener noreferrer" data-track="ref_alameda_slow_streets" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          City of Alameda — Slow Streets →
+        </a>
+      </div>
 
-        <li class="ref-studies-item">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://www.alamedaca.gov/Departments/Planning-Building-and-Transportation/Transportation/Slow-Streets-Alameda" target="_blank" rel="noopener noreferrer" data-track="ref_alameda_slow_streets">Slow Streets Alameda</a></h3>
-              <img class="ref-studies-thumb" src="ref-preview-alameda-slow-streets.png" alt="" loading="lazy">
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">One of the Bay Area’s most sustained slow-streets programs — showing how pandemic-era temporary closures evolved into council-directed policy, long-term greenways, and a community commitment to keeping streets calmer. A close peer case for how neighbor engagement and political will move from pilot to permanent.</p>
-            <p class="ref-studies-vol ref-cell-vol">Alameda’s program documents sustained slow-street outcomes across multiple corridors over several years — demonstrating that volume reduction, once achieved, can be maintained and expanded with community and council support.</p>
-          </div>
-        </li>
+      <!-- Fast Company — Paris bikes (reference) -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <img src="ref-preview-paris-bikes.png" alt="Paris skyline and people cycling — visual for city bike network transformation" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: contain; max-height: 220px; background: var(--section-alt);">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);">Paris: a city of bikes</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          <em>Fast Company</em> on how Paris redesigned streets and infrastructure toward cycling and away from car dominance — a high-level reference for large-city mode shift, not a blueprint for Oakland block-for-block.
+        </p>
+        <a href="https://www.fastcompany.com/91509506/how-paris-redesigned-itself-to-be-a-city-of-bikes-not-cars" target="_blank" rel="noopener noreferrer" data-track="ref_fastcompany_paris" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          Read the article →
+        </a>
+      </div>
 
-        <li class="ref-studies-item">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://www.fastcompany.com/91509506/how-paris-redesigned-itself-to-be-a-city-of-bikes-not-cars" target="_blank" rel="noopener noreferrer" data-track="ref_fastcompany_paris">Paris: a city of bikes</a> <span style="font-weight: 400; font-size: 0.85rem; color: var(--text-muted);">(<em>Fast Company</em>)</span></h3>
-              <img class="ref-studies-thumb" src="ref-preview-paris-bikes.png" alt="" loading="lazy">
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">How Paris converted car lanes to protected bike infrastructure across the city — one of the clearest modern examples of political will translating into measurable mode shift, reduced car dominance, and dramatically more people choosing to cycle.</p>
-            <p class="ref-studies-vol ref-cell-vol">Paris saw a <strong>large increase in cycling</strong> alongside <strong>reduced car traffic</strong> on redesigned streets — demonstrating what prioritizing people over through-traffic achieves at city scale and making the case that change, even ambitious change, is achievable.</p>
-          </div>
-        </li>
+      <!-- (C) Traffic Treatments Effectiveness -->
+      <div id="ref-C" style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);"><span style="color: var(--amber); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; vertical-align: middle;">(C)</span> Traffic Treatments Effectiveness</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          This summary compares treatments on traffic reduction, affordability, and combined effectiveness (impact × affordability). For example, diverters show a large volume reduction in this dataset; signage alone achieves far less. Figures are compiled from FHWA, NACTO, and peer-reviewed transportation research for public context — <strong>OakDOT&rsquo;s study determines what fits the trapezoid</strong>.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <a href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener noreferrer" data-track="ref_source_data" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+            View source data →
+          </a>
+          <a href="https://www.sciencedirect.com/science/article/pii/S2214140523000944" target="_blank" rel="noopener noreferrer" data-track="ref_sciencedirect" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+            Evaluating the impact of low traffic neighbourhoods (ScienceDirect) →
+          </a>
+        </div>
+      </div>
 
-        <li class="ref-studies-item" id="ref-C">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><span class="ref-id">(C)</span> Treatment effectiveness (spreadsheet + LTN review)</h3>
-              <div class="ref-studies-thumb ref-studies-thumb--emoji" aria-hidden="true">📊</div>
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">Public spreadsheet comparing treatments on <strong>relative</strong> traffic impact and cost; <a class="ref-link-inline" href="https://www.sciencedirect.com/science/article/pii/S2214140523000944" target="_blank" rel="noopener noreferrer" data-track="ref_sciencedirect">peer-reviewed</a> work evaluates low-traffic neighborhood effects in one published case. <a class="ref-link-inline" href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener noreferrer" data-track="ref_source_data">View spreadsheet</a>.</p>
-            <p class="ref-studies-vol ref-cell-vol">In the compiled matrix, <strong>modal filters / diverters</strong> sit high on impact; the LTN study reports large local <strong>motor-vehicle</strong> changes in the evaluated network.<span class="ref-internal">[[ Matrix scores are relative comparisons across tool types, not Oakland-measured before/after counts. ]]</span></p>
-          </div>
-        </li>
+      <!-- Berkeley Model -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <img src="berkeley-bicycle-boulevard.png" alt="Berkeley Bicycle Boulevard Network map" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: cover; max-height: 180px;">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);">The Berkeley Model (Hillegass Ave)</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          Just blocks north of our neighborhood, Berkeley used diverters on Hillegass Avenue to <strong>keep traffic volumes below 1,500 ADT</strong> on their bicycle boulevard. The same street crosses into Oakland and immediately jumps to nearly 2,000 ADT — demonstrating exactly what happens without traffic calming.
+        </p>
+        <a href="https://berkeleyca.gov/sites/default/files/2022-02/Bicycle-Boulevard-Design-Tools-and-Guidelines.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_berkeley" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          Read the guidelines →
+        </a>
+      </div>
 
-        <li class="ref-studies-item">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://berkeleyca.gov/sites/default/files/2022-02/Bicycle-Boulevard-Design-Tools-and-Guidelines.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_berkeley">Berkeley bicycle boulevard guidelines (Hillegass in network)</a></h3>
-              <img class="ref-studies-thumb" src="berkeley-bicycle-boulevard.png" alt="" loading="lazy">
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">Berkeley’s bicycle boulevard design guidelines, covering the Hillegass Avenue route where diverters keep traffic volumes low enough to support comfortable cycling. The same street crosses into Oakland a few blocks south — where, without the same tools, volumes are measurably higher (see footnote H).</p>
-            <p class="ref-studies-vol ref-cell-vol">The guidelines use <strong>under 2,000 vehicles per day</strong> as a design threshold for some treatments — and Telraam counts on both sides of the border (footnote H) show the <strong>real-world volume difference</strong> that Berkeley’s diverters create on the same street.<span class="ref-internal">[[ The &lt;2,000 vpd figure is a design-application threshold in this PDF, not a measured count for a specific block. Use Telraam / a traffic study for actual ADT. ]]</span></p>
-          </div>
-        </li>
+      <!-- NACTO Case Study -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <img src="ref-nacto-channing-way.png" alt="Two people cycling in a protected median on a residential street — bike-friendly street design" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: cover; max-height: 180px;">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);">NACTO Case Study: Channing Way Diverter</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          NACTO documents how Berkeley's Channing Way diverter <strong>eliminated cut-through traffic</strong> while enabling safe bicycle crossings at a major intersection. The project uses loop detectors and protected platforms — a model for combining traffic reduction with active transportation safety.
+        </p>
+        <a href="https://nacto.org/latest/bicycle-loop-detector-at-channing-way-and-martin-luther-king-jr-boulevard-berkeley-california/" target="_blank" rel="noopener noreferrer" data-track="ref_nacto" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          View case study →
+        </a>
+      </div>
 
-        <li class="ref-studies-item">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://nacto.org/latest/bicycle-loop-detector-at-channing-way-and-martin-luther-king-jr-boulevard-berkeley-california/" target="_blank" rel="noopener noreferrer" data-track="ref_nacto">NACTO: Channing Way diverter, Berkeley</a></h3>
-              <img class="ref-studies-thumb" src="ref-nacto-channing-way.png" alt="" loading="lazy">
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">NACTO’s case study of how a single diverter on Channing Way, just blocks from Lower Rockridge, eliminated cut-through motor traffic while keeping the street fully open for cyclists crossing Martin Luther King Jr. Boulevard — with loop detectors to protect bike priority at the intersection.</p>
-            <p class="ref-studies-vol ref-cell-vol">One well-placed diverter <strong>removed cut-through motor traffic entirely</strong> from Channing Way while improving safety and access for people on bikes — a directly adjacent example of the kind of intervention being requested for the trapezoid.</p>
-          </div>
-        </li>
+      <!-- Pride Pilot -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <div style="font-size: 2rem; margin-bottom: 1rem;">🏫</div>
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);">The "Pride Pilot" (81st Ave)</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          A 3-week diverter pilot in East Oakland that <strong>reduced cut-through traffic by 65–75%</strong> using a single diagonal traffic filter. Speeds dropped by up to 4 mph near East Oakland Pride Elementary, and the school principal reported dramatically calmer conditions — demonstrating how quickly measured interventions can change traffic patterns.
+        </p>
+        <a href="https://www.oaklandca.gov/files/assets/city/v/1/transportation/documents/projects/calm-east-oakland-streets/81st-ave-demonstration-project-summary-12-17-24.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_pride_pilot" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          Read the full report →
+        </a>
+      </div>
 
-        <li class="ref-studies-item">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://www.oaklandca.gov/files/assets/city/v/1/transportation/documents/projects/calm-east-oakland-streets/81st-ave-demonstration-project-summary-12-17-24.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_pride_pilot">Pride pilot — 81st Ave (OakDOT, 3 weeks)</a></h3>
-              <div class="ref-studies-thumb ref-studies-thumb--emoji" aria-hidden="true">🏫</div>
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">OakDOT’s own three-week Oct.–Nov. 2024 pilot near East Oakland Pride Elementary — Oakland’s measured, published test of a traffic filter and one-way pattern, with full before/after data by street leg. Proof that the City knows how to run these interventions and measure the results.</p>
-            <p class="ref-studies-vol ref-cell-vol">The city’s <strong>Dec. 2024</strong> summary (three-week pilot) reports large before/after <strong>volume</strong> changes by leg — e.g. on the order of <strong>~65–75%</strong> in some <strong>Plymouth</strong> directions, large drops on <strong>81st</strong> (the deck quotes about <strong>~70%</strong> eastbound for one 81st leg in its “meeting our goals” section), and <strong>~22–28% higher</strong> daily vehicle counts on <strong>82nd</strong> with discussion of cut-through <strong>shifting</strong> routes. It also cites about a <strong>4.3 mph</strong> 85th-percentile speed drop in a school-adjacent segment. See the PDF for exact legs and time windows.<span class="ref-internal">[[ Always name the 3-week East Oakland pilot context when quoting these % figures — do not present them as a guaranteed outcome for the trapezoid. ]]</span></p>
-          </div>
-        </li>
+      <!-- Ney Avenue -->
+      <div style="background: var(--card-bg); border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)'">
+        <img src="ney-avenue-road-closed.png" alt="Oakland road closure sign — Road Closed to Thru Traffic with traffic cones and observers" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: cover; max-height: 180px;">
+        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--oak-green);">The "Ney Avenue" Diverter</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+          Oakland's own study showing diverters <strong>successfully redirected non-local traffic</strong> off residential streets while preserving full access for residents. Engineered treatments redirected non-local traffic off residential streets without displacing meaningful volume to adjacent blocks.
+        </p>
+        <a href="https://cao-94612.s3.amazonaws.com/documents/Ney-Avenue-Neighborhood-Traffic-Calming-Study-Memo-Only.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_ney_avenue" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--oak-green); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+          Read the study →
+        </a>
+      </div>
 
-        <li class="ref-studies-item">
-          <div class="ref-studies-row">
-<div class="ref-cell-project">
-              <h3 class="ref-studies-title"><a href="https://cao-94612.s3.amazonaws.com/documents/Ney-Avenue-Neighborhood-Traffic-Calming-Study-Memo-Only.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_ney_avenue">Ney Avenue traffic-calming study (memo)</a></h3>
-              <img class="ref-studies-thumb" src="ney-avenue-road-closed.png" alt="" loading="lazy">
-            </div>
-            <p class="ref-studies-desc ref-cell-desc">An OakDOT-commissioned study of a Fruitvale-area neighborhood facing the same problems as Lower Rockridge — cut-through traffic, high volumes, and speeding on residential streets. The memo recommends exactly the kind of engineered tools this neighborhood is requesting, and shows Oakland knows how to authorize and deploy them.</p>
-            <p class="ref-studies-vol ref-cell-vol">The study explicitly calls for measures to <strong>reduce volume, cut-through traffic, and speeding</strong> on residential streets, and Table 2 catalogs specific <strong>volume-reduction tools</strong> — diverters, turn restrictions, and related treatments — that OakDOT has the expertise and precedent to implement.<span class="ref-internal">[[ Field data is July 2020 / COVID period — not a current baseline. Verify counts before citing any specific numbers. ]]</span></p>
-          </div>
-        </li>
-
-      </ul>
     </div>
   </div>
 </section>
@@ -1693,7 +1483,7 @@ a:hover { color: var(--oak-green-light); }
   <div class="container">
     <div class="section-label">Footnotes</div>
     <ol class="footnotes-list">
-      <li id="fn-ref-1"><strong>(1)</strong> Traffic counting equipment compiled ADT as ~3,500 on <a href="https://telraam.net/en/location/9000009286" target="_blank" rel="noopener noreferrer">Colby St (segment 9000009286)</a> (241 days, Aug&nbsp;2025–Apr&nbsp;2026), ~1,840 motorized on <a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">Hillegass Ave (segment 9000008271)</a> (<a href="https://drive.google.com/drive/folders/1Ztb8gt4iZi6F7FyHgl7ttAEDchgAMrbU?usp=drive_link" target="_blank" rel="noopener noreferrer">archive export</a>, 267 days, Mar&nbsp;2025–Apr&nbsp;2026), and ~2,000 on <a href="https://telraam.net/en/location/9000010647" target="_blank" rel="noopener noreferrer">Martin St (segment 9000010647)</a>. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.</li>
+      <li id="fn-ref-1"><strong>(1)</strong> Traffic counting equipment compiled ADT as ~3,500 on Colby, ~1,840 motorized on Hillegass (long-run Telraam archive), and ~2,000 on Martin/Ayala. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.</li>
       <li id="fn-ref-2"><strong>(2)</strong> Lower Rockridge trapezoid is the residential area delimited by 4 avenues — College, Claremont, Telegraph and Alcatraz — with 14 points of entry/exit for car traffic.</li>
       <li id="fn-ref-3"><strong>(3)</strong> 2021 petition requesting the trapezoid to be converted into a permanent slow neighborhood.</li>
       <li id="fn-ref-4"><strong>(4)</strong> 2025 petition requesting OakDOT move forward with professional study and measures to reduce traffic volume through the trapezoid.</li>
@@ -1701,13 +1491,7 @@ a:hover { color: var(--oak-green-light); }
       <li id="fn-ref-6"><strong>(6)</strong> NACTO Urban Bikeway Design Guide: bike boulevards should target 500 vehicles/day and no more than 50 motor vehicles per peak hour; volumes up to 2,000/day are acceptable if speeds are kept at or below 20 mph. <a href="https://nacto.org/publication/urban-bikeway-design-guide/designing-bikeways-for-all-ages-and-abilities/bikeways-on-low-speed-low-volume-streets/bike-boulevards/" target="_blank" rel="noopener noreferrer">NACTO — bike boulevards</a></li>
       <li id="fn-ref-7"><strong>(7)</strong> Let's Bike Oakland (2019) — OakDOT's citywide bicycle plan. Designates Colby Street as a neighborhood bike route (bicycle boulevard) with shared-lane markings and traffic calming. <a href="https://www.oaklandca.gov/resources/bicycle-plan" target="_blank" rel="noopener noreferrer">Oakland Bicycle Plan</a></li>
       <li id="fn-ref-8"><strong>(8)</strong> Oakland General Plan, Land Use and Transportation Element (LUTE), adopted 1998. Classifies local streets as intended for access to abutting property, not through-traffic. <a href="https://www.oaklandca.gov/Planning-Building/General-Plan-Neighborhood-Plans/City-of-Oakland-Current-General-Plan-Elements/Land-Use-and-Transportation-Element-LUTE" target="_blank" rel="noopener noreferrer">LUTE (General Plan)</a></li>
-      <li id="fn-ref-H"><strong>(H)</strong> Three public Telraam segments cover the trapezoid:
-        <a href="https://telraam.net/en/location/9000009286" target="_blank" rel="noopener noreferrer">Colby St (9000009286)</a>,
-        <a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">Hillegass Ave (9000008271)</a>, and
-        <a href="https://telraam.net/en/location/9000010647" target="_blank" rel="noopener noreferrer">Martin St (9000010647)</a>.
-        Each public page shows charts and daily views; select a date range and click Update (the public UI shows up to 14 days at a time).
-        Motorized totals = <em>Cars + Heavy + Night</em>; pedestrians and cyclists are tracked separately.
-        Long-run export data for Colby (241 days, Aug&nbsp;2025–Apr&nbsp;2026) and Hillegass (267 days, Mar&nbsp;2025–Apr&nbsp;2026) is in the <a href="https://drive.google.com/drive/folders/1Ztb8gt4iZi6F7FyHgl7ttAEDchgAMrbU?usp=drive_link" target="_blank" rel="noopener noreferrer">Google Drive archive</a>.</li>
+      <li id="fn-ref-H"><strong>(H)</strong> <a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">Telraam segment 9000008271</a> (Hillegass Ave) had long reporting gaps while the sensor was down or unreliable. The ~1,500 figure is mean motorized traffic (cars + large + night, excluding people walking and biking) on five days with normal car counts—Mar 4–5, 2025 and Apr 13, 20–21, 2026—not a full-year ADT. Use the Hillegass <em>archive</em> export for long-run volume; use this counter to show the street is still heavily driven once the device was working again.</li>
     </ol>
   </div>
 </section>
@@ -1718,28 +1502,9 @@ a:hover { color: var(--oak-green-light); }
 
     <!-- Transition headline -->
     <div style="text-align: center; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 2.5rem;">
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.75rem;">Take action</div>
-      <button type="button" class="stay-informed-cta-link" data-stay-informed-open data-track="cta_stay_informed_under_label">Stay informed</button>
-      <h2 style="color: white; margin-bottom: 0.75rem; margin-top: 0;">You've got the data.<br>Please help move this forward.</h2>
-      <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto;">City officials have said the silence was being read as fading interest. Sign up for updates or write directly to city officials below.</p>
-    </div>
-
-    <!-- Stay informed inline form -->
-    <div id="ctaSignupBox" class="fade-in" style="max-width: 560px; margin: 0 auto 1.5rem; background: rgba(232,168,48,0.1); border: 2px solid var(--amber); border-radius: 14px; padding: 1.5rem 1.75rem; text-align: left;">
-      <h3 style="font-family: 'DM Serif Display', Georgia, serif; font-size: 1.5rem; color: var(--amber); margin: 0 0 0.25rem; font-weight: 400;">Stay informed</h3>
-      <p style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin: 0 0 1.25rem; line-height: 1.5;">Leave your email and we'll keep you updated as things develop.</p>
-      <form id="ctaSignupForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleCtaSignup(event)">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
-          <input type="text" name="name" placeholder="Name (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
-          <input type="text" name="address" placeholder="Address (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
-        </div>
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          <input type="email" id="ctaSignupEmail" name="email" required placeholder="you@example.com" style="flex: 1; min-width: 0; padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit;">
-          <button type="submit" id="ctaSignupBtn" data-track="cta_stay_informed_inline" style="padding: 0.55rem 1.1rem; background: rgba(232,168,48,0.2); color: var(--amber); font-weight: 500; font-size: 0.85rem; border: 1px solid rgba(232,168,48,0.4); border-radius: 6px; cursor: pointer; font-family: inherit; white-space: nowrap;">Sign up</button>
-        </div>
-        <div id="ctaSignupMsg" style="display: none; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-top: 0.5rem;"></div>
-      </form>
-      <div id="ctaSignupThanks" style="display: none; padding-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.9);">Got it — we'll be in touch.</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 1rem;">Take action</div>
+      <h2 style="color: white; margin-bottom: 0.75rem;">You've got the data.<br>Please help move this forward.</h2>
+      <p style="font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7); max-width: 480px; margin: 0 auto;">City officials have said the silence was being read as fading interest. Use <strong style="color: rgba(255,255,255,0.95);">Stay informed</strong> (next to Take Action) for email updates, then add your voice to city officials below.</p>
     </div>
 
     <!-- Write to city officials -->
@@ -1999,33 +1764,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// Recent news: "More" toggles items beyond the first five (add more <li> inside #problemNewsExtra to expand the accordion)
-(function () {
-  const extra = document.getElementById('problemNewsExtra');
-  const btn = document.getElementById('problemNewsMoreBtn');
-  const box = document.getElementById('problemNews');
-  if (!btn) return;
-  if (!extra) {
-    btn.style.display = 'none';
-    if (box) box.classList.add('problem-news--no-more');
-    return;
-  }
-  const countExtra = extra.querySelectorAll('.problem-news-list li').length;
-  if (countExtra === 0) {
-    btn.style.display = 'none';
-    if (box) box.classList.add('problem-news--no-more');
-    return;
-  }
-  function setOpen(open) {
-    extra.hidden = !open;
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    btn.textContent = open ? 'Show less' : 'More';
-  }
-  btn.addEventListener('click', function () {
-    setOpen(extra.hidden);
-  });
-})();
 
 // Popup footnotes
 function positionPopup(trigger, popup) {
@@ -2373,32 +2111,6 @@ function handleSupportSubmit(e) {
     .catch(() => {
       msg.style.display = 'block';
       msg.style.background = 'rgba(231, 76, 60, 0.2)';
-      msg.style.color = '#E74C3C';
-      msg.textContent = 'Something went wrong. Please try again or email us directly.';
-      btn.disabled = false;
-      btn.textContent = 'Sign up';
-    });
-  return false;
-}
-
-function handleCtaSignup(e) {
-  e.preventDefault();
-  const form = document.getElementById('ctaSignupForm');
-  const btn  = document.getElementById('ctaSignupBtn');
-  const msg  = document.getElementById('ctaSignupMsg');
-  const email = document.getElementById('ctaSignupEmail').value.trim();
-  if (!email) return false;
-  btn.disabled = true;
-  btn.textContent = 'Sending…';
-  fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-    .then(r => r.json())
-    .then(() => {
-      form.style.display = 'none';
-      document.getElementById('ctaSignupThanks').style.display = 'block';
-    })
-    .catch(() => {
-      msg.style.display = 'block';
-      msg.style.background = 'rgba(231,76,60,0.2)';
       msg.style.color = '#E74C3C';
       msg.textContent = 'Something went wrong. Please try again or email us directly.';
       btn.disabled = false;
