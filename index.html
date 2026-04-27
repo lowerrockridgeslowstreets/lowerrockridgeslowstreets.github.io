@@ -823,6 +823,10 @@ a:hover { color: var(--oak-green-light); }
   #footnotes { padding-top: 1.5rem; }
   .hero-content { padding-top: 5rem; padding-bottom: 2rem; }
   .hero-actions { flex-direction: column; }
+  .hero-actions { align-items: center; }
+  .hero-actions > .btn-outline { margin-inline: auto; }
+  .hero-cta-col { width: 100%; max-width: 22rem; }
+  .hero-cta-col .btn-primary { width: 100%; }
   .btn { justify-content: center; }
   .data-bar { 
     flex-direction: column; align-items: stretch; 
@@ -970,6 +974,36 @@ a:hover { color: var(--oak-green-light); }
   margin: 0 0 1.25rem;
 }
 #stayInformedModal #supportFormBox { max-width: none; margin: 0; }
+@media (max-width: 600px) {
+  .stay-informed-dialog {
+    width: calc(100% - 1rem);
+    max-width: calc(100% - 1rem);
+    max-height: 94dvh;
+  }
+  .stay-informed-dialog__panel {
+    padding: 1.15rem 1rem 1rem;
+    border-radius: 12px;
+  }
+  .stay-informed-dialog__title {
+    font-size: 1.35rem;
+    margin-right: 2.1rem;
+  }
+  .stay-informed-dialog__lede { font-size: 0.98rem; }
+  #stayInformedModal #supportForm > div:first-child {
+    grid-template-columns: 1fr !important;
+    gap: 0.45rem !important;
+  }
+  #stayInformedModal #supportForm > div:nth-child(2) {
+    flex-direction: column !important;
+  }
+  #stayInformedModal input,
+  #stayInformedModal button[type="submit"],
+  #stayInformedModal #supportMsg {
+    font-size: 1rem !important;
+    padding: 0.72rem 0.9rem !important;
+  }
+  #stayInformedModal button[type="submit"] { width: 100%; }
+}
 </style>
 <script src="/cdn-cgi/zaraz/i.js" referrerpolicy="origin"></script>
 </head>
@@ -1259,7 +1293,7 @@ a:hover { color: var(--oak-green-light); }
       </thead>
       <tbody>
         <tr>
-          <td><strong>Colby St</strong> (bike boulevard)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_telraam_colby" aria-label="Telraam data">(H)</button></td>
+          <td><strong>Colby St</strong> (bike boulevard)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_telraam_colby" aria-label="Footnote 9">(9)</button></td>
           <td class="over-limit">~3,500</td>
           <td class="limit">2,000 (FHWA and OakDOT bike route)</td>
           <td class="over-limit">175% over limit</td>
@@ -1271,13 +1305,13 @@ a:hover { color: var(--oak-green-light); }
           <td class="over-limit">250%+ over limit</td>
         </tr>
         <tr>
-          <td><strong>Hillegass Ave</strong> (Telraam, 267-day archive)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_telraam_hillegass_archive" aria-label="Telraam data">(H)</button></td>
+          <td><strong>Hillegass Ave</strong> (Telraam, 267-day archive)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_telraam_hillegass_archive" aria-label="Footnote 9">(9)</button></td>
           <td class="over-limit">~1,840</td>
           <td class="limit">700 (FHWA local street)</td>
           <td class="over-limit">263% over limit</td>
         </tr>
         <tr>
-          <td><strong>Hillegass Ave</strong> (Telraam, Mar 2025–Apr 2026)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_h8271" aria-label="Telraam data">(H)</button></td>
+          <td><strong>Hillegass Ave</strong> (Telraam, Mar 2025–Apr 2026)<button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_h8271" aria-label="Footnote 9">(9)</button></td>
           <td class="over-limit">~1,500</td>
           <td class="limit">700 (FHWA local street)</td>
           <td class="over-limit">214% over limit</td>
@@ -1289,7 +1323,7 @@ a:hover { color: var(--oak-green-light); }
           <td class="over-limit">331% over limit</td>
         </tr>
         <tr>
-          <td><strong>Martin St</strong><button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_telraam_martin" aria-label="Telraam data">(H)</button></td>
+          <td><strong>Martin St</strong><button class="fn-trigger" data-fn="fn-hillegass-8271" data-track="fn_telraam_martin" aria-label="Footnote 9">(9)</button></td>
           <td class="over-limit">~2,000</td>
           <td class="limit">700 (FHWA local street)</td>
           <td class="over-limit">286% over limit</td>
@@ -1637,8 +1671,8 @@ a:hover { color: var(--oak-green-light); }
               <h3 class="ref-studies-title"><a href="https://berkeleyca.gov/sites/default/files/2022-02/Bicycle-Boulevard-Design-Tools-and-Guidelines.pdf" target="_blank" rel="noopener noreferrer" data-track="ref_berkeley">Berkeley bicycle boulevard guidelines (Hillegass in network)</a></h3>
               <img class="ref-studies-thumb" src="berkeley-bicycle-boulevard.png" alt="" loading="lazy">
             </div>
-            <p class="ref-studies-desc ref-cell-desc">Berkeley’s bicycle boulevard design guidelines, covering the Hillegass Avenue route where diverters keep traffic volumes low enough to support comfortable cycling. The same street crosses into Oakland a few blocks south — where, without the same tools, volumes are measurably higher (see footnote H).</p>
-            <p class="ref-studies-vol ref-cell-vol">The guidelines use <strong>under 2,000 vehicles per day</strong> as a design threshold for some treatments — and Telraam counts on both sides of the border (footnote H) show the <strong>real-world volume difference</strong> that Berkeley’s diverters create on the same street.</p>
+            <p class="ref-studies-desc ref-cell-desc">Berkeley’s bicycle boulevard design guidelines, covering the Hillegass Avenue route where diverters keep traffic volumes low enough to support comfortable cycling. The same street crosses into Oakland a few blocks south — where, without the same tools, volumes are measurably higher (see footnote 9).</p>
+            <p class="ref-studies-vol ref-cell-vol">The guidelines use <strong>under 2,000 vehicles per day</strong> as a design threshold for some treatments — and Telraam counts on both sides of the border (footnote 9) show the <strong>real-world volume difference</strong> that Berkeley’s diverters create on the same street.</p>
           </div>
         </li>
 
@@ -1685,7 +1719,7 @@ a:hover { color: var(--oak-green-light); }
   <div class="container">
     <div class="section-label">Footnotes</div>
     <ol class="footnotes-list">
-      <li id="fn-ref-1"><strong>(1)</strong> Community Telraam traffic counters (see footnote H) measured ADT of ~3,500 on Colby St (241 days, Aug 2025–Apr 2026), ~1,840 on Hillegass Ave (267-day archive, Mar 2025–Apr 2026), and ~2,000 on Martin St. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.</li>
+      <li id="fn-ref-1"><strong>(1)</strong> Community Telraam traffic counters (see footnote 9) measured ADT of ~3,500 on Colby St (241 days, Aug 2025–Apr 2026), ~1,840 on Hillegass Ave (267-day archive, Mar 2025–Apr 2026), and ~2,000 on Martin St. It is estimated that the other ~12 streets of the trapezoid carry over 2,500 in aggregate.</li>
       <li id="fn-ref-2"><strong>(2)</strong> Lower Rockridge trapezoid is the residential area delimited by 4 avenues — College, Claremont, Telegraph and Alcatraz — with 14 points of entry/exit for car traffic.</li>
       <li id="fn-ref-3"><strong>(3)</strong> 2021 petition requesting the trapezoid to be converted into a permanent slow neighborhood.</li>
       <li id="fn-ref-4"><strong>(4)</strong> 2025 petition requesting OakDOT move forward with professional study and measures to reduce traffic volume through the trapezoid.</li>
@@ -1693,7 +1727,7 @@ a:hover { color: var(--oak-green-light); }
       <li id="fn-ref-6"><strong>(6)</strong> NACTO Urban Bikeway Design Guide: bike boulevards should target 500 vehicles/day and no more than 50 motor vehicles per peak hour; volumes up to 2,000/day are acceptable if speeds are kept at or below 20 mph. <a href="https://nacto.org/publication/urban-bikeway-design-guide/designing-bikeways-for-all-ages-and-abilities/bikeways-on-low-speed-low-volume-streets/bike-boulevards/" target="_blank" rel="noopener noreferrer">NACTO — bike boulevards</a></li>
       <li id="fn-ref-7"><strong>(7)</strong> Let's Bike Oakland (2019) — OakDOT's citywide bicycle plan. Designates Colby Street as a neighborhood bike route (bicycle boulevard) with shared-lane markings and traffic calming. <a href="https://www.oaklandca.gov/resources/bicycle-plan" target="_blank" rel="noopener noreferrer">Oakland Bicycle Plan</a></li>
       <li id="fn-ref-8"><strong>(8)</strong> Oakland General Plan, Land Use and Transportation Element (LUTE), adopted 1998. Classifies local streets as intended for access to abutting property, not through-traffic. <a href="https://www.oaklandca.gov/Planning-Building/General-Plan-Neighborhood-Plans/City-of-Oakland-Current-General-Plan-Elements/Land-Use-and-Transportation-Element-LUTE" target="_blank" rel="noopener noreferrer">LUTE (General Plan)</a></li>
-      <li id="fn-ref-H"><strong>(H)</strong> The trapezoid has three public Telraam counters installed:
+      <li id="fn-ref-9"><strong>(9)</strong> The trapezoid has three public Telraam counters installed:
         <a href="https://telraam.net/en/location/9000009286" target="_blank" rel="noopener noreferrer">Colby St</a>,
         <a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">Hillegass Ave</a>, and
         <a href="https://telraam.net/en/location/9000010647" target="_blank" rel="noopener noreferrer">Martin St</a>.
@@ -1886,10 +1920,10 @@ a:hover { color: var(--oak-green-light); }
   Comparative analysis of traffic calming treatments — impact, affordability, and combined effectiveness in one summary dataset. <a href="https://docs.google.com/spreadsheets/d/1Hk8-VbBMQWHJfMODOuON3VDwQ0lVEPL_/edit" target="_blank" rel="noopener" style="color: var(--amber);">View data</a>
   <a href="#ref-C" class="fn-goto" onclick="document.querySelectorAll('.fn-popup').forEach(p=>p.classList.remove('visible'))">see full reference (C) ↓</a>
 </div>
-<div class="fn-popup" id="fn-hillegass-8271" data-ref="fn-ref-H">
+<div class="fn-popup" id="fn-hillegass-8271" data-ref="fn-ref-9">
   <button class="fn-close" aria-label="Close">&times;</button>
   The trapezoid has public Telraam counters on Colby, Hillegass, and Martin; Colby and Hillegass long-run exports are in the Google Drive archive; the Martin St counter (installed Feb 2026) has data from Feb 25, 2026, to the present on its Telraam page.
-  <a href="#fn-ref-H" class="fn-goto" onclick="document.querySelectorAll('.fn-popup').forEach(p=>p.classList.remove('visible'))">see full footnote (H) ↓</a>
+  <a href="#fn-ref-9" class="fn-goto" onclick="document.querySelectorAll('.fn-popup').forEach(p=>p.classList.remove('visible'))">see full footnote (9) ↓</a>
 </div>
 
 <script>
