@@ -9,20 +9,27 @@ Usage:
     export TELRAAM_API_KEY='…'  (optional if ~/.config/telraam/telraam exists)
     ~/pipx/shared/bin/python3 telraam_hillegass_8271.py
 
-Output:
-    /Users/USER/drive_personal/family/projects/2026-01-28_Colby_Traffic_Calmining/telram_data/API_Data/telraam_hillegass_9000008271_data.csv
+Output (under ``<DATA_DIR>/API_Data/``; see ``telraam_paths`` / ``TELRAAM_DATA_DIR``):
+    telraam_hillegass_9000008271_data.csv
+    telraam_hillegass_9000008271_hourly.csv
 """
 
 import csv
 import json
 import os
+import sys
 import time
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-import requests
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+from telraam_hourly_csv import HOURLY_FIELDNAMES, csv_dict_from_api_hour, fetch_hourly_report
+from telraam_paths import get_telraam_data_dir
 
 SENSOR_ID = "9000008271"
 API_URL = "https://telraam-api.net/v1/reports/traffic"
@@ -31,11 +38,13 @@ START_DATE = datetime(2025, 3, 4)
 _tomorrow = date.today() + timedelta(days=1)
 END_DATE = datetime(_tomorrow.year, _tomorrow.month, _tomorrow.day)
 
-DATA_DIR = Path(
-    "/Users/USER/drive_personal/family/projects/2026-01-28_Colby_Traffic_Calmining/telram_data"
-)
+DATA_DIR = get_telraam_data_dir()
 API_DATA_DIR = DATA_DIR / "API_Data"
 OUTPUT_FILE = API_DATA_DIR / "telraam_hillegass_9000008271_data.csv"
+OUTPUT_HOURLY = API_DATA_DIR / "telraam_hillegass_9000008271_hourly.csv"
+INSTALLATION_ID = 11006
+STREET_NAME = "Hillegass Ave"
+CITY_NAME = "Oakland"
 LABEL = "Hillegass Ave"
 LABEL_NOTE = "segment 9000008271"
 
@@ -72,30 +81,6 @@ FIELDS = [
     "total_motorized",
     "total_all_modes",
 ]
-
-
-def _iso_z(dt: datetime) -> str:
-    return dt.strftime("%Y-%m-%d %H:%M:%SZ")
-
-
-def fetch_hourly_chunk(sensor_id: str, range_start: datetime, range_end_excl: datetime) -> list:
-    api_key = _load_telraam_api_key()
-    if not api_key:
-        raise RuntimeError(
-            "Set TELRAAM_API_KEY or put your token in ~/.config/telraam/telraam "
-            "(see Telraam dashboard → API Tokens)."
-        )
-    headers = {"X-Api-Key": api_key, "Content-Type": "application/json"}
-    payload = {
-        "id": sensor_id,
-        "level": "segments",
-        "format": "per-hour",
-        "time_start": _iso_z(range_start),
-        "time_end": _iso_z(range_end_excl),
-    }
-    resp = requests.post(API_URL, json=payload, headers=headers, timeout=60)
-    resp.raise_for_status()
-    return resp.json().get("report", [])
 
 
 def _merge_hist_sum_weighted(hours: list[dict], key: str) -> list[float]:
@@ -212,7 +197,14 @@ def _merge_duplicate_dates(rows: list[dict]) -> list[dict]:
 
 
 def main():
-    all_rows: list[dict] = []
+    api_key = _load_telraam_api_key()
+    if not api_key:
+        raise SystemExit(
+            "Set TELRAAM_API_KEY or put your token in ~/.config/telraam/telraam "
+            "(see Telraam dashboard → API Tokens)."
+        )
+
+    all_hourly: list[dict] = []
     current = START_DATE
 
     print(f"Telraam export — {LABEL} (segment {SENSOR_ID})")
@@ -224,35 +216,47 @@ def main():
         print(f"  {current.date()} → < {chunk_end_excl.date()} ...", end=" ", flush=True)
 
         try:
-            hourly = fetch_hourly_chunk(SENSOR_ID, current, chunk_end_excl)
+            hourly = fetch_hourly_report(
+                API_URL, SENSOR_ID, current, chunk_end_excl, api_key
+            )
+            all_hourly.extend(hourly)
             days = aggregate_hours_to_days(hourly)
-            for row in days:
-                row["label"] = LABEL
-                row["label_note"] = LABEL_NOTE
-                row["segment_id"] = SENSOR_ID
-                row["street"] = "Hillegass Ave"
-            all_rows.extend(days)
-            print(f"{len(hourly)} hours → {len(days)} days")
+            print(f"{len(hourly)} hours → {len(days)} days (chunk)")
         except Exception as e:
             print(f"ERROR: {e}")
 
         current = chunk_end_excl
-        time.sleep(1.1)
+        time.sleep(1.4)
 
-    if not all_rows:
+    if not all_hourly:
         print("\nNo data retrieved. Check sensor ID, API key, and date range.")
         return
 
+    all_rows = aggregate_hours_to_days(all_hourly)
+    for row in all_rows:
+        row["label"] = LABEL
+        row["label_note"] = LABEL_NOTE
+        row["segment_id"] = SENSOR_ID
+        row["street"] = STREET_NAME
     all_rows = _merge_duplicate_dates(all_rows)
     all_rows.sort(key=lambda r: r["date"])
 
     API_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with OUTPUT_HOURLY.open("w", newline="") as hf:
+        hw = csv.DictWriter(hf, fieldnames=HOURLY_FIELDNAMES)
+        hw.writeheader()
+        for row in all_hourly:
+            hw.writerow(
+                csv_dict_from_api_hour(row, INSTALLATION_ID, STREET_NAME, CITY_NAME)
+            )
+
     with OUTPUT_FILE.open("w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDS)
         writer.writeheader()
         writer.writerows(all_rows)
 
-    print(f"\nWrote {len(all_rows)} days to {OUTPUT_FILE}")
+    print(f"\nWrote {len(all_hourly)} hourly rows to {OUTPUT_HOURLY}")
+    print(f"Wrote {len(all_rows)} days to {OUTPUT_FILE}")
 
     mot = [float(r["total_motorized"]) for r in all_rows]
     if mot:

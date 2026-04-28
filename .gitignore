@@ -1,6 +1,8 @@
 .DS_Store
 .claude/
 .env
+# Telraam: absolute paths to local data (may contain home directory); never commit.
+telraam_code/local_config.json
 private/
 __pycache__/
 *.pyc

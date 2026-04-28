@@ -1,166 +1,60 @@
 """
-Build ADT summaries workbook from source exports in DATA_DIR.
+Build ADT summaries workbook from Telraam API daily CSVs in API_Data.
 
-For each street, the script:
-  1) Pulls the source file into a *_pull sheet (embedded snapshot).
-  2) Duplicates that grid into a *_data sheet (in-book copy used by formulas).
+For each street:
+  1) Embed telraam_*_data.csv into *_pull, duplicate to *_data.
+  2) *_daily sums modes from *_data via SUMIFS by calendar date.
 
-All daily / weekly / summary formulas reference only *_data sheets
-(Martin has no hourly export; daily metrics aggregate from Martin_data).
+Output:
+    ``<DATA_DIR>/adt_summaries_v5.xlsx`` (``DATA_DIR`` from ``telraam_paths`` / ``TELRAAM_DATA_DIR``)
 
-Re-run after updating any source:
+Refresh API CSVs (telraam_code pull scripts), then:
     python3 telraam_code/build_adt_summaries_xlsx.py
 """
 
 from __future__ import annotations
 
 import csv
-from datetime import date, datetime, time
+import sys
+from datetime import date, datetime
 from pathlib import Path
 
-from openpyxl import Workbook, load_workbook
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 
-DATA_DIR = Path(
-    "/Users/USER/drive_personal/family/projects/2026-01-28_Colby_Traffic_Calmining/telram_data"
-)
+from telraam_paths import get_telraam_data_dir
+
+DATA_DIR = get_telraam_data_dir()
 API_DATA_DIR = DATA_DIR / "API_Data"
-COLBY_XLSX = DATA_DIR / "raw-data-colby-2025-16569-6df76b3.xlsx"
-HILL_XLSX = DATA_DIR / "raw-data-hillegass_ave-2025-14995-998650c.xlsx"
+COLBY_CSV = API_DATA_DIR / "telraam_colby_data.csv"
+HILL_CSV = API_DATA_DIR / "telraam_hillegass_9000008271_data.csv"
 MARTIN_CSV = API_DATA_DIR / "telraam_martin_data.csv"
-OUT = DATA_DIR / "adt_summaries.xlsx"
+OUT = DATA_DIR / "adt_summaries_v5.xlsx"
 
 
-def unique_dates_from_xlsx(path: Path) -> list[date]:
-    wb = load_workbook(path, read_only=True, data_only=True)
-    ws = wb["Worksheet instances"]
-    h = None
-    days: set[date] = set()
-    for row in ws.iter_rows(values_only=True):
-        if h is None:
-            h = row
-            continue
-        dt = row[3]
-        if isinstance(dt, str):
-            dt = datetime.fromisoformat(dt.replace(" ", "T"))
-        elif not isinstance(dt, datetime):
-            continue
-        days.add(dt.date())
-    wb.close()
-    return sorted(days)
-
-
-def _parse_local_datetime(v):
-    """Telraam exports sometimes read as strings; SUMIFS needs real Excel datetimes in col D."""
-    if v is None:
-        return None
-    if isinstance(v, datetime):
-        return v
-    if isinstance(v, date):
-        return datetime.combine(v, time.min)
-    if isinstance(v, str):
-        s = v.strip().replace(" ", "T", 1)
-        if len(s) == 10 and s[4] == "-" and s[7] == "-":
-            s = s + "T00:00:00"
-        return datetime.fromisoformat(s)
-    return v
-
-
-def embed_worksheet_instances(wb: Workbook, pull_name: str, data_name: str, path: Path) -> None:
-    """Copy every row from source 'Worksheet instances' into pull, then duplicate to data."""
-    ws_pull = wb.create_sheet(pull_name)
-    src = load_workbook(path, read_only=True, data_only=True)
-    sw = src["Worksheet instances"]
-    for i, row in enumerate(sw.iter_rows(values_only=True)):
-        rl = list(row)
-        if i > 0 and len(rl) > 3:
-            rl[3] = _parse_local_datetime(rl[3])
-        ws_pull.append([_excel_cell_value(c) for c in rl])
-    src.close()
-    ws_data = wb.copy_worksheet(ws_pull)
-    ws_data.title = data_name
-
-
-def _excel_cell_value(v):
-    if isinstance(v, datetime):
-        return v
-    if isinstance(v, date):
-        return v
-    return v
-
-
-def sumifs_day_internal(data_sheet: str, date_cell: str, col_letter: str) -> str:
-    d = f"{data_sheet}!$D:$D"
-    col = f"{data_sheet}!${col_letter}:${col_letter}"
-    return f"=SUMIFS({col},{d},\">=\"&{date_cell},{d},\"<\"&{date_cell}+1)"
-
-
-def fill_hourly_daily(
+def embed_api_daily_csv(
     wb: Workbook,
-    ws_name: str,
-    dates: list[date],
-    data_sheet: str,
-) -> None:
-    ws = wb.create_sheet(ws_name)
-    hdr = [
-        "Date",
-        "Cars",
-        "Large",
-        "Night",
-        "Ped",
-        "Bike",
-        "Motorized",
-        "All_modes",
-        "Weekday_1_to_7",
-        "Week_key",
-    ]
-    for c, h in enumerate(hdr, 1):
-        ws.cell(1, c, h)
-    for r, d in enumerate(dates, start=2):
-        ac = f"A{r}"
-        ws.cell(r, 1, d)
-        ws.cell(r, 2, sumifs_day_internal(data_sheet, ac, "G"))
-        ws.cell(r, 3, sumifs_day_internal(data_sheet, ac, "H"))
-        ws.cell(r, 4, sumifs_day_internal(data_sheet, ac, "I"))
-        ws.cell(r, 5, sumifs_day_internal(data_sheet, ac, "E"))
-        ws.cell(r, 6, sumifs_day_internal(data_sheet, ac, "F"))
-        ws.cell(r, 7, f"=B{r}+C{r}+D{r}")
-        ws.cell(r, 8, f"=G{r}+E{r}+F{r}")
-        ws.cell(r, 9, f"=WEEKDAY(A{r},2)")
-        ws.cell(r, 10, f'=TEXT(A{r},"yyyy")&"-W"&TEXT(WEEKNUM(A{r},21),"00")')
-
-
-def fill_weekly(wb: Workbook, ws_name: str, daily_sheet: str, dates: list[date]) -> None:
-    ws = wb.create_sheet(ws_name)
-    ws.cell(1, 1, "Week_key")
-    ws.cell(1, 2, "Avg_motorized")
-    keys: set[str] = set()
-    for d in dates:
-        iso = d.isocalendar()
-        keys.add(f"{iso[0]}-W{iso[1]:02d}")
-    for r, wk in enumerate(sorted(keys), start=2):
-        ws.cell(r, 1, wk)
-        ws.cell(
-            r,
-            2,
-            f'=AVERAGEIFS({daily_sheet}!$G:$G,{daily_sheet}!$J:$J,A{r})',
-        )
-
-
-def embed_martin_csv(wb: Workbook, martin_csv: Path) -> tuple[list[str], dict[str, int]]:
-    """Sheet Martin_pull from CSV; return sorted YYYY-MM-DD keys and header->column index (1-based)."""
-    ws = wb.create_sheet("Martin_pull")
-    with open(martin_csv, newline="", encoding="utf-8") as f:
+    csv_path: Path,
+    pull_name: str,
+    data_name: str,
+) -> tuple[list[str], dict[str, int]]:
+    """Embed API CSV into pull + data sheets; return sorted YYYY-MM-DD keys and header indices."""
+    ws = wb.create_sheet(pull_name)
+    with open(csv_path, newline="", encoding="utf-8") as f:
         rows = list(csv.reader(f))
     if not rows:
-        raise SystemExit("Martin CSV is empty")
+        raise SystemExit(f"Empty CSV: {csv_path}")
     header = [h.strip() for h in rows[0]]
     idx = {h: i + 1 for i, h in enumerate(header)}
     need = ("date", "pedestrian", "bike", "car", "heavy", "night")
     for k in need:
         if k not in idx:
-            raise SystemExit(f"Martin CSV missing column {k!r}; have {list(idx)}")
+            raise SystemExit(f"{csv_path.name} missing column {k!r}; have {list(idx)}")
     date_col_idx = header.index("date")
     numeric_keys = ("pedestrian", "bike", "car", "heavy", "night")
 
@@ -183,17 +77,18 @@ def embed_martin_csv(wb: Workbook, martin_csv: Path) -> tuple[list[str], dict[st
         ws.append(row)
         seen.add(ds)
     ws_data = wb.copy_worksheet(ws)
-    ws_data.title = "Martin_data"
+    ws_data.title = data_name
     return sorted(seen), idx
 
 
-def fill_martin_daily(
+def fill_daily_sheet(
     wb: Workbook,
     date_keys: list[str],
     col_idx: dict[str, int],
+    daily_name: str,
+    data_name: str,
 ) -> None:
-    """Daily rows: SUMIFS into Martin_pull on the date column (same workbook)."""
-    ws = wb.create_sheet("Martin_daily")
+    ws = wb.create_sheet(daily_name)
     date_col = get_column_letter(col_idx["date"])
     car_col = get_column_letter(col_idx["car"])
     heavy_col = get_column_letter(col_idx["heavy"])
@@ -216,7 +111,7 @@ def fill_martin_daily(
     for c, h in enumerate(hdr, 1):
         ws.cell(1, c, h)
 
-    mp = "Martin_data"
+    mp = data_name
     r = 2
     for d in date_keys:
         ac = f"A{r}"
@@ -253,6 +148,23 @@ def fill_martin_daily(
         r += 1
 
 
+def fill_weekly(wb: Workbook, ws_name: str, daily_sheet: str, dates: list[date]) -> None:
+    ws = wb.create_sheet(ws_name)
+    ws.cell(1, 1, "Week_key")
+    ws.cell(1, 2, "Avg_motorized")
+    keys: set[str] = set()
+    for d in dates:
+        iso = d.isocalendar()
+        keys.add(f"{iso[0]}-W{iso[1]:02d}")
+    for r, wk in enumerate(sorted(keys), start=2):
+        ws.cell(r, 1, wk)
+        ws.cell(
+            r,
+            2,
+            f'=AVERAGEIFS({daily_sheet}!$G:$G,{daily_sheet}!$J:$J,A{r})',
+        )
+
+
 def reorder_sheets(wb: Workbook, names: list[str]) -> None:
     sheets = [wb[n] for n in names if n in wb.sheetnames]
     wb._sheets = sheets  # type: ignore[attr-defined]
@@ -261,37 +173,38 @@ def reorder_sheets(wb: Workbook, names: list[str]) -> None:
 def main() -> None:
     if not DATA_DIR.is_dir():
         raise SystemExit(f"Missing data directory: {DATA_DIR}")
-    if not COLBY_XLSX.is_file():
-        raise SystemExit(f"Missing {COLBY_XLSX}")
-    if not HILL_XLSX.is_file():
-        raise SystemExit(f"Missing {HILL_XLSX}")
+    if not API_DATA_DIR.is_dir():
+        raise SystemExit(f"Missing {API_DATA_DIR}")
+
+    for p in (COLBY_CSV, HILL_CSV):
+        if not p.is_file():
+            raise SystemExit(f"Missing {p} — run telraam_colby.py / telraam_hillegass_8271.py")
+
     martin_csv = MARTIN_CSV
     if not martin_csv.is_file():
         legacy = DATA_DIR / "telraam_martin_data.csv"
         if legacy.is_file():
             martin_csv = legacy
         else:
-            raise SystemExit(f"Missing {MARTIN_CSV} (and legacy {legacy})")
+            raise SystemExit(f"Missing {MARTIN_CSV} — run telraam_martin.py")
 
     wb = Workbook()
     ws_readme = wb.active
     ws_readme.title = "README"
 
-    embed_worksheet_instances(wb, "Colby_pull", "Colby_data", COLBY_XLSX)
-    embed_worksheet_instances(wb, "Hillegass_pull", "Hillegass_data", HILL_XLSX)
-
-    colby_dates = unique_dates_from_xlsx(COLBY_XLSX)
-    hill_dates = unique_dates_from_xlsx(HILL_XLSX)
-
-    fill_hourly_daily(wb, "Colby_daily", colby_dates, "Colby_data")
-    fill_hourly_daily(wb, "Hillegass_daily", hill_dates, "Hillegass_data")
-
+    colby_keys, colby_idx = embed_api_daily_csv(wb, COLBY_CSV, "Colby_pull", "Colby_data")
+    fill_daily_sheet(wb, colby_keys, colby_idx, "Colby_daily", "Colby_data")
+    colby_dates = [datetime.strptime(d, "%Y-%m-%d").date() for d in colby_keys]
     fill_weekly(wb, "Colby_weekly", "Colby_daily", colby_dates)
+
+    hill_keys, hill_idx = embed_api_daily_csv(wb, HILL_CSV, "Hillegass_pull", "Hillegass_data")
+    fill_daily_sheet(wb, hill_keys, hill_idx, "Hillegass_daily", "Hillegass_data")
+    hill_dates = [datetime.strptime(d, "%Y-%m-%d").date() for d in hill_keys]
     fill_weekly(wb, "Hillegass_weekly", "Hillegass_daily", hill_dates)
 
-    martin_dates_str, col_idx = embed_martin_csv(wb, martin_csv)
-    fill_martin_daily(wb, martin_dates_str, col_idx)
-    martin_dates = [datetime.strptime(d, "%Y-%m-%d").date() for d in martin_dates_str]
+    martin_keys, martin_idx = embed_api_daily_csv(wb, martin_csv, "Martin_pull", "Martin_data")
+    fill_daily_sheet(wb, martin_keys, martin_idx, "Martin_daily", "Martin_data")
+    martin_dates = [datetime.strptime(d, "%Y-%m-%d").date() for d in martin_keys]
     fill_weekly(wb, "Martin_weekly", "Martin_daily", martin_dates)
 
     ws_s = wb.create_sheet("Summary")
@@ -363,26 +276,19 @@ def main() -> None:
     ws_s.cell(10, 4, "=AVERAGE(OFFSET(Martin_daily!$B$2,0,0,MAX(0,COUNTA(Martin_daily!$A:$A)-1),1))")
 
     readme = """\
-ADT summaries (generated by telraam_code/build_adt_summaries_xlsx.py)
+ADT summaries v5 (generated by telraam_code/build_adt_summaries_xlsx.py)
 
-Data flow
----------
-• Colby / Hillegass: Telraam dashboard hourly export is copied into *_pull,
-  then duplicated into *_data. Daily / weekly / summary formulas read *_data
-  only (no links to other workbooks).
+Data sources (public API pulls, refresh via telraam_code scripts):
+  • API_Data/telraam_colby_data.csv
+  • API_Data/telraam_hillegass_9000008271_data.csv
+  • API_Data/telraam_martin_data.csv
 
-• Martin: telraam_martin_data.csv is embedded in Martin_pull, then duplicated
-  to Martin_data. Martin_daily uses SUMIFS on Martin_data so multiple CSV
-  rows for the same calendar date sum correctly.
+Each CSV is embedded as *_pull / *_data; *_daily formulas aggregate by date.
 
-Refresh
--------
-Replace the three source files in DATA_DIR and re-run:
+Motorized = cars + heavy + night (Telraam mode columns).
+
+Refresh: update API CSVs, then run:
   python3 telraam_code/build_adt_summaries_xlsx.py
-
-Hourly column layout (Colby_data / Hillegass_data): D = local datetime,
-E Pedestrian Total, F Bike Total, G Car Total, H Large vehicle Total,
-I Night Total.
 
 Weekday = Mon–Fri uses WEEKDAY(...,2) <= 5 (ISO Mon=1 … Fri=5).
 """
