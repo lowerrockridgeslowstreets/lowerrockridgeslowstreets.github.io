@@ -1004,12 +1004,83 @@ a:hover { color: var(--oak-green-light); }
   }
   #stayInformedModal button[type="submit"] { width: 100%; }
 }
+
+/* Temporary full-site notice (site remains visible but dimmed and non-scrollable) */
+html.site-takedown-active,
+body.site-takedown-active {
+  overflow: hidden !important;
+  height: 100%;
+}
+.site-takedown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.62);
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.site-takedown-dialog {
+  max-width: 34rem;
+  width: 100%;
+  background: var(--warm-white);
+  color: var(--text);
+  border: 2px solid var(--oak-green);
+  border-radius: 14px;
+  padding: 1.5rem 1.6rem 1.45rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+.site-takedown-dialog h2 {
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  margin: 0 0 0.85rem;
+  color: var(--oak-green);
+}
+.site-takedown-dialog p { max-width: none; margin: 0 0 0.85rem; }
+.site-takedown-dialog p:last-child { margin-bottom: 0; }
+.site-takedown-dialog ul {
+  margin: 0.35rem 0 0.9rem 1.25rem;
+  padding: 0;
+}
+.site-takedown-dialog li { margin-bottom: 0.35rem; }
+.site-takedown-dialog a { font-weight: 600; }
 </style>
 <script src="/cdn-cgi/zaraz/i.js" referrerpolicy="origin"></script>
 </head>
 <body>
 <!-- When opening this HTML as file://, browsers block fetch(); keep in sync with supporter-count.json -->
 <script type="application/json" id="supporter-count-embed">{"count":2}</script>
+
+<div id="siteTakedownOverlay" class="site-takedown-overlay" role="dialog" aria-modal="true" aria-labelledby="siteTakedownTitle" tabindex="-1">
+  <div class="site-takedown-dialog">
+    <h2 id="siteTakedownTitle">Community update — site paused briefly</h2>
+    <p>A new neighborhood working group has formed and met for the first time on 04/27/26. It includes 6 residents who support a pilot to test traffic volume reduction and 6 residents who previously opposed a pilot.</p>
+    <p>Residents who previously opposed a pilot requested time to review the website, improve its content, and analyze traffic data publicly available at:</p>
+    <ul>
+      <li><a href="https://telraam.net/en/location/9000008271" target="_blank" rel="noopener noreferrer">Hillegass Ave — Telraam sensor</a></li>
+      <li><a href="https://telraam.net/en/location/9000010647" target="_blank" rel="noopener noreferrer">Martin St — Telraam sensor</a></li>
+      <li><a href="https://telraam.net/en/location/9000009286" target="_blank" rel="noopener noreferrer">Colby St — Telraam sensor</a></li>
+      <li><a href="https://drive.google.com/drive/folders/1Ztb8gt4iZi6F7FyHgl7ttAEDchgAMrbU?usp=drive_link" target="_blank" rel="noopener noreferrer">Google Drive — data archive</a></li>
+    </ul>
+    <p>We’ll acquiesce to their request for a few days and will be back soon with improved content.</p>
+    <p>We thank you for your patience, support, and constructive feedback.</p>
+  </div>
+</div>
+<script>
+(function () {
+  document.documentElement.classList.add('site-takedown-active');
+  document.body.classList.add('site-takedown-active');
+  var el = document.getElementById('siteTakedownOverlay');
+  if (el) {
+    try { el.focus(); } catch (e) {}
+  }
+})();
+</script>
 
 <!-- Navigation -->
 <nav class="nav" id="nav">
