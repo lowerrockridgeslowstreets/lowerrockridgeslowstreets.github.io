@@ -1,0 +1,14 @@
+---
+description: Never push site changes live unless the user explicitly asks to deploy
+alwaysApply: true
+---
+
+# Production / GitHub Pages
+
+This repo deploys the public site from **`main`** (GitHub Pages).
+
+- **Do not** `git push` to `origin/main` (or merge to `main` in a way that deploys) unless the user **explicitly** asks to push it live / deploy / ship to production.
+- It is fine to commit changes **locally** on `main` or another branch; stop before any step that updates the remote default branch without a direct request.
+- If the user wants something only on their machine, treat that as: make the edit and/or local commit, **no push**.
+
+When in doubt, ask before pushing.
