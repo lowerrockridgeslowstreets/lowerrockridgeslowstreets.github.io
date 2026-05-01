@@ -973,7 +973,7 @@ a:hover { color: var(--oak-green-light); }
   font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.5;
   margin: 0 0 1.25rem;
 }
-#stayInformedModal #supportFormBox { max-width: none; margin: 0; }
+#stayInformedModal .support-signup-wrap { max-width: none; margin: 0; }
 @media (max-width: 600px) {
   .stay-informed-dialog {
     width: calc(100% - 1rem);
@@ -1019,19 +1019,19 @@ body.site-takedown-active {
   align-items: center;
   justify-content: center;
   padding: 1.25rem;
-  background: rgba(0, 0, 0, 0.62);
+  background: rgba(0, 0, 0, 0.74);
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   box-sizing: border-box;
 }
 .site-takedown-dialog {
-  max-width: 34rem;
+  max-width: 42rem;
   width: 100%;
   background: var(--warm-white);
   color: var(--text);
   border: 2px solid var(--oak-green);
   border-radius: 14px;
-  padding: 1.5rem 1.6rem 1.45rem;
+  padding: 1.65rem 1.85rem 1.6rem;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
   font-size: 1rem;
   line-height: 1.65;
@@ -1049,6 +1049,75 @@ body.site-takedown-active {
 }
 .site-takedown-dialog li { margin-bottom: 0.35rem; }
 .site-takedown-dialog a { font-weight: 600; }
+.site-takedown-stay-informed {
+  margin-top: 1.2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(26, 36, 24, 0.14);
+}
+.site-takedown-stay-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 1.35rem;
+  color: var(--oak-green);
+  font-weight: 400;
+  margin: 0 0 0.35rem;
+  line-height: 1.2;
+}
+.site-takedown-stay-lede {
+  font-size: 0.92rem;
+  color: rgba(26, 36, 24, 0.76);
+  line-height: 1.5;
+  margin: 0 0 0.85rem;
+}
+.site-takedown-dialog .support-signup-form input {
+  padding: 0.55rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid rgba(26, 36, 24, 0.22);
+  background: #fff;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: inherit;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.site-takedown-dialog .support-signup-form button[type="submit"] {
+  padding: 0.55rem 1.1rem;
+  background: rgba(232, 168, 48, 0.18);
+  color: #8a5a0a;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: 1px solid rgba(232, 168, 48, 0.45);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.site-takedown-dialog .support-signup-form button[type="submit"]:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+.site-takedown-dialog .support-form-msg {
+  display: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  box-sizing: border-box;
+}
+.site-takedown-dialog .support-signup-thanks {
+  display: none;
+  padding-top: 0.35rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+@media (max-width: 520px) {
+  .site-takedown-dialog .support-signup-form > div:first-of-type {
+    grid-template-columns: 1fr !important;
+  }
+  .site-takedown-dialog .support-signup-form > div:nth-of-type(2) {
+    flex-direction: column !important;
+  }
+  .site-takedown-dialog .support-signup-form button[type="submit"] { width: 100%; }
+}
 </style>
 <script src="/cdn-cgi/zaraz/i.js" referrerpolicy="origin"></script>
 </head>
@@ -1067,8 +1136,24 @@ body.site-takedown-active {
       <li><a href="https://telraam.net/en/location/9000009286" target="_blank" rel="noopener noreferrer">Colby St — Telraam sensor</a></li>
       <li><a href="https://drive.google.com/drive/folders/1Ztb8gt4iZi6F7FyHgl7ttAEDchgAMrbU?usp=drive_link" target="_blank" rel="noopener noreferrer">Google Drive — data archive</a></li>
     </ul>
-    <p>We’ll acquiesce to their request for a few days and will be back soon with improved content.</p>
+    <p>We’ve agreed to their request for a few days and will be back soon with improved content.</p>
     <p>We thank you for your patience, support, and constructive feedback.</p>
+    <div class="site-takedown-stay-informed support-signup-wrap">
+      <h3 class="site-takedown-stay-title">Stay informed</h3>
+      <p class="site-takedown-stay-lede">Leave your email and we’ll keep you updated as things develop.</p>
+      <form id="supportFormTakedown" class="support-signup-form" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <input type="text" id="supportNameTakedown" name="name" placeholder="Name (optional)" autocomplete="name">
+          <input type="text" id="supportAddressTakedown" name="address" placeholder="Address (optional)" autocomplete="street-address">
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <input type="email" id="supportEmailTakedown" name="email" required placeholder="you@example.com" autocomplete="email" style="flex: 1; min-width: 0;">
+          <button type="submit" id="supportBtnTakedown" data-track="takedown_stay_informed">Sign up</button>
+        </div>
+        <div id="supportMsgTakedown" class="support-form-msg" role="status" aria-live="polite"></div>
+      </form>
+      <div id="signupThanksBoxTakedown" class="support-signup-thanks">Got it — we’ll be in touch.</div>
+    </div>
   </div>
 </div>
 <script>
@@ -1907,8 +1992,8 @@ body.site-takedown-active {
     <button type="button" class="stay-informed-dialog__close" id="stayInformedModalClose" aria-label="Close dialog">&times;</button>
     <h2 id="stayInformedDialogTitle" class="stay-informed-dialog__title">Stay informed</h2>
     <p class="stay-informed-dialog__lede">Leave your email and we'll keep you updated as things develop.</p>
-    <div id="supportFormBox" class="fade-in" style="max-width: 560px; margin: 0;">
-      <form id="supportForm" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)">
+    <div id="supportFormBox" class="fade-in support-signup-wrap" style="max-width: 560px; margin: 0;">
+      <form id="supportForm" class="support-signup-form" action="https://formspree.io/f/xjgagzdj" method="POST" onsubmit="return handleSupportSubmit(event)">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
           <input type="text" id="supportName" name="name" placeholder="Name (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
           <input type="text" id="supportAddress" name="address" placeholder="Address (optional)" style="padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit; min-width: 0;">
@@ -1917,9 +2002,9 @@ body.site-takedown-active {
           <input type="email" id="supportEmail" name="email" required placeholder="you@example.com" style="flex: 1; min-width: 0; padding: 0.55rem 0.85rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; font-size: 0.85rem; font-family: inherit;">
           <button type="submit" id="supportBtn" data-track="cta_stay_informed" style="padding: 0.55rem 1.1rem; background: rgba(232,168,48,0.2); color: var(--amber); font-weight: 500; font-size: 0.85rem; border: 1px solid rgba(232,168,48,0.4); border-radius: 6px; cursor: pointer; font-family: inherit; white-space: nowrap;">Sign up</button>
         </div>
-        <div id="supportMsg" style="display: none; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-top: 0.5rem;"></div>
+        <div id="supportMsg" class="support-form-msg" style="display: none; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85rem; margin-top: 0.5rem;" role="status" aria-live="polite"></div>
       </form>
-      <div id="signupThanksBox" style="display: none; padding-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.9);">Got it — we'll be in touch.</div>
+      <div id="signupThanksBox" class="support-signup-thanks" style="display: none; padding-top: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.9);">Got it — we'll be in touch.</div>
     </div>
   </div>
 </dialog>
@@ -2443,28 +2528,34 @@ function applyGeneratedEmail() {
   if (ms) ms.textContent = email.subject;
 }
 
-// Support form handler
+// Support form handler (modal + site takedown box share logic via form root)
 function handleSupportSubmit(e) {
   e.preventDefault();
-  const btn = document.getElementById('supportBtn');
-  const msg = document.getElementById('supportMsg');
-  const form = document.getElementById('supportForm');
-  const email = document.getElementById('supportEmail').value.trim();
-  if (!email) return false;
+  const form = e.currentTarget;
+  if (!form || !form.classList.contains('support-signup-form')) return false;
+  const wrap = form.closest('.support-signup-wrap');
+  const btn = form.querySelector('button[type="submit"]');
+  const msg = form.querySelector('.support-form-msg');
+  const emailInput = form.querySelector('input[type="email"]');
+  const email = emailInput ? emailInput.value.trim() : '';
+  if (!email || !btn) return false;
   btn.disabled = true;
   btn.textContent = 'Sending…';
   const formData = new FormData(form);
   fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
     .then(r => r.json())
     .then(() => {
-      document.getElementById('supportForm').style.display = 'none';
-      document.getElementById('signupThanksBox').style.display = 'block';
+      form.style.display = 'none';
+      const thanks = wrap ? wrap.querySelector('.support-signup-thanks') : null;
+      if (thanks) thanks.style.display = 'block';
     })
     .catch(() => {
-      msg.style.display = 'block';
-      msg.style.background = 'rgba(231, 76, 60, 0.2)';
-      msg.style.color = '#E74C3C';
-      msg.textContent = 'Something went wrong. Please try again or email us directly.';
+      if (msg) {
+        msg.style.display = 'block';
+        msg.style.background = 'rgba(231, 76, 60, 0.2)';
+        msg.style.color = '#E74C3C';
+        msg.textContent = 'Something went wrong. Please try again or email us directly.';
+      }
       btn.disabled = false;
       btn.textContent = 'Sign up';
     });
@@ -2522,13 +2613,15 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.target === stayModal) stayModal.close();
     });
     stayModal.addEventListener('close', function () {
-      const f = document.getElementById('supportForm');
-      const th = document.getElementById('signupThanksBox');
+      const box = document.getElementById('supportFormBox');
+      if (!box) return;
+      const f = box.querySelector('.support-signup-form');
+      const th = box.querySelector('.support-signup-thanks');
       if (f) f.style.display = '';
       if (th) th.style.display = 'none';
-      const btn = document.getElementById('supportBtn');
+      const btn = f ? f.querySelector('button[type="submit"]') : null;
       if (btn) { btn.disabled = false; btn.textContent = 'Sign up'; }
-      const msg = document.getElementById('supportMsg');
+      const msg = f ? f.querySelector('.support-form-msg') : null;
       if (msg) { msg.style.display = 'none'; msg.textContent = ''; }
       if (f) f.reset();
     });
