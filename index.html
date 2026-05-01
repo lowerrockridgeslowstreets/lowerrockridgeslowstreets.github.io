@@ -1035,6 +1035,7 @@ body.site-takedown-active {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
   font-size: 1rem;
   line-height: 1.65;
+  flex-shrink: 0;
 }
 .site-takedown-dialog h2 {
   font-size: clamp(1.2rem, 2.8vw, 1.45rem);
@@ -1049,6 +1050,34 @@ body.site-takedown-active {
 }
 .site-takedown-dialog li { margin-bottom: 0.35rem; }
 .site-takedown-dialog a { font-weight: 600; }
+.site-takedown-contact {
+  margin: 0 0 0.85rem;
+  font-size: 0.98rem;
+}
+.site-takedown-contact a {
+  overflow-wrap: anywhere;
+}
+/* Mobile: don’t vertically center — top of the card was clipped above the viewport */
+@media (max-width: 640px) {
+  .site-takedown-overlay {
+    align-items: flex-start;
+    justify-content: center;
+    padding: max(0.75rem, env(safe-area-inset-top, 0px))
+      max(0.75rem, env(safe-area-inset-right, 0px))
+      max(1rem, env(safe-area-inset-bottom, 0px))
+      max(0.75rem, env(safe-area-inset-left, 0px));
+    /* Prefer dynamic viewport so address bars don’t hide the title */
+    min-height: 100dvh;
+    min-height: 100svh;
+  }
+  .site-takedown-dialog {
+    /* Leave room for overlay padding + notches; scroll inside the card if content is tall */
+    max-height: calc(100svh - 1.75rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1.35rem 1.15rem 1.35rem;
+  }
+}
 .site-takedown-stay-informed {
   margin-top: 1.2rem;
   padding-top: 1.1rem;
@@ -1138,6 +1167,7 @@ body.site-takedown-active {
     </ul>
     <p>We’ve agreed to their request for a few days and will be back soon with improved content.</p>
     <p>We thank you for your patience, support, and constructive feedback.</p>
+    <p class="site-takedown-contact">Reach us at <a href="mailto:hello@rockridgeslowneighborhood.com" data-track="takedown_contact_email">hello@rockridgeslowneighborhood.com</a>.</p>
     <div class="site-takedown-stay-informed support-signup-wrap">
       <h3 class="site-takedown-stay-title">Stay informed</h3>
       <p class="site-takedown-stay-lede">Leave your email and we’ll keep you updated as things develop.</p>
@@ -1162,7 +1192,17 @@ body.site-takedown-active {
   document.body.classList.add('site-takedown-active');
   var el = document.getElementById('siteTakedownOverlay');
   if (el) {
+    el.scrollTop = 0;
     try { el.focus(); } catch (e) {}
+    requestAnimationFrame(function () {
+      var card = el.querySelector('.site-takedown-dialog');
+      if (card) {
+        try {
+          card.scrollTop = 0;
+          card.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'auto' });
+        } catch (err) {}
+      }
+    });
   }
 })();
 </script>
