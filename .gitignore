@@ -1,5 +1,6 @@
 .DS_Store
 .claude/
+.cursor/
 .env
 # Telraam: absolute paths to local data (may contain home directory); never commit.
 telraam_code/local_config.json
@@ -7,6 +8,5 @@ private/
 __pycache__/
 *.pyc
 
-# Local mirror of large reference PDFs (see reference-pdfs/README.md)
-reference-pdfs/*.pdf
-reference-pdfs/_extracted/
+# Reference PDFs / notes — not part of the public Pages site (keep locally if needed)
+reference-pdfs/
